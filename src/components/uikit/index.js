@@ -1,4 +1,5 @@
 export * from './Box'
+export * from './Spinner'
 export * from './Label'
 export * from './Input'
 export * from './Field'
