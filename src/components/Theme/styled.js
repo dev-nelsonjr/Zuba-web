@@ -23,14 +23,17 @@ export const flexbox = props => {
 export const background = props =>
   props.bg && `background: ${props.theme.colors[props.bg]};`
 
-export const color = props =>
-  props.color && `color: ${props.theme.colors[props.color] || props.color};`
+  export const font = props => {
+      const color = props.color && `color: ${props.theme.colors[props.color] || props.color};`
 
-export const fontSize = props =>
-  props.fontSize && `font-size: ${props.theme.fontSizes[props.fontSize]};`
+      const size= props.fontSize !== undefined
+    ? `font-size: ${props.theme.fontSizes[props.fontSize]}px;`
+    : '';
+    return `
+    ${color ? color : '' }
+    ${size ? size : '' }`
 
-export const padding = props =>
-  props.p && `padding: ${props.theme.spaces[props.p]}px;`
+}
 
 export const margin = props => {
   const mb = props.mb ?? props.my ?? props.m
@@ -45,5 +48,16 @@ export const margin = props => {
     ${mr !== undefined ? `margin-right: ${props.theme.spaces[mr]}px;` : ''}
   `
 }
+export const padding = props => {
+  const pb = props.pb ?? props.py ?? props.p
+  const pt = props.pt ?? props.py ?? props.p
+  const pl = props.pl ?? props.px ?? props.p
+  const pr = props.pr ?? props.px ?? props.p
 
-
+  return `
+    ${pb !== undefined ? `padding-bottom: ${props.theme.spaces[pb]}px;` : ''}
+    ${pt !== undefined ? `padding-top: ${props.theme.spaces[pt]}px;` : ''}
+    ${pl !== undefined ? `padding-left: ${props.theme.spaces[pl]}px;` : ''}
+    ${pr !== undefined ? `padding-right: ${props.theme.spaces[pr]}px;` : ''}
+  `
+}
