@@ -1,4 +1,4 @@
-import styled from "styled-components"
+import styled, { css } from "styled-components"
 
 import { th } from '../../Theme/styled'
 
@@ -12,4 +12,6 @@ export const Input = styled('input')`
   outline: none;
 
   ${({ disabled }) => disabled && 'opacity: 0.5;'}
-`
+
+   ${({ hasError }) => hasError && css`border-color: ${th.color('red')};`}
+   `
