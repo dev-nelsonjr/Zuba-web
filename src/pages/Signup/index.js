@@ -2,7 +2,18 @@ import * as React from 'react'
 import axios from 'axios'
 import * as yup from 'yup'
 import { useFormik } from 'formik'
-import { Box, Field, Button } from '../../components/uikit'
+import styled from 'styled-components'
+
+import { Box, Field, Button, font, margin } from '../../components/'
+
+const Title = styled('h2')`
+${font}
+`
+const Link = styled('a')`
+text-decoration: none;
+${font}
+${margin}
+`
 
 const  validationSchema = yup.object().shape({
   name: yup.string().required('Your name is required.'),
@@ -13,7 +24,6 @@ const  validationSchema = yup.object().shape({
 export const Signup = () => {
 
   const onSubmit = async ()=> {
-   // ev.preventDefault()
   try{
     await axios.post('http://localhost:9901/users', values)
 } catch(error) {
@@ -33,6 +43,7 @@ export const Signup = () => {
   return (
     <Box flex={1} flexbox="column" center>
       <Box style={{width: '380px'}}>
+      <Title textAlign="center">Create Account</Title>
         <form onSubmit={handleSubmit}>
           <Field
             type="text"
@@ -70,8 +81,10 @@ export const Signup = () => {
             mb={3}
           />
 
-        <Box flexbox center>
-        <Button type="submit" loading={isSubmitting}> Sign Up </Button>
+        <Box flexbox="column" center>
+        <Button type="submit" loading={isSubmitting} m={1}> Create Account </Button>
+
+        <Link href="#" m={1} fontSize={1} color="gray" fontWeight="bold">Já sou inscrito!</Link>
         </Box>
         </form>
       </Box>
