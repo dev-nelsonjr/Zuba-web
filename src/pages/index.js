@@ -1,11 +1,13 @@
 import * as React from 'react'
 import { Theme } from './../components/Theme'
-import { Signup } from './Signup'
+
+// import { SignUp } from './Signup'
+import { SingIn } from './Singin'
 
 export const App = () => {
   return (
     <Theme>
-     <Signup />
+     <SingIn />
     </Theme>
   )
 }

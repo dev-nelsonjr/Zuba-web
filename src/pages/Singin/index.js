@@ -18,7 +18,7 @@ const CenteredBox = ({ children, ...props }) => (
       </Box>
 )
 
-export const SignUp = () => {
+export const SingIn = () => {
 
   return (
     <Box flex={1} flexbox>
@@ -28,7 +28,7 @@ export const SignUp = () => {
     </CenteredBox>
 
     <CenteredBox>
-      <Title textAlign="center">Create Your Zuba Account</Title>
+      <Title textAlign="center">Access Your Zuba Account</Title>
       <Form />
     </CenteredBox>
     </Box>
