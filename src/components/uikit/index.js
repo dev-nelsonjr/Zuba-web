@@ -1,3 +1,4 @@
+export * from './Logo'
 export * from './Box'
 export * from './Spinner'
 export * from './Label'
