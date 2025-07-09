@@ -33,7 +33,7 @@ export const Field = ({
       disabled={disabled}
       onChange={onChange}
       onBlur={onBlur}
-      hasError={!!error}
+      $hasError={!!error}
     />
   {error && <ErrorMessage>{error}</ErrorMessage>}
   </Box>

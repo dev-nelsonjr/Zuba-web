@@ -1,6 +1,6 @@
 const getIf = (prop, value) => (prop ? value : '')
 
-export const theme = prop => value => props => props.theme[prop][value] || value
+export const theme = prop => value => props => props.theme[prop]?.[value] || value
 export const th = {
   space: theme('spaces'),
   size: theme('fontSizes'),
@@ -32,7 +32,6 @@ export const background = props =>
         props.fontSize !== undefined && props.theme.fontSizes[props.fontSize] !== undefined,
         `font-size: ${props.theme.fontSizes[props.fontSize]}px;`
       );
-
 
   return `
     ${getIf(color, color)}

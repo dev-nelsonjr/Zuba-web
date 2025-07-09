@@ -1,29 +1,30 @@
 import * as React from 'react'
-import { useState, useEffect } from 'react'
-import { Theme } from './../components/Theme'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 
-// import { SignUp } from './Signup'
-import { SingIn } from './Singin'
+import { useAuth } from './../components/Modules'
 
-const Dashboard = ({onSingOut}) =>{
-return( <div>Login Successfull <button onClick={onSingOut}>Sing out</button> </div> )
-}
+import { SignUp } from './SignUp'
+import { SignIn } from './SignIn'
+import { Dashboard } from './Dashboard'
+
+const AuthRoutes = () => (
+  <Routes>
+    <Route path='/'  element={ <SignIn /> } />
+    <Route path='/signup' element={ <SignUp /> } />
+  </Routes>
+)
+
+const LoggedInRoutes = () => (
+  <Routes>
+    <Route path='/' element={<Dashboard />} />
+  </Routes>
+)
 
 export const App = () => {
-  const [state, setState] = useState(() => {
-    const data = window.localStorage.getItem('auth')
-    return data && JSON.parse(data)
-  })
-
-  const SingOut = () => setState(false)
-
-  useEffect(() => {
-    window.localStorage.setItem('auth', state && JSON.stringify(state))
-  }, [state])
-
+  const [auth] = useAuth()
   return (
-    <Theme>
-    { state?.user ? <Dashboard onSingOut={SingOut} /> : < SingIn onSuccess={setState} />  }
-    </Theme>
+      <Router>
+        {auth?.user ? <LoggedInRoutes /> : <AuthRoutes /> }
+      </Router>
   )
 }
