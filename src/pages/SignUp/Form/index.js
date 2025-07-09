@@ -44,6 +44,7 @@ export const Form = ({ onSubmit }) => {
             type="text"
             name="name"
             label="Name"
+            placeholder="Your name"
             value={values.name}
             error={touched.name && errors.name}
             onChange={handleChange}
@@ -56,6 +57,7 @@ export const Form = ({ onSubmit }) => {
             type="text"
             name="email"
             label="E-mail"
+            placeholder={"Your e-mail"}
             value={values.email}
             error={touched.email && errors.email}
             onChange={handleChange}
@@ -68,6 +70,7 @@ export const Form = ({ onSubmit }) => {
             type="password"
             name="password"
             label="Password"
+            placeholder={"Your password"}
             value={values.password}
             error={touched.password && errors.password}
             onChange={handleChange}
@@ -79,7 +82,7 @@ export const Form = ({ onSubmit }) => {
         <Box flexbox="column" center>
         <Button type="submit" loading={isSubmitting} m={1}> Create Account </Button>
 
-        <Link to="/login" m={1} fontSize={1} color="gray" fontWeight="bold">I'm already signed up! </Link>
+        <Link to="/" m={1} fontSize={1} color="gray" fontWeight="bold">I'm already signed up! </Link>
         </Box>
         </form>
 )}

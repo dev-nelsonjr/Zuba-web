@@ -32,6 +32,7 @@ export const Form =({ onSubmit }) => {
         type="text"
         name="email"
         label="E-mail"
+        placeholder="Enter your email"
         value={values.email}
         error={touched.email && errors.email}
         onChange={handleChange}
@@ -44,6 +45,7 @@ export const Form =({ onSubmit }) => {
         type="password"
         name="password"
         label="Password"
+        placeholder={"Enter your password"}
         value={values.password}
         error={touched.password && errors.password}
         onChange={handleChange}
@@ -53,7 +55,7 @@ export const Form =({ onSubmit }) => {
       />
 
       <Box flexbox="column" center>
-        <Button $type="submit" loading={isSubmitting} m={1}> Sign in </Button>
+        <Button $type="submit" loading={isSubmitting} m={1}>Sign in</Button>
 
         <Box m={1} fontSize={1} color="gray"> Don't have an account? {' '}
          <Link to="/signup" color="gray" fontWeight="bold">Sign Up!</Link>

@@ -4,23 +4,20 @@
   "private": true,
   "dependencies": {
     "@testing-library/dom": "^10.4.0",
-    "@testing-library/jest-dom": "^6.6.3",
-    "@testing-library/react": "^16.3.0",
-    "@testing-library/user-event": "^13.5.0",
-    "axios": "^1.9.0",
+    "axios": "^1.10.0",
     "formik": "^2.4.6",
-    "react": "^19.1.0",
-    "react-dom": "^19.1.0",
-    "react-router-dom": "^7.6.2",
+    "react": "16",
+    "react-dom": "16",
+    "react-router-dom": "^5.3.0",
     "react-scripts": "5.0.1",
-    "styled-components": "^6.1.18",
-    "web-vitals": "^2.1.4",
+    "styled-components": "^6.1.19",
+    "web-vitals": "^5.0.3",
     "yup": "^1.6.1"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
+    "start": "react-app-rewired start",
+    "build": "react-app-rewired build",
+    "test": "react-app-rewired test",
     "eject": "react-scripts eject"
   },
   "browserslist": {
@@ -36,7 +33,14 @@
     ]
   },
   "devDependencies": {
+    "@babel/core": "^7.27.4",
+    "@babel/preset-env": "^7.27.2",
+    "@babel/preset-react": "^7.27.1",
     "@eslint/js": "^9.28.0",
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^12.1.0",
+    "@testing-library/user-event": "^14.6.1",
+    "@types/react-router-dom": "^5.3.3",
     "eslint": "^9.28.0",
     "eslint-config-prettier": "^10.1.5",
     "eslint-plugin-json": "^4.0.1",
@@ -44,6 +48,8 @@
     "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-react-hooks": "^5.2.0",
     "globals": "^16.2.0",
-    "prettier": "^3.5.3"
+    "identity-obj-proxy": "^3.0.0",
+    "prettier": "^3.5.3",
+    "react-app-rewired": "^2.2.1"
   }
 }

@@ -17,6 +17,7 @@ export const Field = ({
   type,
   name,
   label,
+  placeholder,
   error,
   disabled,
   value,
@@ -30,6 +31,7 @@ export const Field = ({
       name={name}
       id={name}
       value={value}
+      placeholder={placeholder}
       disabled={disabled}
       onChange={onChange}
       onBlur={onBlur}

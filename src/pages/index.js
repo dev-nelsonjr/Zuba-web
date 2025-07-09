@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import { BrowserRouter as Router, Route } from 'react-router-dom'
 
 import { useAuth } from './../components/Modules'
 
@@ -8,23 +8,29 @@ import { SignIn } from './SignIn'
 import { Dashboard } from './Dashboard'
 
 const AuthRoutes = () => (
-  <Routes>
-    <Route path='/'  element={ <SignIn /> } />
-    <Route path='/signup' element={ <SignUp /> } />
-  </Routes>
+  <>
+    <Route path='/' exact>
+      <SignIn />
+    </Route>
+
+    <Route path='/signup'>
+      <SignUp />
+    </Route>
+  </>
 )
 
 const LoggedInRoutes = () => (
-  <Routes>
-    <Route path='/' element={<Dashboard />} />
-  </Routes>
+    <Route path='/' exact >
+      <Dashboard />
+    </Route>
 )
 
 export const App = () => {
   const [auth] = useAuth()
-  return (
-      <Router>
-        {auth?.user ? <LoggedInRoutes /> : <AuthRoutes /> }
-      </Router>
+
+    return (
+    <Router>
+      {auth?.user ? <LoggedInRoutes /> : <AuthRoutes />}
+    </Router>
   )
 }

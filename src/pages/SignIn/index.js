@@ -1,7 +1,7 @@
 import * as React from 'react'
 import styled from 'styled-components'
 import axios from 'axios'
-import { useNavigate, useLocation } from 'react-router-dom'
+import { useHistory, useLocation } from 'react-router-dom'
 import { Logo, Box, font,} from '../../components'
 import { useAuth } from '../../components/Modules'
 
@@ -19,26 +19,25 @@ const CenteredBox = ({ children, ...props }) => (
       </Box>
 )
 
-export const SignIn = () => {
-      const navigate = useNavigate()
+  export const SignIn = () => {
+      const history = useHistory()
       const location = useLocation()
       const [, { SignIn: setAuth }] = useAuth()
 
-      const { from } = location.state || { from: { pathname: "/" } }
-
+      const { from } = location.state || { from: { pathname: '/' } }
+      
       const onSubmit = async (values) => {
        try{
-        const token = btoa(`${values.email}:${values.password}`); // Codifica para Base64
+        const token = btoa(`${values.email}:${values.password}`);
     const res = await axios.post(
-      'http://localhost:9901/login', // URL
-      {}, // Corpo vazio, pois as credenciais estão no header
+      'http://localhost:9901/login',
+      {},
       {
         headers: {
-          Authorization: `Basic ${token}`, // Adiciona o cabeçalho Basic Auth
-        },
-      })
+          Authorization: `Basic ${token}`,
+        },})
            setAuth(res.data)
-           navigate(from, { replace: true })
+            history.replace(from);
        } catch(error) {
          console.error(error)
        }
