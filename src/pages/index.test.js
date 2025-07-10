@@ -15,14 +15,19 @@ import { App } from './index'
 
 jest.mock('axios')
 
+beforeEach(() => {
+  window.localStorage.clear()
+})
+
 test('should show login form', () => {
   // prepare
 
+  const history = createMemoryHistory()
+
   render(
     <Theme>
-      <AuthProvider>
-      <Router history={createMemoryHistory()}>
-
+     <AuthProvider>
+        <Router history={history}>
         <App />
       </Router>
       </AuthProvider>
@@ -97,3 +102,53 @@ test('should login user when submit form with valid credentials' , async() => {
       { headers: { Authorization: `Basic ${expectedToken}` } },
     )
   })})
+
+  test('should not redirect user when submit form with wrong credentials' , async() => {
+  // prepare
+  const credentials = {
+    email: 'error@gmail.com',
+    password: '123456',
+  }
+
+
+ axios.post.mockImplementation(() =>
+  Promise.reject({
+    data:{},
+})
+)
+
+  const history = createMemoryHistory()
+
+  render(
+    <Theme>
+     <AuthProvider>
+        <Router history={history}>
+          <App />
+        </Router>
+     </AuthProvider>
+    </Theme>
+  )
+
+  // execute
+  const emailInput = screen.getByLabelText('E-mail')
+  await userEvent.type(emailInput, credentials.email)
+
+  const passwordInput = screen.getByLabelText('Password')
+  await userEvent.type(passwordInput, credentials.password)
+
+  const submitBtn = screen.getByRole('button', { name: /sign in/i })
+  await userEvent.click(submitBtn)
+
+  // assert
+  //expect(submitBtn).toBeDisabled()
+
+  const expectedToken = btoa(`${credentials.email}:${credentials.password}`)
+  await waitFor(() => {
+    expect(axios.post).toHaveBeenCalledWith(
+      "http://localhost:9901/login",
+      {},
+      { headers: { Authorization: `Basic ${expectedToken}` } },
+    )
+  })
+  expect(submitBtn).toBeEnabled()
+})
