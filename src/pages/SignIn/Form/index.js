@@ -18,7 +18,7 @@ const  validationSchema = yup.object().shape({
 })
 
 export const Form =({ onSubmit }) => {
-  const { values, errors, touched, handleChange, handleBlur, handleSubmit, isSubmitting } = useFormik({
+  const { values, errors, touched, handleChange, handleBlur, handleSubmit, isSubmitting, isValid } = useFormik({
     onSubmit,
     validationSchema,
     initialValues: {
@@ -55,7 +55,7 @@ export const Form =({ onSubmit }) => {
       />
 
       <Box flexbox="column" center>
-        <Button $type="submit" loading={isSubmitting} m={1}>Sign in</Button>
+        <Button $type="submit" loading={isSubmitting} disabled={!isValid} m={1}>Sign in</Button>
 
         <Box m={1} fontSize={1} color="gray"> Don't have an account? {' '}
          <Link to="/signup" color="gray" fontWeight="bold">Sign Up!</Link>

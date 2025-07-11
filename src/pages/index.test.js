@@ -2,7 +2,7 @@ import '@testing-library/jest-dom'
 import axios from 'axios'
 
 import * as React from 'react'
-import { render, screen, waitFor } from '@testing-library/react'
+import { getByLabelText, render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { createMemoryHistory } from 'history'
 
@@ -51,7 +51,7 @@ test('should show login form', () => {
 
 });
 
-test('should login user when submit form with valid credentials' , async() => {
+test('should login user and redirect when API return success' , async() => {
   // prepare
   const credentials = {
     email: 'n2test@gmail.com',
@@ -103,7 +103,7 @@ test('should login user when submit form with valid credentials' , async() => {
     )
   })})
 
-  test('should not redirect user when submit form with wrong credentials' , async() => {
+  test('should not redirect user when API returns error' , async() => {
   // prepare
   const credentials = {
     email: 'error@gmail.com',
