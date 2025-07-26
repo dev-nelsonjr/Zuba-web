@@ -38,7 +38,6 @@ export const Form = ({ onSubmit }) => {
     }
   })
   return(
-
         <form onSubmit={handleSubmit}>
           <Field
             type="text"

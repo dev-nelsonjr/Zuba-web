@@ -2,7 +2,7 @@ import '@testing-library/jest-dom'
 import axios from 'axios'
 
 import * as React from 'react'
-import { getByLabelText, render, screen, waitFor } from '@testing-library/react'
+import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { createMemoryHistory } from 'history'
 
@@ -17,42 +17,37 @@ jest.mock('axios')
 
 beforeEach(() => {
   window.localStorage.clear()
+  jest.clearAllMocks()
 })
 
 test('should show login form', () => {
-  // prepare
-
   const history = createMemoryHistory()
 
   render(
     <Theme>
-     <AuthProvider>
+      <AuthProvider>
         <Router history={history}>
-        <App />
-      </Router>
+          <App />
+        </Router>
       </AuthProvider>
     </Theme>
   )
 
-  // execute
   const emailInput = screen.getByLabelText('E-mail')
   const passwordInput = screen.getByLabelText('Password')
   const submit = screen.getByRole('button', { name: /sign in/i })
   const signupLink = screen.getByRole('link')
 
-  // assert
-  expect(emailInput).toBeInTheDocument();
-  expect(passwordInput).toBeInTheDocument();
+  expect(emailInput).toBeInTheDocument()
+  expect(passwordInput).toBeInTheDocument()
 
-  expect(submit).toBeInTheDocument();
+  expect(submit).toBeInTheDocument()
 
-  expect(signupLink).toBeInTheDocument();
-  expect(signupLink).toHaveAttribute('href', '/signup');
+  expect(signupLink).toBeInTheDocument()
+  expect(signupLink).toHaveAttribute('href', '/signup')
+})
 
-});
-
-test('should login user and redirect when API return success' , async() => {
-  // prepare
+test('should login user and redirect when API return success', async () => {
   const credentials = {
     email: 'n2test@gmail.com',
     password: '123456',
@@ -67,88 +62,87 @@ test('should login user and redirect when API return success' , async() => {
     token: '123',
   }
 
- axios.post.mockImplementation(() => Promise.resolve({data: responseData,}))
+  axios.post.mockImplementationOnce(() => Promise.resolve({ data: responseData }))
 
   const history = createMemoryHistory()
-
   render(
     <Theme>
-     <AuthProvider>
+      <AuthProvider>
         <Router history={history}>
           <App />
         </Router>
-     </AuthProvider>
+      </AuthProvider>
     </Theme>
   )
 
-  // execute
   const emailInput = screen.getByLabelText('E-mail')
-  await userEvent.type(emailInput, credentials.email)
-
   const passwordInput = screen.getByLabelText('Password')
-  await userEvent.type(passwordInput, credentials.password)
-
   const submitBtn = screen.getByRole('button', { name: /sign in/i })
+
+  await userEvent.type(emailInput, credentials.email)
+  await userEvent.type(passwordInput, credentials.password)
   await userEvent.click(submitBtn)
 
-  // assert
-  expect(submitBtn).toBeDisabled()
+  await waitFor(() => expect(submitBtn).toBeDisabled())
 
-  const expectedToken = btoa(`${credentials.email}:${credentials.password}`)
   await waitFor(() => {
     expect(axios.post).toHaveBeenCalledWith(
       "http://localhost:9901/login",
-      {},
-      { headers: { Authorization: `Basic ${expectedToken}` } },
+      { auth: { email: credentials.email, password: credentials.password } },
     )
-  })})
+  })
 
-  test('should not redirect user when API returns error' , async() => {
-  // prepare
+  await waitFor(() => {
+    expect(screen.getByText(/Hello/i)).toBeInTheDocument()
+  })
+})
+
+test('should not redirect user when API returns error', async () => {
   const credentials = {
     email: 'error@gmail.com',
     password: '123456',
   }
 
-
- axios.post.mockImplementation(() =>
-  Promise.reject({
-    data:{},
-})
-)
+  let rejectPromise
+  axios.post.mockImplementationOnce(() => {
+    return new Promise((resolve, reject) => {
+      rejectPromise = reject
+    })
+  })
 
   const history = createMemoryHistory()
 
   render(
     <Theme>
-     <AuthProvider>
+      <AuthProvider>
         <Router history={history}>
           <App />
         </Router>
-     </AuthProvider>
+      </AuthProvider>
     </Theme>
   )
 
-  // execute
   const emailInput = screen.getByLabelText('E-mail')
   await userEvent.type(emailInput, credentials.email)
-
   const passwordInput = screen.getByLabelText('Password')
-  await userEvent.type(passwordInput, credentials.password)
-
   const submitBtn = screen.getByRole('button', { name: /sign in/i })
+
+  await userEvent.type(passwordInput, credentials.password)
   await userEvent.click(submitBtn)
 
-  // assert
-  //expect(submitBtn).toBeDisabled()
+  await waitFor(() => expect(submitBtn).toBeDisabled())
 
-  const expectedToken = btoa(`${credentials.email}:${credentials.password}`)
+  rejectPromise({ response:{ data:{ message: 'Authentication error' }}})
+
   await waitFor(() => {
     expect(axios.post).toHaveBeenCalledWith(
       "http://localhost:9901/login",
-      {},
-      { headers: { Authorization: `Basic ${expectedToken}` } },
+      { auth: { email: credentials.email, password: credentials.password } },
     )
   })
-  expect(submitBtn).toBeEnabled()
+
+  await waitFor(() => expect(submitBtn).toBeEnabled())
+
+  expect(history.location.pathname).toBe('/')
+  expect(screen.getByLabelText('E-mail')).toBeInTheDocument()
 })

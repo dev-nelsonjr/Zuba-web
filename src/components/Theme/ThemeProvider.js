@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { ThemeProvider } from 'styled-components'
 
-import { definitions } from './config'
+import { definitions } from './definitions'
 import { GlobalStyle } from './GlobalStyle'
 
 export const Theme = ({ children }) => (

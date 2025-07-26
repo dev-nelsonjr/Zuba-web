@@ -13,8 +13,8 @@ ${margin}
 `
 
 const  validationSchema = yup.object().shape({
-  email: yup.string().required('Email is required.').email('Enter a valid email address.'),
-  password: yup.string().required('A password is required.')
+  email: yup.string().required('Email is required').email('Enter a valid email address'),
+  password: yup.string().required('A password is required')
 })
 
 export const Form =({ onSubmit }) => {
@@ -55,7 +55,7 @@ export const Form =({ onSubmit }) => {
       />
 
       <Box flexbox="column" center>
-        <Button $type="submit" loading={isSubmitting} disabled={!isValid} m={1}>Sign in</Button>
+      <Button type="submit" loading={isSubmitting} disabled={isSubmitting || !isValid} m={1}>Sign in</Button>
 
         <Box m={1} fontSize={1} color="gray"> Don't have an account? {' '}
          <Link to="/signup" color="gray" fontWeight="bold">Sign Up!</Link>
