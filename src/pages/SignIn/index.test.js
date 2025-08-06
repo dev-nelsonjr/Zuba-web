@@ -13,7 +13,7 @@ test('should validate and show error in email field on blur', async () => {
   const emailValue = 'abc'
   const history = createMemoryHistory()
 
- render(
+  render(
     <Theme>
       <Router history={history}>
         <SignIn />
@@ -105,7 +105,6 @@ test('should re-enable form button and hide errors when form is valid', async ()
   await waitFor(() => {
     expect(submitButton).toBeEnabled()
   })
-
 
   expect(screen.queryByText('Email is required')).not.toBeInTheDocument()
   expect(screen.queryByText('A password is required')).not.toBeInTheDocument()

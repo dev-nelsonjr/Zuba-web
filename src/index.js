@@ -1,22 +1,24 @@
-import * as React from 'react';
-import ReactDOM from 'react-dom';
+import * as React from 'react'
+import ReactDOM from 'react-dom'
 
 import { Theme } from './components/Theme'
-import { AuthProvider } from './components/Modules'
+import { StorageProvider } from './components/Modules/Storage'
 
-import reportWebVitals from './reportWebVitals';
-import { App } from './pages';
-import './index.css';
+import * as localStorage from './components/Modules/Storage/persistence-adapters/local-storage'
+
+import reportWebVitals from './reportWebVitals'
+import { App } from './pages'
+import './index.css'
 
 ReactDOM.render(
   <React.StrictMode>
     <Theme>
-      <AuthProvider>
-         <App />
-      </AuthProvider>
+      <StorageProvider persistenceAdapter={localStorage}>
+        <App />
+      </StorageProvider>
     </Theme>
   </React.StrictMode>,
-  document.getElementById('root'),
-);
+  document.getElementById('root')
+)
 
-reportWebVitals();
+reportWebVitals()

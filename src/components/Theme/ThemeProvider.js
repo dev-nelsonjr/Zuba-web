@@ -6,7 +6,7 @@ import { GlobalStyle } from './GlobalStyle'
 
 export const Theme = ({ children }) => (
   <ThemeProvider theme={definitions}>
-    <GlobalStyle bg="raisinBlack" color="white"   fontSize={3} />
+    <GlobalStyle bg="raisinBlack" color="white" fontSize={3} />
     {children}
-    </ThemeProvider>
+  </ThemeProvider>
 )

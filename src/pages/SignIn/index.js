@@ -1,45 +1,37 @@
 import * as React from 'react'
 import styled from 'styled-components'
-import axios from 'axios'
 import { useHistory, useLocation } from 'react-router-dom'
-import { Logo, Box, font,} from '../../components'
+
+import { login } from '../../Services/sdk'
+
+import { Logo, Box, font } from '../../components'
 import { useAuth } from '../../components/Modules'
 
 import { Form } from './Form'
 import { ReactComponent as Illus } from './illus.svg'
 
 const Title = styled('h2')`
-${font}
+  ${font}
 `
 const CenteredBox = ({ children, ...props }) => (
   <Box {...props} flex={1} flexbox="column" center>
-    <Box style={{width: '442px'}}>
-      {children}
-    </Box>
+    <Box style={{ width: '442px' }}>{children}</Box>
   </Box>
 )
 
 export const SignIn = () => {
   const history = useHistory()
   const location = useLocation()
-  const [, { SignIn: setAuth }] = useAuth()
+  const [, { signIn: setAuth }] = useAuth()
 
   const { from } = location.state || { from: { pathname: '/' } }
 
-  const onSubmit = async (values) => {
-    try{
-      const res = await axios.post(
-        'http://localhost:9901/login',
-        {
-          auth: {
-            email: values.email,
-            password: values.password,
-          }
-        }
-      )
-      setAuth(res.data)
+  const onSubmit = async values => {
+    try {
+      const data = await login(values)
+      setAuth(data)
       history.replace(from)
-    } catch(error) {
+    } catch (error) {
       console.error(error)
     }
   }

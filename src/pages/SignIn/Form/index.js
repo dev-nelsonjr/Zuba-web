@@ -7,26 +7,38 @@ import { Link as RouterLink } from 'react-router-dom'
 import { Box, Field, Button, font, margin } from '../../../components'
 
 const Link = styled(RouterLink)`
-text-decoration: none;
-${font}
-${margin}
+  text-decoration: none;
+  ${font}
+  ${margin}
 `
 
-const  validationSchema = yup.object().shape({
-  email: yup.string().required('Email is required').email('Enter a valid email address'),
-  password: yup.string().required('A password is required')
+const validationSchema = yup.object().shape({
+  email: yup
+    .string()
+    .required('Email is required')
+    .email('Enter a valid email address'),
+  password: yup.string().required('A password is required'),
 })
 
-export const Form =({ onSubmit }) => {
-  const { values, errors, touched, handleChange, handleBlur, handleSubmit, isSubmitting, isValid } = useFormik({
+export const Form = ({ onSubmit }) => {
+  const {
+    values,
+    errors,
+    touched,
+    handleChange,
+    handleBlur,
+    handleSubmit,
+    isSubmitting,
+    isValid,
+  } = useFormik({
     onSubmit,
     validationSchema,
     initialValues: {
       email: '',
       password: '',
-    }
+    },
   })
-  return(
+  return (
     <form onSubmit={handleSubmit}>
       <Field
         type="text"
@@ -45,7 +57,7 @@ export const Form =({ onSubmit }) => {
         type="password"
         name="password"
         label="Password"
-        placeholder={"Enter your password"}
+        placeholder={'Enter your password'}
         value={values.password}
         error={touched.password && errors.password}
         onChange={handleChange}
@@ -55,10 +67,21 @@ export const Form =({ onSubmit }) => {
       />
 
       <Box flexbox="column" center>
-      <Button type="submit" loading={isSubmitting} disabled={isSubmitting || !isValid} m={1}>Sign in</Button>
+        <Button
+          type="submit"
+          loading={isSubmitting}
+          disabled={isSubmitting || !isValid}
+          m={1}
+        >
+          Sign in
+        </Button>
 
-        <Box m={1} fontSize={1} color="gray"> Don't have an account? {' '}
-         <Link to="/signup" color="gray" fontWeight="bold">Sign Up!</Link>
+        <Box m={1} fontSize={1} color="gray">
+          {' '}
+          Don&apos;t have an account?{' '}
+          <Link to="/signup" color="gray" fontWeight="bold">
+            Sign Up!
+          </Link>
         </Box>
       </Box>
     </form>

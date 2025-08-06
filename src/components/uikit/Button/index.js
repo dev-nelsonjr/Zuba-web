@@ -1,11 +1,11 @@
 import * as React from 'react'
 
-import styled from "styled-components"
+import styled from 'styled-components'
 
 import { th, margin } from '../../Theme/styled'
 import { Spinner } from '../Spinner'
 
- const StyledButton = styled('button')`
+const StyledButton = styled('button')`
   background: ${th.color('white')};
   border: none;
   border-radius: 200px;
@@ -19,7 +19,8 @@ import { Spinner } from '../Spinner'
   ${margin}
 `
 
-
-export const Button = ({ disabled, loading, children, ...props }) =>(
-<StyledButton {...props} disabled={disabled || loading}>{loading ? <Spinner/> : children}</StyledButton>
+export const Button = ({ disabled, loading, children, ...props }) => (
+  <StyledButton {...props} disabled={disabled || loading}>
+    {loading ? <Spinner /> : children}
+  </StyledButton>
 )
