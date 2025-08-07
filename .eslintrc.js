@@ -29,6 +29,7 @@ module.exports = {
     "plugin:react-hooks/recommended",
     "plugin:json/recommended",
     "plugin:prettier/recommended",
+    "plugin:storybook/recommended"
   ],
   rules: {
     "comma-dangle": [

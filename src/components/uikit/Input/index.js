@@ -13,8 +13,8 @@ export const Input = styled('input')`
 
   ${({ disabled }) => disabled && 'opacity: 0.5;'}
 
-  ${({ hasError }) =>
-    hasError &&
+  ${({ $hasError }) =>
+    $hasError &&
     css`
       border-color: ${th.color('red')};
     `}
