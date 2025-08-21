@@ -7,8 +7,8 @@ const endpoints = {
 }
 
 export const baseURL =
-  endpoints?.[process.env.REACT_APP_API_ENV] ||
-  process.env.REACT_APP_CUSTOM_URL ||
+  endpoints?.[process.env.API_ENV] ||
+  process.env.CUSTOM_URL ||
   endpoints.production
 
 const fetch = ({ method, url, data, ...config }) =>
