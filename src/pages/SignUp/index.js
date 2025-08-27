@@ -1,10 +1,11 @@
 import * as React from 'react'
 import styled from 'styled-components'
-import axios from 'axios'
 import { useHistory, useLocation } from 'react-router-dom'
 
 import { Logo, Box, font } from '../../components'
 import { useAuth } from '../../components/Modules'
+
+import { signUp } from '../../Services/sdk'
 
 import { Form } from './Form'
 import { ReactComponent as Illus } from './illus.svg'
@@ -27,8 +28,8 @@ export const SignUp = () => {
 
   const onSubmit = async values => {
     try {
-      const res = await axios.post('http://localhost:9901/users', values)
-      setAuth({ user: res.data })
+      const data = await signUp(values)
+      setAuth(data)
       history.replace(from)
     } catch (error) {
       console.error(error)
