@@ -22,7 +22,6 @@ export const login = async ({ email, password }) => {
     const res = await fetch({
       method: 'post',
       url: '/login',
-      data: null,
       auth: { username: email, password },
     })
     return res.data

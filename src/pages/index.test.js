@@ -63,9 +63,7 @@ test('should login user and redirect when API return success', async () => {
     token: '123',
   }
 
-  axios.post.mockImplementationOnce(() =>
-    Promise.resolve({ data: responseData })
-  )
+  axios.mockImplementationOnce(() => Promise.resolve({ data: responseData }))
 
   const history = createMemoryHistory()
   render(
@@ -96,11 +94,11 @@ test('should login user and redirect when API return success', async () => {
   })
 
   await waitFor(() => {
-    expect(axios.post).toHaveBeenCalledWith(`${baseURL}/login`, null, {
-      auth: {
-        username: credentials.email,
-        password: credentials.password,
-      },
+    expect(axios).toHaveBeenCalledWith({
+      baseURL,
+      method: 'post',
+      url: '/login',
+      auth: { password: credentials.password, username: credentials.email },
     })
   })
 
@@ -115,7 +113,7 @@ test('should not redirect user when API returns error', async () => {
     password: '123456',
   }
 
-  axios.post.mockImplementation(() =>
+  axios.mockImplementationOnce(() =>
     Promise.reject({
       response: { status: 401 },
     })
@@ -146,11 +144,11 @@ test('should not redirect user when API returns error', async () => {
   await userEvent.click(submitBtn)
 
   await waitFor(() => {
-    expect(axios.post).toHaveBeenCalledWith(`${baseURL}/login`, null, {
-      auth: {
-        username: credentials.email,
-        password: credentials.password,
-      },
+    expect(axios).toHaveBeenCalledWith({
+      baseURL,
+      method: 'post',
+      url: '/login',
+      auth: { password: credentials.password, username: credentials.email },
     })
   })
 
