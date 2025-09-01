@@ -1,6 +1,8 @@
 import * as React from 'react'
 import styled from 'styled-components'
+
 import { th } from '../../components/Theme'
+import { Logo } from '../../components'
 
 // import { useAuth } from '../../components/Modules'
 
@@ -32,7 +34,9 @@ const Main = styled('main')`
 export const Dashboard = () => {
   return (
     <Container>
-      <Menu>Menu</Menu>
+      <Menu>
+        <Logo height={50} onlyIcon />
+      </Menu>
       <Main>content</Main>
     </Container>
   )
