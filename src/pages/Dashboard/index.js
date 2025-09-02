@@ -1,21 +1,13 @@
 import * as React from 'react'
+import { useEffect, useState } from 'react'
 import styled from 'styled-components'
 
 import { th } from '../../components/Theme'
 import { Logo } from '../../components'
 import { Transaction } from '../../components/system/Transaction/'
 
-// import { useAuth } from '../../components/Modules'
-
-// export const Dashboard = () => {
-//   const [auth, { signOut }] = useAuth()
-//   return (
-//     <div>
-//       Hello <strong>{auth.user.name}</strong> !{' '}
-//       <button onClick={signOut}> Sign out </button>
-//     </div>
-//   )
-// }
+import { useAuth } from '../../components/Modules/Auth'
+import { getTransactions } from '../../components/Modules/Auth/transaction.js'
 
 const Container = styled('div')`
   flex: 1;
@@ -71,19 +63,33 @@ const TransactionsList = styled('div')`
 `
 
 export const Dashboard = () => {
+  const [auth] = useAuth()
+  const [data, setData] = useState([])
+
+  const getData = async () => {
+    const result = await getTransactions({ token: auth?.token })
+    setData(result)
+  }
+
+  useEffect(() => {
+    if (auth?.token) {
+      getData()
+    }
+  }, [auth?.token])
+
   return (
     <Layout>
       <h1>Dashboard</h1>
       <Section>
         <SectionHeader>
-          <SectionTitle>Transacations</SectionTitle>
+          <SectionTitle>Transactions</SectionTitle>
           <AddButton>+</AddButton>
         </SectionHeader>
 
         <TransactionsList>
-          <Transaction title="Conta A" value={-53.1} />
-          <Transaction title="Conta B" value={53.1} />
-          <Transaction title="Conta C" value={-53.1} />
+          {data.map(({ id, description, value }) => (
+            <Transaction key={id} title={description} value={value} />
+          ))}
         </TransactionsList>
       </Section>
     </Layout>
