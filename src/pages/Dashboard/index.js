@@ -3,6 +3,7 @@ import styled from 'styled-components'
 
 import { th } from '../../components/Theme'
 import { Logo } from '../../components'
+import { Transaction } from '../../components/system/Transaction/'
 
 // import { useAuth } from '../../components/Modules'
 
@@ -69,57 +70,20 @@ const TransactionsList = styled('div')`
   padding: ${th.space(2)}px;
 `
 
-const Transaction = styled('div')`
-  display: flex;
-  padding: ${th.space(2)}px;
-  align-items: center;
-
-  &:not(:last-child) {
-    border-bottom: 1px solid #ccc;
-  }
-`
-
-const TransactionTitle = styled('div')`
-  flex: 1;
-`
-
-const TransactionValue = styled('div')`
-  text-align: right;
-`
 export const Dashboard = () => {
   return (
     <Layout>
       <h1>Dashboard</h1>
       <Section>
         <SectionHeader>
-          <SectionTitle>Transações</SectionTitle>
+          <SectionTitle>Transacations</SectionTitle>
           <AddButton>+</AddButton>
         </SectionHeader>
 
         <TransactionsList>
-          <Transaction>
-            <TransactionTitle>Conta A</TransactionTitle>
-            <TransactionValue>
-              <div>- R$53,10</div>
-              <small>não paga</small>
-            </TransactionValue>
-          </Transaction>
-
-          <Transaction>
-            <TransactionTitle>Conta A</TransactionTitle>
-            <TransactionValue>
-              <div>- R$53,10</div>
-              <small>não paga</small>
-            </TransactionValue>
-          </Transaction>
-
-          <Transaction>
-            <TransactionTitle>Conta A</TransactionTitle>
-            <TransactionValue>
-              <div>- R$53,10</div>
-              <small>não paga</small>
-            </TransactionValue>
-          </Transaction>
+          <Transaction title="Conta A" value={-53.1} />
+          <Transaction title="Conta B" value={53.1} />
+          <Transaction title="Conta C" value={-53.1} />
         </TransactionsList>
       </Section>
     </Layout>
