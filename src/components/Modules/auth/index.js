@@ -1,19 +1,31 @@
 import { useStorage } from '../Storage'
+import { setToken } from '~/Services/sdk'
+
+export const onRehydrateAuthMiddleware = data => {
+  if (data?.auth?.token) {
+    setToken(data.auth.token)
+  }
+  return Promise.resolve(data)
+}
 
 export const useAuth = () => {
   const [state, setState] = useStorage()
 
-  const signOut = () =>
+  const logout = () => {
+    setToken(false)
     setState(prevState => ({
       ...prevState,
       auth: false,
     }))
+  }
 
-  const signIn = auth =>
+  const login = auth => {
+    setToken(auth.token)
     setState(prevState => ({
       ...prevState,
       auth,
     }))
+  }
 
-  return [state?.auth || {}, { signIn, signOut }]
+  return [state?.auth || {}, { login, logout }]
 }

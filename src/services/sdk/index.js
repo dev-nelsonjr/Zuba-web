@@ -11,10 +11,19 @@ export const baseURL =
   process.env.REACT_APP_CUSTOM_URL ||
   endpoints.production
 
+const auth = {}
+
+export const setToken = token => {
+  auth.token = token
+}
+
 const fetch = params =>
   axios({
     baseURL,
     ...params,
+    headers: {
+      ...(auth.token && { Authorization: `Bearer ${auth.token}` }),
+    },
   })
 
 export const login = async ({ email, password }) => {
