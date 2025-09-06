@@ -5,14 +5,17 @@
   "dependencies": {
     "@testing-library/dom": "^10.4.0",
     "axios": "^1.10.0",
+    "date-fns": "^4.1.0",
     "formik": "^2.4.6",
     "init": "^0.1.2",
     "react": "16",
     "react-dom": "16",
     "react-router-dom": "^5.3.0",
     "react-scripts": "5.0.1",
+    "remask": "^1.2.2",
     "storybook": "^9.0.16",
     "styled-components": "^6.1.19",
+    "vanilla-masker": "^1.2.0",
     "web-vitals": "^5.0.3",
     "yup": "^1.6.1"
   },
