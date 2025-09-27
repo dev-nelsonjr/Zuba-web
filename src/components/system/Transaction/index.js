@@ -1,5 +1,6 @@
 import * as React from 'react'
 import styled from 'styled-components'
+import { toMoney } from 'vanilla-masker'
 
 import { th } from '../../Theme'
 
@@ -24,16 +25,11 @@ const Currency = styled('div')`
   color: ${props => (props.negative ? th.color('red') : th.color('green'))};
 `
 
-const formatCurrency = value =>
-  new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(
-    value
-  )
-
 export const Transaction = ({ value, title, resolved }) => (
   <Container>
     <Title>{title}</Title>
     <Value>
-      <Currency negative={value < 0}>{formatCurrency(value)}</Currency>
+      <Currency negative={value < 0}>{toMoney(value, { unit: '$' })}</Currency>
       <small>{resolved ? 'Paid' : 'Unpaid'}</small>
     </Value>
   </Container>
