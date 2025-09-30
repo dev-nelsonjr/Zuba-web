@@ -4,8 +4,9 @@ import { BrowserRouter as Router, Route } from 'react-router-dom'
 import { useAuth } from './../components/Modules/Auth'
 
 import { SignUp } from './SignUp'
-import { SignIn } from './SignIn'
+import { SignIn } from './Login'
 import { Dashboard } from './Dashboard'
+import { Transaction } from './Transaction'
 
 const AuthRoutes = () => (
   <>
@@ -20,9 +21,14 @@ const AuthRoutes = () => (
 )
 
 const LoggedInRoutes = () => (
-  <Route path="/" exact>
-    <Dashboard />
-  </Route>
+  <>
+    <Route path="/" exact>
+      <Dashboard />
+    </Route>
+    <Route path="/transaction" exact>
+      <Transaction />
+    </Route>
+  </>
 )
 
 export const App = () => {

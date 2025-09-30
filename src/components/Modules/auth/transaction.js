@@ -1,20 +1,35 @@
-export const getTransactions = async ({ token } = {}) => {
-  try {
-    if (!token) throw new Error('No authentication token provided')
+import { request } from '~/services/sdk'
+import { parse, formatISO } from 'date-fns'
 
-    const response = await fetch('http://localhost:9900/transactions', {
+export const getTransactions = async () => {
+  try {
+    const response = await request({
       method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
+      url: '/transactions',
+    })
+
+    return response.data
+  } catch (error) {
+    console.error('Error fetching transactions from backend:', error)
+    return Promise.reject(error)
+  }
+}
+
+export const saveTransactions = async ({ dueDate, ...data }) => {
+  try {
+    const response = await request({
+      method: 'POST',
+      url: '/transactions',
+      data: {
+        ...data,
+        ...(dueDate && {
+          dueDate: formatISO(parse(dueDate, 'MM/dd/yyyy', new Date())),
+        }),
       },
     })
 
-    if (!response.ok) throw new Error(`API error status: ${response.status}`)
-
-    return await response.json()
+    return response.data
   } catch (error) {
-    console.error('Error fetching transactions from backend:', error)
     return Promise.reject(error)
   }
 }

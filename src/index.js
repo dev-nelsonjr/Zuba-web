@@ -1,5 +1,6 @@
 import * as React from 'react'
-import ReactDOM from 'react-dom'
+import { createRoot } from 'react-dom/client'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 
 import { Theme } from '~/components/Theme'
 import { StorageProvider } from '~/components/Modules/Storage'
@@ -11,18 +12,29 @@ import reportWebVitals from './reportWebVitals'
 import { App } from './pages'
 import './index.css'
 
-ReactDOM.render(
+const queryClient = new QueryClient()
+
+const container = document.getElementById('root')
+
+if (!container) {
+  throw new Error('Root element not found')
+}
+
+const root = createRoot(container)
+
+root.render(
   <React.StrictMode>
     <Theme>
-      <StorageProvider
-        persistenceAdapter={localStorage}
-        onRehydrate={onRehydrateAuthMiddleware}
-      >
-        <App />
-      </StorageProvider>
+      <QueryClientProvider client={queryClient}>
+        <StorageProvider
+          persistenceAdapter={localStorage}
+          onRehydrate={onRehydrateAuthMiddleware}
+        >
+          <App />
+        </StorageProvider>
+      </QueryClientProvider>
     </Theme>
-  </React.StrictMode>,
-  document.getElementById('root')
+  </React.StrictMode>
 )
 
 reportWebVitals()

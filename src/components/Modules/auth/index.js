@@ -1,5 +1,5 @@
 import { useStorage } from '../Storage'
-import { setToken } from '~/Services/sdk'
+import { setToken } from '~/services/sdk'
 
 export const onRehydrateAuthMiddleware = data => {
   if (data?.auth?.token) {

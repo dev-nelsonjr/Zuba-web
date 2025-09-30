@@ -2,7 +2,7 @@ import * as React from 'react'
 import styled from 'styled-components'
 import { useHistory, useLocation } from 'react-router-dom'
 
-import { login } from '../../Services/sdk'
+import { login } from '../../services/sdk'
 
 import { Logo, Box, font } from '../../components'
 import { useAuth } from '../../components/Modules'
@@ -22,7 +22,7 @@ const CenteredBox = ({ children, ...props }) => (
 export const SignIn = () => {
   const history = useHistory()
   const location = useLocation()
-  const [, { signIn: setAuth }] = useAuth()
+  const [, { login: setAuth }] = useAuth()
 
   const { from } = location.state || { from: { pathname: '/' } }
 

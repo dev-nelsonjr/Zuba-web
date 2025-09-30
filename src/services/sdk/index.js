@@ -7,7 +7,7 @@ const endpoints = {
 }
 
 export const baseURL =
-  endpoints?.[process.env.REACT_APP_API_ENV] ||
+  endpoints[process.env.REACT_APP_API_ENV] ||
   process.env.REACT_APP_CUSTOM_URL ||
   endpoints.production
 
@@ -17,37 +17,40 @@ export const setToken = token => {
   auth.token = token
 }
 
-const fetch = params =>
+export const request = params =>
   axios({
     baseURL,
     ...params,
     headers: {
-      ...(auth.token && { Authorization: `Bearer ${auth.token}` }),
+      ...params.headers,
+      ...(auth.token && {
+        Authorization: `Bearer ${auth.token}`,
+      }),
     },
   })
 
 export const login = async ({ email, password }) => {
-  try {
-    const res = await fetch({
-      method: 'post',
-      url: '/login',
-      auth: { username: email, password },
-    })
-    return res.data
-  } catch (error) {
-    return Promise.reject(error)
-  }
+  const response = await request({
+    method: 'POST',
+    url: '/login',
+    auth: {
+      username: email,
+      password,
+    },
+  })
+
+  return response.data
 }
 
-export const signUp = async data => {
-  try {
-    const res = await fetch({
-      method: 'post',
-      url: '/signup',
-      data,
-    })
-    return res.data
-  } catch (error) {
-    return Promise.reject(error)
-  }
+export const signup = async ({ email, password }) => {
+  const response = await request({
+    method: 'POST',
+    url: '/signup',
+    data: {
+      email,
+      password,
+    },
+  })
+
+  return response.data
 }
