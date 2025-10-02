@@ -1,7 +1,12 @@
 import * as React from 'react'
-import { BrowserRouter as Router, Route } from 'react-router-dom'
+import {
+  BrowserRouter as Router,
+  Navigate,
+  Route,
+  Routes,
+} from 'react-router-dom'
 
-import { useAuth } from './../components/Modules/Auth'
+import { useAuth } from '../components/Modules/Auth'
 
 import { SignUp } from './SignUp'
 import { SignIn } from './Login'
@@ -9,30 +14,25 @@ import { Dashboard } from './Dashboard'
 import { Transaction } from './Transaction'
 
 const AuthRoutes = () => (
-  <>
-    <Route path="/" exact>
-      <SignIn />
-    </Route>
+  <Routes>
+    <Route path="/" element={<SignIn />} />
+    <Route path="/signup" element={<SignUp />} />
 
-    <Route path="/signup">
-      <SignUp />
-    </Route>
-  </>
+    <Route path="*" element={<Navigate to="/" replace />} />
+  </Routes>
 )
 
 const LoggedInRoutes = () => (
-  <>
-    <Route path="/" exact>
-      <Dashboard />
-    </Route>
-    <Route path="/transaction" exact>
-      <Transaction />
-    </Route>
-  </>
+  <Routes>
+    <Route path="/" element={<Dashboard />} />
+    <Route path="/transaction" element={<Transaction />} />
+
+    <Route path="*" element={<Navigate to="/" replace />} />
+  </Routes>
 )
 
 export const App = () => {
   const [auth] = useAuth()
 
-  return <Router>{auth?.user ? <LoggedInRoutes /> : <AuthRoutes />}</Router>
+  return <Router>{auth?.token ? <LoggedInRoutes /> : <AuthRoutes />}</Router>
 }

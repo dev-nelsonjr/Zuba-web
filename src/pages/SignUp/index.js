@@ -1,6 +1,6 @@
 import * as React from 'react'
 import styled from 'styled-components'
-import { useHistory, useLocation } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 
 import { Logo, Box, font } from '../../components'
 import { useAuth } from '../../components/Modules'
@@ -20,7 +20,7 @@ const CenteredBox = ({ children, ...props }) => (
 )
 
 export const SignUp = () => {
-  const history = useHistory()
+  const history = useNavigate()
   const location = useLocation()
   const [, { login: setAuth }] = useAuth()
 
