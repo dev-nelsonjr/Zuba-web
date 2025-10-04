@@ -3,21 +3,21 @@ import { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 
-import { getTransactions } from '~/components/Modules/Auth/transaction.js'
+import { getTransactions } from '~/components/providers/Auth/transaction.js'
 
-import { th } from '../../components/Theme'
-import { Logo } from '../../components'
-import { Transaction } from '../../components/system/Transaction/'
+import { themeGet } from '@styled-system/theme-get'
+import { Logo } from '~/components'
+import { Transaction } from '../../components/molecules/Transaction/'
 
-import { useAuth } from '~/components/Modules'
+import { useAuth } from '~/components/providers'
 
 const Container = styled('div')`
   flex: 1;
   display: flex;
 `
 const Menu = styled('aside')`
-  background: ${th.color('black')};
-  padding: ${th.space(2)}px;
+  background: ${themeGet('colors.black')};
+  padding: ${themeGet('spaces.2')}px;
 `
 
 const Main = styled('main')`
@@ -36,8 +36,8 @@ const Layout = ({ children }) => (
 )
 
 const Section = styled('section')`
-  background: ${th.color('black')};
-  border-radius: ${th.space(1)}px;
+  background: ${themeGet('colors.black')};
+  border-radius: ${themeGet('spaces.1')}px;
 `
 
 const SectionHeader = styled('div')`
@@ -46,24 +46,24 @@ const SectionHeader = styled('div')`
 
 const SectionTitle = styled('h2')`
   flex: 1;
-  font-size: ${th.size(2)}px;
+  font-size: ${themeGet('fontSizes.2')}px;
   margin: 0;
   font-weight: 400;
-  padding: ${th.space(2)}px;
+  padding: ${themeGet('spaces.2')}px;
 `
 
 const AddButton = styled(Link)`
   background: #a0a2ae;
-  border-radius: 0 ${th.space(1)}px 0 ${th.space(1)}px;
+  border-radius: 0 ${themeGet('spaces.1')}px 0 ${themeGet('spaces.1')}px;
   border: 0;
-  font-size: ${th.size(3)}px;
-  padding: ${th.space(2)}px ${th.space(4)}px;
+  font-size: ${themeGet('fontSizes.3')}px;
+  padding: ${themeGet('spaces.2')}px ${themeGet('spaces.4')}px;
   text-decoration: none,
-  color: ${th.color('black')};
+  color: ${themeGet('colors.black')};
 `
 
 const TransactionsList = styled('div')`
-  padding: ${th.space(2)}px;
+  padding: ${themeGet('spaces.2')}px;
 `
 
 export const Dashboard = () => {

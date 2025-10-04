@@ -2,15 +2,16 @@ import * as React from 'react'
 
 import styled from 'styled-components'
 
-import { th, margin } from '../../Theme/styled'
+import { margin } from 'styled-system'
+import { themeGet } from '@styled-system/theme-get'
 import { Spinner } from '../Spinner'
 
 const StyledButton = styled('button')`
-  background: ${th.color('white')};
+  background: ${themeGet('colors.white')};
   border: none;
   border-radius: 200px;
-  color: ${th.color('black')};
-  padding: ${th.space(2)}px ${th.space(8)}px;
+  color: ${themeGet('colors.black')};
+  padding: ${themeGet('spaces.2')}px ${themeGet('spaces.8')}px;
   font-size: inherit;
   outline: none;
 

@@ -2,15 +2,16 @@ import * as React from 'react'
 import styled from 'styled-components'
 import { useNavigate, useLocation } from 'react-router-dom'
 
-import { Logo, Box, font } from '../../components'
-import { useAuth } from '../../components/Modules'
-import { signup } from '../../services/sdk'
+import { typography } from 'styled-system'
+import { Logo, Box } from '~/components/atoms'
+import { useAuth } from '~/components/providers'
+import { signup } from '~/services/sdk'
 
 import { Form } from './Form'
 import { ReactComponent as Illus } from './illus.svg'
 
 const Title = styled('h2')`
-  ${font}
+  ${typography}
 `
 
 const CenteredBox = ({ children, ...props }) => (

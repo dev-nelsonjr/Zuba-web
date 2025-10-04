@@ -9,9 +9,9 @@ import { createMemoryHistory } from 'history'
 import { Router } from 'react-router-dom'
 
 import { baseURL } from '../Services/sdk/index'
-import { Theme } from '../components/Theme'
-import { StorageProvider } from '../components/Modules/Storage/'
-import * as localStoragePersistenceAdapter from '../components/Modules/Storage/persistence-adapters/local-storage'
+import { Theme } from '../components/providers/Theme'
+import { StorageProvider } from '../components/providers/Storage/'
+import * as localStoragePersistenceAdapter from '../components/providers/Storage/persistence-adapters/local-storage'
 
 import { App } from './index'
 

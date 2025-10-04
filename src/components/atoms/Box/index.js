@@ -1,9 +1,17 @@
 import styled from 'styled-components'
 
-import { background, margin, padding, flexbox, font } from '../../Theme/styled'
+import {
+  background,
+  margin,
+  padding,
+  flexbox,
+  typography,
+  color,
+} from 'styled-system'
 
 export const Box = styled('div')`
-  ${font}
+  ${typography}
+  ${color}
   ${background}
   ${padding}
   ${margin}

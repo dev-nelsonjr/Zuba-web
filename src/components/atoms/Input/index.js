@@ -1,13 +1,13 @@
 import styled, { css } from 'styled-components'
 
-import { th } from '../../Theme/styled'
+import { themeGet } from '@styled-system/theme-get'
 
 export const Input = styled('input')`
   background: transparent;
   border: 1px solid #fff;
   border-radius: 200px;
-  color: ${props => th.color(props.color || 'white')(props)};
-  padding: ${th.space(2)}px ${th.space(3)}px;
+  color: ${props => themeGet(`colors.${props.color || 'white'}`)(props)};
+  padding: ${themeGet('spaces.2')}px ${themeGet('spaces.3')}px;
   font-size: inherit;
   outline: none;
 
@@ -16,6 +16,6 @@ export const Input = styled('input')`
   ${({ $hasError }) =>
     $hasError &&
     css`
-      border-color: ${th.color('red')};
+      border-color: ${themeGet('colors.red')};
     `}
 `

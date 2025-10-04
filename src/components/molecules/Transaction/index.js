@@ -1,12 +1,13 @@
 import * as React from 'react'
+
 import styled from 'styled-components'
 import { toMoney } from 'vanilla-masker'
 
-import { th } from '../../Theme'
+import { themeGet } from '@styled-system/theme-get'
 
 const Container = styled('div')`
   display: flex;
-  padding: ${th.space(2)}px;
+  padding: ${themeGet('spaces.2')}px;
   align-items: center;
 
   &:not(:last-child) {
@@ -22,7 +23,8 @@ const Value = styled('div')`
   text-align: right;
 `
 const Currency = styled('div')`
-  color: ${props => (props.negative ? th.color('red') : th.color('green'))};
+  color: ${props =>
+    props.negative ? themeGet('colors.red') : themeGet('colors.green')};
 `
 
 export const Transaction = ({ value, title, resolved }) => (

@@ -1,3 +1,3 @@
-export * from './uikit'
-export * from './Theme'
-export * from './Modules'
+export * from './atoms'
+export * from './providers'
+export * from './molecules'

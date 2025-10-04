@@ -2,11 +2,11 @@ import * as React from 'react'
 import { createRoot } from 'react-dom/client'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 
-import { Theme } from '~/components/Theme'
-import { StorageProvider } from '~/components/Modules/Storage'
-import { onRehydrateAuthMiddleware } from '~/components/Modules/Auth'
+import { Theme } from '~/components/providers/Theme'
+import { StorageProvider } from '~/components/providers/Storage'
+import { onRehydrateAuthMiddleware } from '~/components/providers/Auth'
 
-import * as localStorage from '~/components/Modules/Storage/persistence-adapters/local-storage'
+import * as localStorage from '~/components/providers/Storage/persistence-adapters/local-storage'
 
 import reportWebVitals from './reportWebVitals'
 import { App } from './pages'

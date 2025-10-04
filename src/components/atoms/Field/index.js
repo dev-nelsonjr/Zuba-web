@@ -1,16 +1,16 @@
 import * as React from 'react'
 import styled from 'styled-components'
 
-import { th } from '../../Theme/styled'
+import { themeGet } from '@styled-system/theme-get'
 
 import { Box } from '../Box'
 import { Label } from '../Label'
 import { Input } from '../Input'
 
 const ErrorMessage = styled(Box)`
-  color: ${th.color('red')};
-  padding: ${th.space(0)}px ${th.space(3)}px;
-  font-size: ${th.size(2)}px;
+  color: ${themeGet('colors.red')};
+  padding: ${themeGet('spaces.1')}px ${themeGet('spaces.3')}px;
+  font-size: ${themeGet('fontSizes.2')}px;
 `
 
 export const Field = ({

@@ -4,11 +4,12 @@ import { useFormik } from 'formik'
 import styled from 'styled-components'
 import { Link as RouterLink } from 'react-router-dom'
 
-import { Box, Field, Button, font, margin } from '../../../components'
+import { typography, margin } from 'styled-system'
+import { Box, Field, Button } from '~/components/atoms'
 
 const Link = styled(RouterLink)`
   text-decoration: none;
-  ${font}
+  ${typography}
   ${margin}
 `
 

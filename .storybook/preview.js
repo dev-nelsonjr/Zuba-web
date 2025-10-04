@@ -1,4 +1,4 @@
-import { Theme } from '../src/components/Theme'
+import { Theme } from '../src/components/providers/Theme'
 
 export const parameters = {
   actions: { argTypesRegex: '^on[A-Z].*' },

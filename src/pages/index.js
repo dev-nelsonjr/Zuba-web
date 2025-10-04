@@ -6,7 +6,7 @@ import {
   Routes,
 } from 'react-router-dom'
 
-import { useAuth } from '../components/Modules/Auth'
+import { useAuth } from '../components/providers/Auth'
 
 import { SignUp } from './SignUp'
 import { SignIn } from './Login'
