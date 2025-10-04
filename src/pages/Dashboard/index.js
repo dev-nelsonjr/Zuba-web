@@ -1,13 +1,15 @@
 import * as React from 'react'
 import { useEffect, useState } from 'react'
 import styled from 'styled-components'
+import { Link } from 'react-router-dom'
+
+import { getTransactions } from '~/components/Modules/Auth/transaction.js'
 
 import { th } from '../../components/Theme'
 import { Logo } from '../../components'
 import { Transaction } from '../../components/system/Transaction/'
 
-import { useAuth } from '../../components/Modules/Auth'
-import { getTransactions } from '../../components/Modules/Auth/transaction.js'
+import { useAuth } from '~/components/Modules'
 
 const Container = styled('div')`
   flex: 1;
@@ -50,12 +52,14 @@ const SectionTitle = styled('h2')`
   padding: ${th.space(2)}px;
 `
 
-const AddButton = styled('button')`
+const AddButton = styled(Link)`
   background: #a0a2ae;
   border-radius: 0 ${th.space(1)}px 0 ${th.space(1)}px;
   border: 0;
   font-size: ${th.size(3)}px;
   padding: ${th.space(2)}px ${th.space(4)}px;
+  text-decoration: none,
+  color: ${th.color('black')};
 `
 
 const TransactionsList = styled('div')`
@@ -83,7 +87,7 @@ export const Dashboard = () => {
       <Section>
         <SectionHeader>
           <SectionTitle>Transactions</SectionTitle>
-          <AddButton>+</AddButton>
+          <AddButton to="/transaction">+</AddButton>
         </SectionHeader>
 
         <TransactionsList>
