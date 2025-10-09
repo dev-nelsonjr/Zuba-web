@@ -11,7 +11,7 @@ const StyledButton = styled('button')`
   border: none;
   border-radius: 200px;
   color: ${themeGet('colors.black')};
-  padding: ${themeGet('spaces.2')}px ${themeGet('spaces.8')}px;
+  padding: ${themeGet('space.2')}px ${themeGet('space.8')}px;
   font-size: inherit;
   outline: none;
 

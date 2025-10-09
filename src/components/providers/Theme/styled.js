@@ -3,7 +3,7 @@ const getIf = (prop, value) => (prop ? value : '')
 export const theme = prop => value => props =>
   props.theme[prop]?.[value] || value
 export const th = {
-  space: theme('spaces'),
+  space: theme('space'),
   size: theme('fontSizes'),
   color: theme('colors'),
 }

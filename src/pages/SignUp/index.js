@@ -15,7 +15,14 @@ const Title = styled('h2')`
 `
 
 const CenteredBox = ({ children, ...props }) => (
-  <Box {...props} flex={1} flexbox="column" center>
+  <Box
+    {...props}
+    flex={1}
+    display="flex"
+    flexDirection="column"
+    justifyContent="center"
+    alignItems="center"
+  >
     <Box style={{ width: '442px' }}>{children}</Box>
   </Box>
 )
@@ -43,9 +50,14 @@ export const SignUp = () => {
   }
 
   return (
-    <Box flex={1} flexbox>
+    <Box flex={1} display="flex">
       <CenteredBox bg="black">
-        <Logo p={6} />
+        <Logo
+          display="flex"
+          justifyContent="center"
+          alignItems="center"
+          p={6}
+        />
         <Illus />
       </CenteredBox>
 

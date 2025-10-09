@@ -81,7 +81,13 @@ export const Form = ({ onSubmit }) => {
         mb={3}
       />
 
-      <Box flexbox="column" center>
+      <Box
+        display="flex"
+        justifyContent="center"
+        flexDirection="column"
+        alignItems="center"
+        p={6}
+      >
         <Button type="submit" loading={isSubmitting} m={1}>
           {' '}
           Create Account{' '}

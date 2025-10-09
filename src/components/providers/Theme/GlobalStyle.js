@@ -1,6 +1,6 @@
 import { createGlobalStyle } from 'styled-components'
 
-import { background, font } from './styled'
+import { color, typography } from 'styled-system'
 
 export const GlobalStyle = createGlobalStyle`
 * {
@@ -11,8 +11,8 @@ height: 100%;
 }
 
   body {
-  ${background}
-  ${font}
+  ${color}
+  ${typography}
 
     margin: 0;
     -webkit-font-smoothing: antialiased;

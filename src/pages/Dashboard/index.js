@@ -17,7 +17,7 @@ const Container = styled('div')`
 `
 const Menu = styled('aside')`
   background: ${themeGet('colors.black')};
-  padding: ${themeGet('spaces.2')}px;
+  padding: ${themeGet('space.2')}px;
 `
 
 const Main = styled('main')`
@@ -37,7 +37,7 @@ const Layout = ({ children }) => (
 
 const Section = styled('section')`
   background: ${themeGet('colors.black')};
-  border-radius: ${themeGet('spaces.1')}px;
+  border-radius: ${themeGet('space.1')}px;
 `
 
 const SectionHeader = styled('div')`
@@ -49,21 +49,21 @@ const SectionTitle = styled('h2')`
   font-size: ${themeGet('fontSizes.2')}px;
   margin: 0;
   font-weight: 400;
-  padding: ${themeGet('spaces.2')}px;
+  padding: ${themeGet('space.2')}px;
 `
 
 const AddButton = styled(Link)`
   background: #a0a2ae;
-  border-radius: 0 ${themeGet('spaces.1')}px 0 ${themeGet('spaces.1')}px;
+  border-radius: 0 ${themeGet('space.1')}px 0 ${themeGet('space.1')}px;
   border: 0;
   font-size: ${themeGet('fontSizes.3')}px;
-  padding: ${themeGet('spaces.2')}px ${themeGet('spaces.4')}px;
+  padding: ${themeGet('space.2')}px ${themeGet('space.4')}px;
   text-decoration: none,
   color: ${themeGet('colors.black')};
 `
 
 const TransactionsList = styled('div')`
-  padding: ${themeGet('spaces.2')}px;
+  padding: ${themeGet('space.2')}px;
 `
 
 export const Dashboard = () => {

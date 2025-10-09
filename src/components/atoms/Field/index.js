@@ -9,8 +9,8 @@ import { Input } from '../Input'
 
 const ErrorMessage = styled(Box)`
   color: ${themeGet('colors.red')};
-  padding: ${themeGet('spaces.1')}px ${themeGet('spaces.3')}px;
-  font-size: ${themeGet('fontSizes.2')}px;
+  padding: ${themeGet('space.1')}px ${themeGet('space.3')}px;
+  font-size: ${themeGet('fontSize.2')}px;
 `
 
 export const Field = ({
@@ -25,7 +25,7 @@ export const Field = ({
   onBlur,
   ...props
 }) => (
-  <Box {...props} flexbox="column">
+  <Box {...props} display="flex" flexDirection="column">
     <Label htmlFor={name}>{label}</Label>
     <Input
       type={type}

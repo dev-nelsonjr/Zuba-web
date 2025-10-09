@@ -55,7 +55,7 @@ export const Transaction = () => {
   })
   return (
     <Box>
-      <Box flexbox="column" px={4} py={7}>
+      <Box display="flex" flexDirection="column" px={4} py={7}>
         <ValueInput
           type="text"
           inputMode="decimal"

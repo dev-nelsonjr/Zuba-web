@@ -7,7 +7,7 @@ import { themeGet } from '@styled-system/theme-get'
 
 const Container = styled('div')`
   display: flex;
-  padding: ${themeGet('spaces.2')}px;
+  padding: ${themeGet('space.2')}px;
   align-items: center;
 
   &:not(:last-child) {
