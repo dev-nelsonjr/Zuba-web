@@ -10,7 +10,7 @@ import { Input } from '../Input'
 const ErrorMessage = styled(Box)`
   color: ${themeGet('colors.red')};
   padding: ${themeGet('space.1')}px ${themeGet('space.3')}px;
-  font-size: ${themeGet('fontSize.2')}px;
+  font-size: ${themeGet('fontSizes.2')}px;
 `
 
 export const Field = ({

@@ -9,7 +9,7 @@ import * as yup from 'yup'
 import { saveTransactions } from '~/components/providers/Auth/transaction'
 
 import { themeGet } from '@styled-system/theme-get'
-import { Box, Field, Button, CurrencyInput } from '~/components/atoms'
+import { Box, Field, Button, CurrencyInput, Layout } from '~/components'
 
 const validationSchema = yup.object().shape({
   value: yup.number().required(),
@@ -19,7 +19,7 @@ const validationSchema = yup.object().shape({
 const ValueInput = styled(CurrencyInput)`
   border: 0;
   text-align: center;
-  font-size: ${themeGet('sizes.10')}px;
+  font-size: ${themeGet('fontSizes.10')}px;
   color: ${props =>
     Number(props.value) > 0
       ? themeGet('colors.blue')(props)
@@ -54,7 +54,7 @@ export const Transaction = () => {
     },
   })
   return (
-    <Box>
+    <Layout>
       <Box display="flex" flexDirection="column" px={4} py={7}>
         <ValueInput
           type="text"
@@ -105,6 +105,6 @@ export const Transaction = () => {
           save
         </Button>
       </Box>
-    </Box>
+    </Layout>
   )
 }

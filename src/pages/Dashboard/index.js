@@ -5,35 +5,10 @@ import { Link } from 'react-router-dom'
 
 import { getTransactions } from '~/components/providers/Auth/transaction.js'
 
-import { themeGet } from '@styled-system/theme-get'
-import { Logo } from '~/components'
-import { Transaction } from '../../components/molecules/Transaction/'
-
 import { useAuth } from '~/components/providers'
 
-const Container = styled('div')`
-  flex: 1;
-  display: flex;
-`
-const Menu = styled('aside')`
-  background: ${themeGet('colors.black')};
-  padding: ${themeGet('space.2')}px;
-`
-
-const Main = styled('main')`
-  flex: 1;
-  max-width: 1200px;
-  margin: 0 auto;
-`
-
-const Layout = ({ children }) => (
-  <Container>
-    <Menu>
-      <Logo height={50} onlyIcon />
-    </Menu>
-    <Main>{children}</Main>
-  </Container>
-)
+import { themeGet } from '@styled-system/theme-get'
+import { Layout, Transaction } from '../../components/molecules/'
 
 const Section = styled('section')`
   background: ${themeGet('colors.black')};
