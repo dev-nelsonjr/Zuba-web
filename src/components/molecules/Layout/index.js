@@ -10,16 +10,21 @@ import { useNavigate } from 'react-router-dom'
 const Container = styled('div')`
   flex: 1;
   display: flex;
+  overflow: hidden;
 `
+
 const Menu = styled('aside')`
   background: ${themeGet('colors.black')};
   display: flex;
   flex-direction: column;
-  align-items: center;
+`
+
+const Scroll = styled('div')`
+  flex: 1;
+  overflow-y: auto;
 `
 
 const Main = styled('main')`
-  flex: 1;
   max-width: 1200px;
   margin: 0 auto;
 `
@@ -27,7 +32,7 @@ const Main = styled('main')`
 const Item = ({ icon, to }) => (
   <Link to={to}>
     <Box p={1}>
-      <Icon name={icon} color="white" width={30} />
+      <Icon name={icon} color="white" />
     </Box>
   </Link>
 )
@@ -52,11 +57,17 @@ const LogoutButton = () => {
 export const Layout = ({ children }) => (
   <Container>
     <Menu>
-      <Box p={1}>
-        <Logo width={40} onlyIcon />
+      <Box px={4} py={9}>
+        <Logo height={40} onlyIcon />
       </Box>
 
-      <Box as="nav" flex={1} display="flex" flexDirection="column">
+      <Box
+        as="nav"
+        flex={1}
+        display="flex"
+        flexDirection="column"
+        alignItems="center"
+      >
         <Box flex={1}>
           <Item icon="dash" to="/" />
           <Item icon="graph" to="/transaction" />
@@ -65,6 +76,8 @@ export const Layout = ({ children }) => (
         <LogoutButton />
       </Box>
     </Menu>
-    <Main>{children}</Main>
+    <Scroll>
+      <Main>{children}</Main>
+    </Scroll>
   </Container>
 )

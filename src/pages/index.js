@@ -1,10 +1,5 @@
 import * as React from 'react'
-import {
-  BrowserRouter as Router,
-  Navigate,
-  Route,
-  Routes,
-} from 'react-router-dom'
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 
 import { useAuth } from '../components/providers/Auth'
 
@@ -34,5 +29,9 @@ const LoggedInRoutes = () => (
 export const App = () => {
   const [auth] = useAuth()
 
-  return <Router>{auth?.token ? <LoggedInRoutes /> : <AuthRoutes />}</Router>
+  return (
+    <BrowserRouter>
+      {auth?.token ? <LoggedInRoutes /> : <AuthRoutes />}
+    </BrowserRouter>
+  )
 }
