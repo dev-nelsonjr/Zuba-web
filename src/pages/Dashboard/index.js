@@ -8,7 +8,7 @@ import { getTransactions } from '~/components/providers/Auth/transaction.js'
 import { useAuth } from '~/components/providers'
 
 import { themeGet } from '@styled-system/theme-get'
-import { Layout, Transaction } from '../../components/molecules/'
+import { Layout, Transaction, Header } from '../../components/molecules/'
 
 const Section = styled('section')`
   background: ${themeGet('colors.black')};
@@ -58,7 +58,8 @@ export const Dashboard = () => {
 
   return (
     <Layout>
-      <h1>Dashboard</h1>
+      <Header icon="dash" title="Dashboard" />
+
       <Section>
         <SectionHeader>
           <SectionTitle>Transactions</SectionTitle>

@@ -20,6 +20,6 @@ const StyledIcon = styled('svg')`
   ${color}
 `
 
-export const Icon = ({ name, width = 35, ...props }) => {
+export const Icon = ({ name, width = 30, ...props }) => {
   return <StyledIcon as={icons[name]} {...props} width={width} />
 }

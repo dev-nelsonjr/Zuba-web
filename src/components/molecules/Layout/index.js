@@ -25,6 +25,7 @@ const Scroll = styled('div')`
 `
 
 const Main = styled('main')`
+  padding: ${themeGet('space.2')}px;
   max-width: 1200px;
   margin: 0 auto;
 `
