@@ -1,12 +1,24 @@
 const baseColors = {
-  black: '#000000',
-  white: '#ffffff',
+  black: '#0f0f0f',
+  white: '#fafafa',
   red: '#FF647C',
   green: '#0BD9B3',
   blue: '#487FD9',
   yellow: '#EBC455',
   gray: '#A0A2AE',
 }
+
+const grayscale = [
+  baseColors.black,
+  `#2d2d2d`,
+  `#4a4a4a`,
+  `#686868`,
+  `#858585`,
+  `#a3a3a3`,
+  `#c0c0c0`,
+  `#dddddd`,
+  baseColors.white,
+]
 
 const brandColors = {
   raisinBlack: '#16171C',
@@ -16,6 +28,7 @@ const brandColors = {
 const colors = {
   ...baseColors,
   ...brandColors,
+  grayscale,
 }
 
 const fontSizes = [10, 12, 14, 16, 18, 21, 24, 27, 30, 36, 42, 48]

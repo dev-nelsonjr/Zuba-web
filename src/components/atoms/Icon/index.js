@@ -18,6 +18,7 @@ const icons = {
 
 const StyledIcon = styled('svg')`
   ${color}
+  fill: none;
 `
 
 export const Icon = ({ name, width = 30, ...props }) => {

@@ -30,12 +30,18 @@ const Main = styled('main')`
   margin: 0 auto;
 `
 
+const NavItem = styled(Link)`
+  display: block;
+  padding: ${themeGet('space.2')}px;
+  &:not(:last-child) {
+    border-bottom: 1px solid ${themeGet('colors.grayscale.1')};
+  }
+`
+
 const Item = ({ icon, to }) => (
-  <Link to={to}>
-    <Box p={1}>
-      <Icon name={icon} color="white" />
-    </Box>
-  </Link>
+  <NavItem to={to}>
+    <Icon name={icon} color="white" />
+  </NavItem>
 )
 
 const LogoutButton = () => {

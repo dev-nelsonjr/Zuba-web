@@ -11,7 +11,7 @@ const Container = styled('div')`
   align-items: center;
 
   &:not(:last-child) {
-    border-bottom: 1px solid #ccc;
+    border-bottom: 1px solid ${themeGet('colors.grayscale.1')};
   }
 `
 

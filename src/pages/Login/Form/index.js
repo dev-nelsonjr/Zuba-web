@@ -4,13 +4,13 @@ import { useFormik } from 'formik'
 import styled from 'styled-components'
 import { Link as RouterLink } from 'react-router-dom'
 
-import { typography, margin } from 'styled-system'
+import { typography, space } from 'styled-system'
 import { Box, Field, Button } from '~/components/atoms'
 
 const Link = styled(RouterLink)`
   text-decoration: none;
   ${typography}
-  ${margin}
+  ${space}
 `
 
 const validationSchema = yup.object().shape({

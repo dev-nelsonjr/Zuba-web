@@ -8,9 +8,9 @@ import { getTransactions } from '~/components/providers/Auth/transaction.js'
 import { useAuth } from '~/components/providers'
 
 import { themeGet } from '@styled-system/theme-get'
-import { Layout, Transaction, Header } from '../../components/molecules/'
+import { Layout, Transaction, Header, Box } from '../../components'
 
-const Section = styled('section')`
+const Section = styled(props => <Box as="section" {...props} />)`
   background: ${themeGet('colors.black')};
   border-radius: ${themeGet('space.1')}px;
 `
@@ -41,6 +41,11 @@ const TransactionsList = styled('div')`
   padding: ${themeGet('space.2')}px;
 `
 
+const Content = styled(Box)`
+  padding: ${themeGet('space.2')}px;
+  gap: ${themeGet('space.8')}px;
+`
+
 export const Dashboard = () => {
   const [auth] = useAuth()
   const [data, setData] = useState([])
@@ -60,18 +65,25 @@ export const Dashboard = () => {
     <Layout>
       <Header icon="dash" title="Dashboard" />
 
-      <Section>
-        <SectionHeader>
-          <SectionTitle>Transactions</SectionTitle>
-          <AddButton to="/transaction">+</AddButton>
-        </SectionHeader>
+      <Content display="flex">
+        <Box flex={1 / 2}>
+          <Section> account balance </Section>
+          <Section> balance sheet </Section>
+        </Box>
 
-        <TransactionsList>
-          {data.map(({ id, description, value }) => (
-            <Transaction key={id} title={description} value={value} />
-          ))}
-        </TransactionsList>
-      </Section>
+        <Section flex={2 / 3}>
+          <SectionHeader>
+            <SectionTitle>Transactions</SectionTitle>
+            <AddButton to="/transaction">+</AddButton>
+          </SectionHeader>
+
+          <TransactionsList>
+            {data.map(({ id, description, value }) => (
+              <Transaction key={id} title={description} value={value} />
+            ))}
+          </TransactionsList>
+        </Section>
+      </Content>
     </Layout>
   )
 }
