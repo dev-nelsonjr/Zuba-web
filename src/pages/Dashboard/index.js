@@ -7,7 +7,7 @@ import { getTransactions } from '~/components/providers/Auth/transaction.js'
 import { useAuth } from '~/components/providers'
 
 import { themeGet } from '@styled-system/theme-get'
-import { Layout, Transaction, Header, Box, Card } from '~/components'
+import { Layout, Transaction, Header, Box, Card, Currency } from '~/components'
 
 const Content = styled(Box)`
   padding: ${themeGet('space.2')}px;
@@ -35,7 +35,12 @@ export const Dashboard = () => {
 
       <Content display="flex">
         <Box flex={1 / 2}>
-          <Card mb={6}> account balance </Card>
+          <Card mb={6}>
+            <Currency value="10.10" fontSize={9} />
+            <Box fontSize={2} color="grayscale.5">
+              Current balance
+            </Box>
+          </Card>
           <Card icon="graph" title="Monthly Balance" />
         </Box>
 

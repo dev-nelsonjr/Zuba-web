@@ -1,9 +1,8 @@
 import * as React from 'react'
-
 import styled from 'styled-components'
-import { toMoney } from 'vanilla-masker'
-
 import { themeGet } from '@styled-system/theme-get'
+
+import { Box, Currency } from '~/components/atoms'
 
 const Container = styled('div')`
   display: flex;
@@ -22,17 +21,15 @@ const Title = styled('div')`
 const Value = styled('div')`
   text-align: right;
 `
-const Currency = styled('div')`
-  color: ${props =>
-    props.negative ? themeGet('colors.red') : themeGet('colors.green')};
-`
 
 export const Transaction = ({ value, title, resolved }) => (
   <Container>
     <Title>{title}</Title>
     <Value>
-      <Currency negative={value < 0}>{toMoney(value, { unit: '$' })}</Currency>
-      <small>{resolved ? 'Paid' : 'Unpaid'}</small>
+      <Currency value={value} />
+      <Box fontSize={1} color="grayscale.5">
+        {resolved ? 'Paid' : 'Unpaid'}
+      </Box>
     </Value>
   </Container>
 )
