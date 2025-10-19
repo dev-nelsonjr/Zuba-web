@@ -41,7 +41,34 @@ export const Dashboard = () => {
               Current balance
             </Box>
           </Card>
-          <Card icon="graph" title="Monthly Balance" />
+          <Card icon="graph" title="Monthly Balance">
+            <Box display="flex" p={1}>
+              <Box fontSize={2} color="grayscale.5" flex={1}>
+                Income
+              </Box>
+              <Currency value="10.10" />
+            </Box>
+
+            <Box display="flex" p={1}>
+              <Box fontSize={2} color="grayscale.5" flex={1}>
+                Expanses
+              </Box>
+              <Currency value="-10.10" />
+            </Box>
+
+            <Box
+              display="flex"
+              justifyContent="flex-end"
+              px={0}
+              py={3}
+              mt={3}
+              borderTopStyle="solid"
+              borderTopWidth={1}
+              borderTopColor="grayscale.1"
+            >
+              <Currency value="10.10" color="white" />
+            </Box>
+          </Card>
         </Box>
 
         <Card icon="resume" title="transaction" flex={2 / 3}>

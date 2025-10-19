@@ -2,20 +2,20 @@ import styled from 'styled-components'
 
 import {
   background,
-  margin,
-  padding,
+  space,
   flexbox,
   typography,
   color,
   layout,
+  border,
 } from 'styled-system'
 
 export const Box = styled('div')`
   ${layout}
+  ${border}
   ${typography}
   ${color}
   ${background}
-  ${padding}
-  ${margin}
+  ${space}
   ${flexbox}
 `
