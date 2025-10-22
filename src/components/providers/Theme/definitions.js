@@ -42,4 +42,10 @@ export const definitions = {
   space,
   borderWidth: [0, 1, 2, 3, 4, 5],
   borderStyles: ['solid'],
+  radii: {
+    sm: 4,
+    md: 8,
+    lg: 12,
+    full: '100%',
+  },
 }

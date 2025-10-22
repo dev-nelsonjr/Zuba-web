@@ -1,13 +1,22 @@
 import * as React from 'react'
 import { useEffect, useState } from 'react'
 import styled from 'styled-components'
+import { Link } from 'react-router-dom'
 
 import { getTransactions } from '~/components/providers/Auth/transaction.js'
 
 import { useAuth } from '~/components/providers'
 
 import { themeGet } from '@styled-system/theme-get'
-import { Layout, Transaction, Header, Box, Card, Currency } from '~/components'
+import {
+  Layout,
+  Transaction,
+  Header,
+  Box,
+  Card,
+  Currency,
+  Icon,
+} from '~/components'
 
 const Content = styled(Box)`
   padding: ${themeGet('space.2')}px;
@@ -31,7 +40,20 @@ export const Dashboard = () => {
 
   return (
     <Layout>
-      <Header icon="dash" title="Dashboard" />
+      <Header icon="dash" title="Dashboard">
+        <Link to="/transaction">
+          <Box
+            bg="green"
+            borderRadius="full"
+            size={45}
+            display="flex"
+            justifyContent="center"
+            alignItems="center"
+          >
+            <Icon name="plus" color="white" width={30} />
+          </Box>
+        </Link>
+      </Header>
 
       <Content display="flex">
         <Box flex={1 / 2}>

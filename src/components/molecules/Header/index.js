@@ -12,12 +12,14 @@ const Container = styled(Box)`
 `
 
 const Title = styled('h1')`
+  flex: 1;
   font-size: ${themeGet('fontSizes.6')}px;
 `
 
-export const Header = ({ icon, title }) => (
+export const Header = ({ icon, title, children }) => (
   <Container>
     {icon && <Icon name={icon} />}
     <Title>{title}</Title>
+    {children}
   </Container>
 )
