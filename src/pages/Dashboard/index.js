@@ -16,6 +16,7 @@ import {
   Card,
   Currency,
   Icon,
+  Select,
 } from '~/components'
 
 const Content = styled(Box)`
@@ -41,6 +42,21 @@ export const Dashboard = () => {
   return (
     <Layout>
       <Header icon="dash" title="Dashboard">
+        <Select name="month">
+          <option value="01">JAN</option>
+          <option value="02">FEB</option>
+          <option value="03">MAR</option>
+          <option value="04">APR</option>
+          <option value="05">MAY</option>
+          <option value="06">JUN</option>
+          <option value="07">JUL</option>
+          <option value="08">AUG</option>
+          <option value="09">SEP</option>
+          <option value="10">OCT</option>
+          <option value="11">NOV</option>
+          <option value="12">DEC</option>
+        </Select>
+
         <Link to="/transaction">
           <Box
             bg="green"

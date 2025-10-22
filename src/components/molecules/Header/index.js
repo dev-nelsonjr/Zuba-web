@@ -7,7 +7,7 @@ import { Box, Icon } from '~/components/atoms'
 const Container = styled(Box)`
   padding: ${themeGet('space.2')}px;
   display: flex;
-  alignitems: center;
+  align-items: center;
   gap: ${themeGet('space.2')}px;
 `
 
