@@ -1,11 +1,12 @@
 import { request } from '~/services/sdk'
 import { parse, formatISO } from 'date-fns'
 
-export const getTransactions = async () => {
+export const getTransactions = async params => {
   try {
     const response = await request({
       method: 'GET',
       url: '/transactions',
+      params,
     })
 
     return response.data

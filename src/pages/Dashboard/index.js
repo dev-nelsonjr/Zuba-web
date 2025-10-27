@@ -5,8 +5,6 @@ import { Link } from 'react-router-dom'
 
 import { getTransactions } from '~/components/providers/Auth/transaction.js'
 
-import { useAuth } from '~/components/providers'
-
 import { themeGet } from '@styled-system/theme-get'
 import {
   Layout,
@@ -25,36 +23,66 @@ const Content = styled(Box)`
 `
 
 export const Dashboard = () => {
-  const [auth] = useAuth()
   const [data, setData] = useState([])
+  const [month, setMonth] = useState(() => {
+    const now = new Date()
+    return now.getMonth() + 1
+  })
 
   const getData = async () => {
-    const result = await getTransactions({ token: auth?.token })
+    const result = await getTransactions({ month })
     setData(result)
   }
 
+  const onChange = ev => {
+    setMonth(ev.target.value)
+  }
+
   useEffect(() => {
-    if (auth?.token) {
-      getData()
-    }
-  }, [auth?.token])
+    getData()
+  }, [month])
 
   return (
     <Layout>
       <Header icon="dash" title="Dashboard">
-        <Select name="month">
-          <option value="01">JAN</option>
-          <option value="02">FEB</option>
-          <option value="03">MAR</option>
-          <option value="04">APR</option>
-          <option value="05">MAY</option>
-          <option value="06">JUN</option>
-          <option value="07">JUL</option>
-          <option value="08">AUG</option>
-          <option value="09">SEP</option>
-          <option value="10">OCT</option>
-          <option value="11">NOV</option>
-          <option value="12">DEC</option>
+        {month}
+        <Select name="month" onChange={onChange}>
+          <option value={1} selected={month === 1}>
+            JAN
+          </option>
+          <option value={2} selected={month === 2}>
+            FEB
+          </option>
+          <option value={3} selected={month === 3}>
+            MAR
+          </option>
+          <option value={4} selected={month === 4}>
+            APR
+          </option>
+          <option value={5} selected={month === 5}>
+            MAY
+          </option>
+          <option value={6} selected={month === 6}>
+            JUN
+          </option>
+          <option value={7} selected={month === 7}>
+            JUL
+          </option>
+          <option value={8} selected={month === 8}>
+            AUG
+          </option>
+          <option value={9} selected={month === 9}>
+            SEP
+          </option>
+          <option value={10} selected={month === 10}>
+            OCT
+          </option>
+          <option value={11} selected={month === 11}>
+            NOV
+          </option>
+          <option value={12} selected={month === 12}>
+            DEC
+          </option>
         </Select>
 
         <Link to="/transaction">
