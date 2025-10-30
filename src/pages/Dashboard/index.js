@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 
 import { getTransactions } from '~/components/providers/Auth/transaction.js'
+import { getBalance } from '~/services/sdk'
 
 import { themeGet } from '@styled-system/theme-get'
 import {
@@ -23,6 +24,8 @@ const Content = styled(Box)`
 `
 
 export const Dashboard = () => {
+  const [balance, setBalance] = useState(0)
+
   const [data, setData] = useState([])
   const [month, setMonth] = useState(() => {
     const now = new Date()
@@ -34,6 +37,11 @@ export const Dashboard = () => {
     setData(result)
   }
 
+  const getBalanceData = async () => {
+    const result = await getBalance()
+    setBalance(result)
+  }
+
   const onChange = ev => {
     setMonth(ev.target.value)
   }
@@ -41,6 +49,10 @@ export const Dashboard = () => {
   useEffect(() => {
     getData()
   }, [month])
+
+  useEffect(() => {
+    getBalanceData()
+  }, [])
 
   return (
     <Layout>
@@ -102,7 +114,7 @@ export const Dashboard = () => {
       <Content display="flex">
         <Box flex={1 / 2}>
           <Card mb={6}>
-            <Currency value="10.10" fontSize={9} />
+            <Currency value={balance} fontSize={9} />
             <Box fontSize={2} color="grayscale.5">
               Current balance
             </Box>

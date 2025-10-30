@@ -54,3 +54,17 @@ export const signup = async ({ email, password }) => {
 
   return response.data
 }
+
+export const getBalance = async params => {
+  try {
+    const res = await request({
+      method: 'GET',
+      url: '/balance',
+      params,
+    })
+
+    return res.data
+  } catch (error) {
+    return Promise.reject(error)
+  }
+}
