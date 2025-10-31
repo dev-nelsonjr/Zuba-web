@@ -1,6 +1,8 @@
 import * as React from 'react'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
+
 import styled from 'styled-components'
+import { useQuery } from '@tanstack/react-query'
 import { Link } from 'react-router-dom'
 
 import { getTransactions, getBalance } from '~/services/sdk'
@@ -23,35 +25,24 @@ const Content = styled(Box)`
 `
 
 export const Dashboard = () => {
-  const [balance, setBalance] = useState(0)
-
-  const [data, setData] = useState([])
   const [month, setMonth] = useState(() => {
     const now = new Date()
     return now.getMonth() + 1
   })
 
-  const getData = async () => {
-    const result = await getTransactions({ month })
-    setData(result)
-  }
+  const transactions = useQuery({
+    queryKey: ['transactions', month],
+    queryFn: () => getTransactions({ month }),
+  })
 
-  const getBalanceData = async () => {
-    const result = await getBalance()
-    setBalance(result)
-  }
+  const balance = useQuery({
+    queryKey: ['balance'],
+    queryFn: getBalance,
+  })
 
   const onChange = ev => {
     setMonth(ev.target.value)
   }
-
-  useEffect(() => {
-    getData()
-  }, [month])
-
-  useEffect(() => {
-    getBalanceData()
-  }, [])
 
   return (
     <Layout>
@@ -113,7 +104,7 @@ export const Dashboard = () => {
       <Content display="flex">
         <Box flex={1 / 2}>
           <Card mb={6}>
-            <Currency value={balance} fontSize={9} />
+            <Currency value={balance.data || 0} fontSize={9} />
             <Box fontSize={2} color="grayscale.5">
               Current balance
             </Box>
@@ -150,7 +141,7 @@ export const Dashboard = () => {
 
         <Card icon="resume" title="transaction" flex={2 / 3}>
           <div>
-            {data.map(({ id, description, value }) => (
+            {transactions.data?.map(({ id, description, value }) => (
               <Transaction key={id} title={description} value={value} />
             ))}
           </div>
