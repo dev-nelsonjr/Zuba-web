@@ -6,7 +6,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useFormik } from 'formik'
 import * as yup from 'yup'
 
-import { saveTransactions } from '~/components/providers/Auth/transaction'
+import { saveTransactions } from '~/services/sdk'
 
 import { themeGet } from '@styled-system/theme-get'
 import { Box, Field, Button, CurrencyInput, Layout } from '~/components'
