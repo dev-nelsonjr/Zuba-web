@@ -68,3 +68,17 @@ export const getBalance = async params => {
     return Promise.reject(error)
   }
 }
+
+export const getTransactions = async params => {
+  try {
+    const res = await request({
+      method: 'GET',
+      url: '/transactions',
+      params,
+    })
+
+    return res.data
+  } catch (error) {
+    return Promise.reject(error)
+  }
+}

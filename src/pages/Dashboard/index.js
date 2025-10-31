@@ -3,8 +3,7 @@ import { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 
-import { getTransactions } from '~/components/providers/Auth/transaction.js'
-import { getBalance } from '~/services/sdk'
+import { getTransactions, getBalance } from '~/services/sdk'
 
 import { themeGet } from '@styled-system/theme-get'
 import {

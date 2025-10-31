@@ -1,21 +1,6 @@
 import { request } from '~/services/sdk'
 import { parse, formatISO } from 'date-fns'
 
-export const getTransactions = async params => {
-  try {
-    const response = await request({
-      method: 'GET',
-      url: '/transactions',
-      params,
-    })
-
-    return response.data
-  } catch (error) {
-    console.error('Error fetching transactions from backend:', error)
-    return Promise.reject(error)
-  }
-}
-
 export const saveTransactions = async ({ dueDate, ...data }) => {
   try {
     const response = await request({
