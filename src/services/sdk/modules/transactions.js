@@ -1,6 +1,20 @@
 import { request } from '../request'
 import { parse, formatISO } from 'date-fns'
 
+export const getDashboard = async params => {
+  try {
+    const res = await request({
+      method: 'GET',
+      url: '/dashboard',
+      params,
+    })
+
+    return res.data
+  } catch (error) {
+    return Promise.reject(error)
+  }
+}
+
 export const getBalance = async params => {
   try {
     const res = await request({

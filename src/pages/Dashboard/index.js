@@ -1,11 +1,11 @@
 import * as React from 'react'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 import styled from 'styled-components'
 import { useQuery } from '@tanstack/react-query'
 import { Link } from 'react-router-dom'
 
-import { getTransactions, getBalance } from '~/services/sdk'
+import { getDashboard } from '~/services/sdk'
 
 import { themeGet } from '@styled-system/theme-get'
 import {
@@ -30,14 +30,9 @@ export const Dashboard = () => {
     return now.getMonth() + 1
   })
 
-  const transactions = useQuery({
-    queryKey: ['transactions', month],
-    queryFn: () => getTransactions({ month }),
-  })
-
-  const balance = useQuery({
-    queryKey: ['balance'],
-    queryFn: getBalance,
+  const { data } = useQuery({
+    queryKey: ['dashboard', month],
+    queryFn: () => getDashboard({ month }),
   })
 
   const onChange = ev => {
@@ -104,7 +99,7 @@ export const Dashboard = () => {
       <Content display="flex">
         <Box flex={1 / 2}>
           <Card mb={6}>
-            <Currency value={balance.data || 0} fontSize={9} />
+            <Currency value="0.00" fontSize={9} />
             <Box fontSize={2} color="grayscale.5">
               Current balance
             </Box>
@@ -114,14 +109,14 @@ export const Dashboard = () => {
               <Box fontSize={2} color="grayscale.5" flex={1}>
                 Income
               </Box>
-              <Currency value="10.10" />
+              <Currency value={data?.revenue ?? '0.00'} />
             </Box>
 
             <Box display="flex" p={1}>
               <Box fontSize={2} color="grayscale.5" flex={1}>
                 Expanses
               </Box>
-              <Currency value="-10.10" />
+              <Currency value={data?.expense ?? '0.00'} />
             </Box>
 
             <Box
@@ -134,14 +129,14 @@ export const Dashboard = () => {
               borderTopWidth={1}
               borderTopColor="grayscale.1"
             >
-              <Currency value="10.10" color="white" />
+              <Currency value={data?.balance ?? '0.00'} color="white" />
             </Box>
           </Card>
         </Box>
 
         <Card icon="resume" title="transaction" flex={2 / 3}>
           <div>
-            {transactions.data?.map(({ id, description, value }) => (
+            {data?.docs?.map(({ id, description, value }) => (
               <Transaction key={id} title={description} value={value} />
             ))}
           </div>
