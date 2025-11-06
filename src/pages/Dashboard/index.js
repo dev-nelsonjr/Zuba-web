@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 
 import styled from 'styled-components'
 import { useQuery } from '@tanstack/react-query'

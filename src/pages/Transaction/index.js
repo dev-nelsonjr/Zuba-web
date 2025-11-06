@@ -9,7 +9,7 @@ import * as yup from 'yup'
 import { saveTransactions } from '~/services/sdk'
 
 import { themeGet } from '@styled-system/theme-get'
-import { Box, Field, Button, CurrencyInput, Layout } from '~/components'
+import { Box, Field, Button, CurrencyInput, Layout, Select } from '~/components'
 
 const validationSchema = yup.object().shape({
   value: yup.number().required(),
@@ -21,9 +21,9 @@ const ValueInput = styled(CurrencyInput)`
   text-align: center;
   font-size: ${themeGet('fontSizes.10')}px;
   color: ${props =>
-    Number(props.value) > 0
-      ? themeGet('colors.blue')(props)
-      : themeGet('colors.red')(props)};
+    props['data-type'] === 'expense'
+      ? themeGet('colors.red')(props)
+      : themeGet('colors.blue')(props)};
 `
 
 export const Transaction = () => {
@@ -45,7 +45,11 @@ export const Transaction = () => {
     isValid,
     handleSubmit,
   } = useFormik({
-    onSubmit: formValues => mutation.mutateAsync(formValues),
+    onSubmit: ({ type, value, ...data }) =>
+      mutation.mutateAsync({
+        ...data,
+        value: type === 'expense' ? -Math.abs(value) : Math.abs(value),
+      }),
     validationSchema,
     initialValues: {
       dueDate: '',
@@ -56,8 +60,22 @@ export const Transaction = () => {
   return (
     <Layout>
       <Box display="flex" flexDirection="column" px={4} py={7}>
+        <Select
+          name="type"
+          value={values.type}
+          onChange={handleChange}
+          disabled={isSubmitting}
+          mb={4}
+          style={{ width: 150 }}
+        >
+          <option value="revenue">Revenue</option>
+          <option value="expense">Expense</option>
+        </Select>
+
         <ValueInput
+          data-type={values.type}
           type="text"
+          $transactionType={values.type}
           inputMode="decimal"
           placeholder="0.00"
           value={values.value}
@@ -67,8 +85,9 @@ export const Transaction = () => {
           disabled={isSubmitting}
           mb={3}
         />
+
         <Box p={2} textAlign="center" fontSize={3} color="gray">
-          Value of {values.value > 0 ? 'revenue' : 'expense'}
+          Value of {values.type}
         </Box>
       </Box>
       <Box p={4}>
