@@ -1,7 +1,9 @@
 import * as React from 'react'
+import { useState } from 'react'
 import styled from 'styled-components'
 import { mask } from 'remask'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { useNavigate } from 'react-router-dom'
 
 import { useFormik } from 'formik'
 import * as yup from 'yup'
@@ -27,7 +29,10 @@ const ValueInput = styled(CurrencyInput)`
 `
 
 export const Transaction = () => {
+  const navigate = useNavigate()
+  const [isGoBack, setIsGoBack] = useState(false)
   const queryClient = useQueryClient()
+
   const mutation = useMutation({
     mutationFn: saveTransactions,
     onSuccess: async () => {
@@ -45,13 +50,14 @@ export const Transaction = () => {
     isValid,
     handleSubmit,
   } = useFormik({
-    onSubmit: ({ type, value, ...data }) =>
-      mutation.mutateAsync({
-        ...data,
-        value: type === 'expense' ? -Math.abs(value) : Math.abs(value),
-      }),
+    onSubmit: (values, form) => {
+      mutation.mutate(values)
+      form.resetForm()
+      isGoBack && navigate(-1)
+    },
     validationSchema,
     initialValues: {
+      type: 'revenue',
       dueDate: '',
       value: '',
       description: '',
@@ -118,10 +124,21 @@ export const Transaction = () => {
         <Button
           loading={isSubmitting}
           disabled={!isValid}
-          onClick={handleSubmit}
+          onClick={() => {
+            setIsGoBack(true)
+            handleSubmit()
+          }}
           m={1}
         >
           save
+        </Button>
+
+        <Button
+          bg="transparent"
+          color="white"
+          onClick={isSubmitting || handleSubmit}
+        >
+          save add another transaction
         </Button>
       </Box>
     </Layout>
