@@ -99,7 +99,7 @@ export const Dashboard = () => {
       <Content display="flex">
         <Box flex={1 / 2}>
           <Card mb={6}>
-            <Currency value="0.00" fontSize={9} />
+            <Currency value={data?.total} fontSize={9} />
             <Box fontSize={2} color="grayscale.5">
               Current balance
             </Box>
@@ -109,14 +109,14 @@ export const Dashboard = () => {
               <Box fontSize={2} color="grayscale.5" flex={1}>
                 Income
               </Box>
-              <Currency value={data?.revenue ?? '0.00'} />
+              <Currency value={data?.revenue} />
             </Box>
 
             <Box display="flex" p={1}>
               <Box fontSize={2} color="grayscale.5" flex={1}>
                 Expanses
               </Box>
-              <Currency value={data?.expense ?? '0.00'} />
+              <Currency value={data?.expense} />
             </Box>
 
             <Box
@@ -129,7 +129,7 @@ export const Dashboard = () => {
               borderTopWidth={1}
               borderTopColor="grayscale.1"
             >
-              <Currency value={data?.balance ?? '0.00'} color="white" />
+              <Currency value={data?.balance} color="white" />
             </Box>
           </Card>
         </Box>
