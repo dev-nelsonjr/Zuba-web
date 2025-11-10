@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { useState } from 'react'
+import { useSearchParams } from 'react-router-dom'
 
 import styled from 'styled-components'
 import { useQuery } from '@tanstack/react-query'
@@ -19,16 +19,19 @@ import {
   Select,
 } from '~/components'
 
+const getCurrentMonth = () => {
+  const now = new Date()
+  return now.getMonth() + 1
+}
+
 const Content = styled(Box)`
   padding: ${themeGet('space.2')}px;
   gap: ${themeGet('space.8')}px;
 `
 
 export const Dashboard = () => {
-  const [month, setMonth] = useState(() => {
-    const now = new Date()
-    return now.getMonth() + 1
-  })
+  const [searchParams, setSearchParams] = useSearchParams()
+  const month = searchParams.get('month') || getCurrentMonth()
 
   const { data } = useQuery({
     queryKey: ['dashboard', month],
@@ -36,7 +39,7 @@ export const Dashboard = () => {
   })
 
   const onChange = ev => {
-    setMonth(ev.target.value)
+    setSearchParams({ month: ev.target.value })
   }
 
   return (
@@ -44,40 +47,40 @@ export const Dashboard = () => {
       <Header icon="dash" title="Dashboard">
         {month}
         <Select name="month" onChange={onChange}>
-          <option value={1} selected={month === 1}>
+          <option value={1} selected={month === '1'}>
             JAN
           </option>
-          <option value={2} selected={month === 2}>
+          <option value={2} selected={month === '2'}>
             FEB
           </option>
-          <option value={3} selected={month === 3}>
+          <option value={3} selected={month === '3'}>
             MAR
           </option>
-          <option value={4} selected={month === 4}>
+          <option value={4} selected={month === '4'}>
             APR
           </option>
-          <option value={5} selected={month === 5}>
+          <option value={5} selected={month === '5'}>
             MAY
           </option>
-          <option value={6} selected={month === 6}>
+          <option value={6} selected={month === '6'}>
             JUN
           </option>
-          <option value={7} selected={month === 7}>
+          <option value={7} selected={month === '7'}>
             JUL
           </option>
-          <option value={8} selected={month === 8}>
+          <option value={8} selected={month === '8'}>
             AUG
           </option>
-          <option value={9} selected={month === 9}>
+          <option value={9} selected={month === '9'}>
             SEP
           </option>
-          <option value={10} selected={month === 10}>
+          <option value={10} selected={month === '10'}>
             OCT
           </option>
-          <option value={11} selected={month === 11}>
+          <option value={11} selected={month === '11'}>
             NOV
           </option>
-          <option value={12} selected={month === 12}>
+          <option value={12} selected={month === '12'}>
             DEC
           </option>
         </Select>
