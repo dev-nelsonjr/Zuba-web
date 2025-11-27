@@ -27,7 +27,7 @@ const CenteredBox = ({ children, ...props }) => (
   </Box>
 )
 
-export const SignIn = () => {
+export const Login = () => {
   const history = useNavigate()
   const location = useLocation()
   const [, { login: setAuth }] = useAuth()
@@ -38,7 +38,7 @@ export const SignIn = () => {
     try {
       const data = await login(values)
       setAuth(data)
-      history.replace(from)
+      history(from, { replace: true })
     } catch (error) {
       console.error(error)
     }

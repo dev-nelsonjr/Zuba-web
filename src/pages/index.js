@@ -4,13 +4,13 @@ import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 import { useAuth } from '../components/providers/Auth'
 
 import { SignUp } from './SignUp'
-import { SignIn } from './Login'
+import { Login } from './Login'
 import { Dashboard } from './Dashboard'
 import { Transaction } from './Transaction'
 
 const AuthRoutes = () => (
   <Routes>
-    <Route path="/" element={<SignIn />} />
+    <Route path="/" element={<Login />} />
     <Route path="/signup" element={<SignUp />} />
 
     <Route path="*" element={<Navigate to="/" replace />} />
