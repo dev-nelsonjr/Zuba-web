@@ -3,21 +3,19 @@ import { render, screen, waitFor } from '@testing-library/react'
 import '@testing-library/jest-dom'
 
 import userEvent from '@testing-library/user-event'
-import { createMemoryHistory } from 'history'
-import { Router } from 'react-router-dom'
+import { MemoryRouter } from 'react-router-dom'
 
-import { SignIn } from './'
+import { Login } from '.'
 import { Theme } from '../../components'
 
 test('should validate and show error in email field on blur', async () => {
   const emailValue = 'abc'
-  const history = createMemoryHistory()
 
   render(
     <Theme>
-      <Router history={history}>
-        <SignIn />
-      </Router>
+      <MemoryRouter>
+        <Login />
+      </MemoryRouter>
     </Theme>
   )
 
@@ -33,13 +31,11 @@ test('should validate and show error in email field on blur', async () => {
 })
 
 test('should validate and show error in password field on blur', async () => {
-  const history = createMemoryHistory()
-
   render(
     <Theme>
-      <Router history={history}>
-        <SignIn />
-      </Router>
+      <MemoryRouter>
+        <Login />
+      </MemoryRouter>
     </Theme>
   )
 
@@ -56,12 +52,11 @@ test('should validate and show error in password field on blur', async () => {
 })
 
 test('should show required field errors on submit with empty form', async () => {
-  const history = createMemoryHistory()
   render(
     <Theme>
-      <Router history={history}>
-        <SignIn />
-      </Router>
+      <MemoryRouter>
+        <Login />
+      </MemoryRouter>
     </Theme>
   )
 
@@ -82,13 +77,12 @@ test('should show required field errors on submit with empty form', async () => 
 test('should re-enable form button and hide errors when form is valid', async () => {
   const emailValue = 'test@test.com'
   const passwordValue = '123456'
-  const history = createMemoryHistory()
 
   render(
     <Theme>
-      <Router history={history}>
-        <SignIn />
-      </Router>
+      <MemoryRouter>
+        <Login />
+      </MemoryRouter>
     </Theme>
   )
 

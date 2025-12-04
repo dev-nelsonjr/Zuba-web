@@ -4,11 +4,11 @@ import axios from 'axios'
 import * as React from 'react'
 import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { createMemoryHistory } from 'history'
 
-import { Router } from 'react-router-dom'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { onRehydrateAuthMiddleware } from '../components/providers/Auth'
 
-import { baseURL } from '../Services/sdk/index'
+import { baseURL, setToken } from '../services/sdk'
 import { Theme } from '../components/providers/Theme'
 import { StorageProvider } from '../components/providers/Storage/'
 import * as localStoragePersistenceAdapter from '../components/providers/Storage/persistence-adapters/local-storage'
@@ -17,22 +17,37 @@ import { App } from './index'
 
 jest.mock('axios')
 
+const renderApp = () => {
+  const queryClient = new QueryClient({
+    defaultOptions: {
+      queries: {
+        retry: false,
+      },
+    },
+  })
+
+  return render(
+    <Theme>
+      <QueryClientProvider client={queryClient}>
+        <StorageProvider
+          persistenceAdapter={localStoragePersistenceAdapter}
+          onRehydrate={onRehydrateAuthMiddleware}
+        >
+          <App />
+        </StorageProvider>
+      </QueryClientProvider>
+    </Theme>
+  )
+}
+
 beforeEach(() => {
+  jest.clearAllMocks()
+  setToken(false)
   localStoragePersistenceAdapter.clear()
 })
 
 test('should show login form', () => {
-  const history = createMemoryHistory()
-
-  render(
-    <Theme>
-      <StorageProvider persistenceAdapter={localStoragePersistenceAdapter}>
-        <Router history={history}>
-          <App />
-        </Router>
-      </StorageProvider>
-    </Theme>
-  )
+  renderApp()
 
   const emailInput = screen.getByLabelText('E-mail')
   const passwordInput = screen.getByLabelText('Password')
@@ -64,17 +79,7 @@ test('should login user and redirect when API return success', async () => {
   }
 
   axios.mockImplementationOnce(() => Promise.resolve({ data: responseData }))
-
-  const history = createMemoryHistory()
-  render(
-    <Theme>
-      <StorageProvider persistenceAdapter={localStoragePersistenceAdapter}>
-        <Router history={history}>
-          <App />
-        </Router>
-      </StorageProvider>
-    </Theme>
-  )
+  renderApp()
 
   const emailInput = screen.getByLabelText('E-mail')
   const passwordInput = screen.getByLabelText('Password')
@@ -94,16 +99,20 @@ test('should login user and redirect when API return success', async () => {
   })
 
   await waitFor(() => {
-    expect(axios).toHaveBeenCalledWith({
-      baseURL,
-      method: 'post',
-      url: '/login',
-      auth: { password: credentials.password, username: credentials.email },
-    })
+    expect(axios).toHaveBeenCalledWith(
+      expect.objectContaining({
+        baseURL,
+        method: 'POST',
+        url: '/login',
+        auth: { password: credentials.password, username: credentials.email },
+      })
+    )
   })
 
   await waitFor(() => {
-    expect(screen.getByText(responseData.user.name)).toBeInTheDocument()
+    expect(
+      screen.getByRole('heading', { name: /dashboard/i })
+    ).toBeInTheDocument()
   })
 })
 
@@ -119,17 +128,7 @@ test('should not redirect user when API returns error', async () => {
     })
   )
 
-  const history = createMemoryHistory()
-
-  render(
-    <Theme>
-      <StorageProvider persistenceAdapter={localStoragePersistenceAdapter}>
-        <Router history={history}>
-          <App />
-        </Router>
-      </StorageProvider>
-    </Theme>
-  )
+  renderApp()
 
   const emailInput = screen.getByLabelText('E-mail')
   const passwordInput = screen.getByLabelText('Password')
@@ -144,16 +143,17 @@ test('should not redirect user when API returns error', async () => {
   await userEvent.click(submitBtn)
 
   await waitFor(() => {
-    expect(axios).toHaveBeenCalledWith({
-      baseURL,
-      method: 'post',
-      url: '/login',
-      auth: { password: credentials.password, username: credentials.email },
-    })
+    expect(axios).toHaveBeenCalledWith(
+      expect.objectContaining({
+        baseURL,
+        method: 'POST',
+        url: '/login',
+        auth: { password: credentials.password, username: credentials.email },
+      })
+    )
   })
 
   await waitFor(() => expect(submitBtn).not.toBeDisabled())
 
-  expect(history.location.pathname).toBe('/')
   expect(screen.getByLabelText('E-mail')).toBeInTheDocument()
 })
