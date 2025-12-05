@@ -1,5 +1,3 @@
-import { borderStyle } from 'styled-system'
-
 const baseColors = {
   black: '#0f0f0f',
   white: '#fafafa',
