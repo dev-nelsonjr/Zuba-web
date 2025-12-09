@@ -36,7 +36,7 @@ export const Transaction = () => {
   const mutation = useMutation({
     mutationFn: saveTransactions,
     onSuccess: async () => {
-      await queryClient.invalidateQueries({ queryKey: ['Transactions'] })
+      await queryClient.invalidateQueries({ queryKey: ['dashboard'] })
     },
   })
 
