@@ -136,7 +136,8 @@ export const Transaction = () => {
         <Button
           bg="transparent"
           color="white"
-          onClick={isSubmitting || handleSubmit}
+          disabled={isSubmitting}
+          onClick={handleSubmit}
         >
           save add another transaction
         </Button>
