@@ -14,7 +14,7 @@ export const decorators = [
   Story => (
     <Theme>
       <div>
-      <Story />
+        <Story />
       </div>
     </Theme>
   ),
