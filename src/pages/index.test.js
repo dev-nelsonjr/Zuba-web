@@ -1,5 +1,6 @@
 import '@testing-library/jest-dom'
 import axios from 'axios'
+import { vi } from 'vitest'
 
 import * as React from 'react'
 import { render, screen, waitFor } from '@testing-library/react'
@@ -15,7 +16,7 @@ import * as localStoragePersistenceAdapter from '../components/providers/Storage
 
 import { App } from './index'
 
-jest.mock('axios')
+vi.mock('axios')
 
 const renderApp = () => {
   const queryClient = new QueryClient({
@@ -41,7 +42,7 @@ const renderApp = () => {
 }
 
 beforeEach(() => {
-  jest.clearAllMocks()
+  vi.clearAllMocks()
   setToken(false)
   localStoragePersistenceAdapter.clear()
 })
