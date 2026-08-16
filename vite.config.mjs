@@ -48,6 +48,11 @@ export default defineConfig(({ mode }) => {
         },
       },
     },
+    test: {
+      environment: 'jsdom',
+      globals: true,
+      setupFiles: './src/setupVitest.js',
+    },
     define: {
       'process.env.REACT_APP_API_ENV': JSON.stringify(env.REACT_APP_API_ENV),
       'process.env.REACT_APP_CUSTOM_URL': JSON.stringify(
