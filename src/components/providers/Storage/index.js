@@ -28,18 +28,17 @@ const PersistenceProvider = ({ onRehydrate, persistenceAdapter, children }) => {
       ...(data && data),
       rehydrated: true,
     })
-  }, [setState, persistenceAdapter])
+  }, [setState, persistenceAdapter, onRehydrate])
 
   useEffect(() => {
     rehydrate()
   }, [rehydrate])
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     if (state?.rehydrated) {
       persistenceAdapter.setItem(state)
     }
-  }, [JSON.stringify(state), persistenceAdapter, state.rehydrated])
+  }, [state, persistenceAdapter])
 
   return children
 }
