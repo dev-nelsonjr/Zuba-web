@@ -3,10 +3,17 @@ import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 
 import { useAuth } from '../components/providers/Auth'
 
-import { SignUp } from './SignUp'
 import { Login } from './Login'
-import { Dashboard } from './Dashboard'
-import { Transaction } from './Transaction'
+
+const SignUp = React.lazy(() =>
+  import('./SignUp').then(module => ({ default: module.SignUp }))
+)
+const Dashboard = React.lazy(() =>
+  import('./Dashboard').then(module => ({ default: module.Dashboard }))
+)
+const Transaction = React.lazy(() =>
+  import('./Transaction').then(module => ({ default: module.Transaction }))
+)
 
 const AuthRoutes = () => (
   <Routes>
@@ -31,7 +38,9 @@ export const App = () => {
 
   return (
     <BrowserRouter>
-      {auth?.token ? <LoggedInRoutes /> : <AuthRoutes />}
+      <React.Suspense fallback={<div>Loading...</div>}>
+        {auth?.token ? <LoggedInRoutes /> : <AuthRoutes />}
+      </React.Suspense>
     </BrowserRouter>
   )
 }
