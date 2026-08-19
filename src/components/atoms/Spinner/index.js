@@ -1,5 +1,3 @@
-import * as React from 'react'
-
 export const Spinner = () => (
   <svg
     x="0px"

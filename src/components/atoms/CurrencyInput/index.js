@@ -1,4 +1,3 @@
-import * as React from 'react'
 import { Input } from '../Input'
 import { toMoney } from 'vanilla-masker'
 

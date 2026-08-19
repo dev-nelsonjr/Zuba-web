@@ -1,4 +1,3 @@
-import * as React from 'react'
 import * as yup from 'yup'
 import { useFormik } from 'formik'
 import styled from 'styled-components'

@@ -1,4 +1,3 @@
-import * as React from 'react'
 import { toMoney } from 'vanilla-masker'
 import { Box } from '~/components/atoms/Box'
 

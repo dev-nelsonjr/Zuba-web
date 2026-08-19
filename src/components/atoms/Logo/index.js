@@ -1,5 +1,3 @@
-import * as React from 'react'
-
 export const Logo = ({ onlyIcon, ...props }) => {
   const viewBox = onlyIcon ? '0 0 60 55' : '0 0 149 56'
   return (
