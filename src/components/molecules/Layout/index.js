@@ -1,11 +1,15 @@
 import { useState } from 'react'
 import styled from 'styled-components'
 import { themeGet } from '@styled-system/theme-get'
-import { Link } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 
 import { Logo, Icon, Box } from '~/components/atoms'
 import { useAuth } from '~/components/providers'
-import { useNavigate } from 'react-router-dom'
+
+const pageTitles = {
+  '/': 'Dashboard',
+  '/transaction': 'New transaction',
+}
 
 const Container = styled('div')`
   flex: 1;
@@ -22,7 +26,7 @@ const Menu = styled('aside')`
     position: fixed;
     inset: 0 auto 0 0;
     width: 200px;
-    z-index: 20;
+    z-index: 30;
     transform: translateX(${({ $open }) => ($open ? '0' : '-100%')});
     transition: transform 180ms ease;
     box-shadow: 12px 0 28px rgb(0 0 0 / 35%);
@@ -33,10 +37,6 @@ const MenuToggle = styled('button')`
   display: none;
 
   @media (max-width: 760px) {
-    position: fixed;
-    top: ${themeGet('space.2')}px;
-    left: ${themeGet('space.2')}px;
-    z-index: 15;
     width: 40px;
     height: 40px;
     padding: 0;
@@ -57,7 +57,7 @@ const Backdrop = styled('div')`
     display: block;
     position: fixed;
     inset: 0;
-    z-index: 10;
+    z-index: 20;
     background: rgb(0 0 0 / 55%);
     opacity: ${({ $open }) => ($open ? 1 : 0)};
     visibility: ${({ $open }) => ($open ? 'visible' : 'hidden')};
@@ -72,14 +72,30 @@ const Scroll = styled('div')`
   overflow-y: auto;
 `
 
+const MobileHeader = styled('header')`
+  display: none;
+
+  @media (max-width: 760px) {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    padding: ${themeGet('space.2')}px;
+    display: flex;
+    align-items: center;
+    gap: ${themeGet('space.2')}px;
+    background: ${themeGet('colors.raisinBlack')};
+  }
+`
+
+const MobileTitle = styled('h1')`
+  margin: 0;
+  font-size: ${themeGet('fontSizes.6')}px;
+`
+
 const Main = styled('main')`
   padding: ${themeGet('space.2')}px;
   max-width: 1200px;
   margin: 0 auto;
-
-  @media (max-width: 760px) {
-    padding-top: ${themeGet('space.14')}px;
-  }
 `
 
 const NavItem = styled(Link)`
@@ -167,20 +183,11 @@ const LogoutButton = ({ onNavigate }) => {
 
 export const Layout = ({ children }) => {
   const [menuOpen, setMenuOpen] = useState(false)
+  const location = useLocation()
   const closeMenu = () => setMenuOpen(false)
 
   return (
     <Container>
-      <MenuToggle
-        type="button"
-        aria-label={menuOpen ? 'Close menu' : 'Open menu'}
-        aria-expanded={menuOpen}
-        aria-controls="main-menu"
-        onClick={() => setMenuOpen(open => !open)}
-      >
-        <Icon name="menu" width={40} />
-      </MenuToggle>
-
       <Menu id="main-menu" $open={menuOpen}>
         <Brand px={4} py={9}>
           <Logo height={40} onlyIcon />
@@ -210,6 +217,18 @@ export const Layout = ({ children }) => {
       <Backdrop $open={menuOpen} onClick={closeMenu} />
 
       <Scroll>
+        <MobileHeader>
+          <MenuToggle
+            type="button"
+            aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+            aria-expanded={menuOpen}
+            aria-controls="main-menu"
+            onClick={() => setMenuOpen(open => !open)}
+          >
+            <Icon name="menu" width={40} />
+          </MenuToggle>
+          <MobileTitle>{pageTitles[location.pathname]}</MobileTitle>
+        </MobileHeader>
         <Main>{children}</Main>
       </Scroll>
     </Container>

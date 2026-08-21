@@ -10,7 +10,15 @@ import * as yup from 'yup'
 import { saveTransactions } from '~/services/sdk'
 
 import { themeGet } from '@styled-system/theme-get'
-import { Box, Field, Button, CurrencyInput, Layout, Select } from '~/components'
+import {
+  Box,
+  Field,
+  Button,
+  CurrencyInput,
+  Layout,
+  Select,
+  Header,
+} from '~/components'
 
 const validationSchema = yup.object().shape({
   value: yup.number().required(),
@@ -64,6 +72,8 @@ export const Transaction = () => {
   })
   return (
     <Layout>
+      <Header icon="graph" title="New transaction" />
+
       <Box display="flex" flexDirection="column" px={4} py={7}>
         <Select
           name="type"
