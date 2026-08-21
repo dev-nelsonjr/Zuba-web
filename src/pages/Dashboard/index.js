@@ -16,6 +16,7 @@ import {
   Currency,
   Icon,
   Select,
+  Button,
 } from '~/components'
 
 const getCurrentMonth = () => {
@@ -23,19 +24,63 @@ const getCurrentMonth = () => {
   return now.getMonth() + 1
 }
 
+const months = [
+  'JAN',
+  'FEB',
+  'MAR',
+  'APR',
+  'MAY',
+  'JUN',
+  'JUL',
+  'AUG',
+  'SEP',
+  'OCT',
+  'NOV',
+  'DEC',
+]
+
 const Content = styled(Box)`
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.35fr);
   padding: ${themeGet('space.2')}px;
   gap: ${themeGet('space.8')}px;
+
+  @media (max-width: 760px) {
+    grid-template-columns: 1fr;
+    gap: ${themeGet('space.4')}px;
+  }
+`
+
+const AddLink = styled(Link)`
+  display: flex;
+  text-decoration: none;
+`
+
+const DashboardState = styled(Card)`
+  grid-column: 1 / -1;
+  min-height: 220px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: ${themeGet('colors.grayscale.5')};
+`
+
+const EmptyState = styled(Box)`
+  padding: ${themeGet('space.6')}px ${themeGet('space.2')}px;
+  text-align: center;
 `
 
 export const Dashboard = () => {
   const [searchParams, setSearchParams] = useSearchParams()
   const month = searchParams.get('month') || getCurrentMonth()
 
-  const { data } = useQuery({
+  const { data, isPending, isError, refetch } = useQuery({
     queryKey: ['dashboard', month],
     queryFn: () => getDashboard({ month }),
   })
+
+  const transactions = data?.docs || []
 
   const onChange = ev => {
     setSearchParams({ month: ev.target.value })
@@ -44,47 +89,20 @@ export const Dashboard = () => {
   return (
     <Layout>
       <Header icon="dash" title="Dashboard">
-        {month}
-        <Select name="month" onChange={onChange}>
-          <option value={1} selected={month === '1'}>
-            JAN
-          </option>
-          <option value={2} selected={month === '2'}>
-            FEB
-          </option>
-          <option value={3} selected={month === '3'}>
-            MAR
-          </option>
-          <option value={4} selected={month === '4'}>
-            APR
-          </option>
-          <option value={5} selected={month === '5'}>
-            MAY
-          </option>
-          <option value={6} selected={month === '6'}>
-            JUN
-          </option>
-          <option value={7} selected={month === '7'}>
-            JUL
-          </option>
-          <option value={8} selected={month === '8'}>
-            AUG
-          </option>
-          <option value={9} selected={month === '9'}>
-            SEP
-          </option>
-          <option value={10} selected={month === '10'}>
-            OCT
-          </option>
-          <option value={11} selected={month === '11'}>
-            NOV
-          </option>
-          <option value={12} selected={month === '12'}>
-            DEC
-          </option>
+        <Select
+          name="month"
+          aria-label="Dashboard month"
+          value={month}
+          onChange={onChange}
+        >
+          {months.map((label, index) => (
+            <option key={label} value={index + 1}>
+              {label}
+            </option>
+          ))}
         </Select>
 
-        <Link to="/transaction">
+        <AddLink to="/transaction" aria-label="Add transaction">
           <Box
             bg="green"
             borderRadius="full"
@@ -95,54 +113,79 @@ export const Dashboard = () => {
           >
             <Icon name="plus" color="white" width={30} />
           </Box>
-        </Link>
+        </AddLink>
       </Header>
 
-      <Content display="flex">
-        <Box flex={1 / 2}>
-          <Card mb={6}>
-            <Currency value={data?.total} fontSize={9} />
-            <Box fontSize={2} color="grayscale.5">
-              Current balance
+      <Content>
+        {isPending && (
+          <DashboardState aria-live="polite">
+            Loading dashboard...
+          </DashboardState>
+        )}
+
+        {isError && (
+          <DashboardState>
+            <Box>
+              <Box mb={3}>Unable to load your dashboard.</Box>
+              <Button onClick={() => refetch()}>Try again</Button>
             </Box>
-          </Card>
-          <Card icon="graph" title="Monthly Balance">
-            <Box display="flex" p={1}>
-              <Box fontSize={2} color="grayscale.5" flex={1}>
-                Income
-              </Box>
-              <Currency value={data?.revenue} />
+          </DashboardState>
+        )}
+
+        {!isPending && !isError && (
+          <>
+            <Box>
+              <Card mb={6}>
+                <Currency value={data?.total} fontSize={9} />
+                <Box fontSize={2} color="grayscale.5">
+                  Current balance
+                </Box>
+              </Card>
+              <Card icon="graph" title="Monthly Balance">
+                <Box display="flex" p={1}>
+                  <Box fontSize={2} color="grayscale.5" flex={1}>
+                    Income
+                  </Box>
+                  <Currency value={data?.revenue} />
+                </Box>
+
+                <Box display="flex" p={1}>
+                  <Box fontSize={2} color="grayscale.5" flex={1}>
+                    Expenses
+                  </Box>
+                  <Currency value={data?.expense} />
+                </Box>
+
+                <Box
+                  display="flex"
+                  justifyContent="flex-end"
+                  px={0}
+                  py={3}
+                  mt={3}
+                  borderTopStyle="solid"
+                  borderTopWidth={1}
+                  borderTopColor="grayscale.1"
+                >
+                  <Currency value={data?.balance} color="white" />
+                </Box>
+              </Card>
             </Box>
 
-            <Box display="flex" p={1}>
-              <Box fontSize={2} color="grayscale.5" flex={1}>
-                Expanses
-              </Box>
-              <Currency value={data?.expense} />
-            </Box>
-
-            <Box
-              display="flex"
-              justifyContent="flex-end"
-              px={0}
-              py={3}
-              mt={3}
-              borderTopStyle="solid"
-              borderTopWidth={1}
-              borderTopColor="grayscale.1"
-            >
-              <Currency value={data?.balance} color="white" />
-            </Box>
-          </Card>
-        </Box>
-
-        <Card icon="resume" title="transaction" flex={2 / 3}>
-          <div>
-            {data?.docs?.map(({ id, description, value }) => (
-              <Transaction key={id} title={description} value={value} />
-            ))}
-          </div>
-        </Card>
+            <Card icon="resume" title="Transactions">
+              {transactions.length > 0 ? (
+                <div>
+                  {transactions.map(({ id, description, value }) => (
+                    <Transaction key={id} title={description} value={value} />
+                  ))}
+                </div>
+              ) : (
+                <EmptyState color="grayscale.5">
+                  No transactions registered for this month.
+                </EmptyState>
+              )}
+            </Card>
+          </>
+        )}
       </Content>
     </Layout>
   )
