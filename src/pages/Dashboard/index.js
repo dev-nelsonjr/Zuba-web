@@ -19,9 +19,12 @@ import {
   Button,
 } from '~/components'
 
-const getCurrentMonth = () => {
+const getCurrentPeriod = () => {
   const now = new Date()
-  return now.getMonth() + 1
+  return {
+    month: now.getMonth() + 1,
+    year: now.getFullYear(),
+  }
 }
 
 const months = [
@@ -73,17 +76,19 @@ const EmptyState = styled(Box)`
 
 export const Dashboard = () => {
   const [searchParams, setSearchParams] = useSearchParams()
-  const month = searchParams.get('month') || getCurrentMonth()
+  const currentPeriod = getCurrentPeriod()
+  const month = Number(searchParams.get('month')) || currentPeriod.month
+  const year = Number(searchParams.get('year')) || currentPeriod.year
 
   const { data, isPending, isError, refetch } = useQuery({
-    queryKey: ['dashboard', month],
-    queryFn: () => getDashboard({ month }),
+    queryKey: ['dashboard', year, month],
+    queryFn: () => getDashboard({ month, year }),
   })
 
   const transactions = data?.docs || []
 
   const onChange = ev => {
-    setSearchParams({ month: ev.target.value })
+    setSearchParams({ month: ev.target.value, year })
   }
 
   return (
