@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom'
 import { useFormik } from 'formik'
 import * as yup from 'yup'
 
-import { saveTransactions } from '~/services/sdk'
+import { saveTransaction } from '~/services/sdk'
 
 import { themeGet } from '@styled-system/theme-get'
 import {
@@ -41,7 +41,7 @@ export const Transaction = () => {
   const queryClient = useQueryClient()
 
   const mutation = useMutation({
-    mutationFn: saveTransactions,
+    mutationFn: saveTransaction,
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: ['dashboard'] })
     },
