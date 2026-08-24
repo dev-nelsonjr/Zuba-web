@@ -44,6 +44,7 @@ beforeEach(() => {
   vi.clearAllMocks()
   setToken(false)
   localStoragePersistenceAdapter.clear()
+  window.history.pushState({}, '', '/')
 })
 
 test('should show login form', () => {
@@ -156,4 +157,37 @@ test('should not redirect user when API returns error', async () => {
   await waitFor(() => expect(submitBtn).not.toBeDisabled())
 
   expect(screen.getByLabelText('E-mail')).toBeInTheDocument()
+})
+
+test('should send user name when signing up', async () => {
+  const userData = {
+    name: 'New User',
+    email: 'new-user@test.com',
+    password: '123456',
+  }
+
+  axios.mockResolvedValueOnce({
+    data: {
+      user: { id: 1, name: userData.name, email: userData.email },
+      token: '123',
+    },
+  })
+  window.history.pushState({}, '', '/signup')
+  renderApp()
+
+  await userEvent.type(await screen.findByLabelText('Name'), userData.name)
+  await userEvent.type(screen.getByLabelText('E-mail'), userData.email)
+  await userEvent.type(screen.getByLabelText('Password'), userData.password)
+  await userEvent.click(screen.getByRole('button', { name: /create account/i }))
+
+  await waitFor(() => {
+    expect(axios).toHaveBeenCalledWith(
+      expect.objectContaining({
+        baseURL,
+        method: 'POST',
+        url: '/signup',
+        data: userData,
+      })
+    )
+  })
 })
