@@ -1,4 +1,4 @@
 {
-  "./src/**/*.{js,jsx}": ["yarn lint:fix", "yarn format:write"],
+  "./src/**/*.{js,jsx,ts,tsx}": ["yarn lint:fix", "yarn format:write"],
   "./src/**/*.{json,md}": ["yarn format:write"]
 }
