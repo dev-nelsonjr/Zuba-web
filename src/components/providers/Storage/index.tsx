@@ -4,11 +4,50 @@ import {
   useEffect,
   useContext,
   useCallback,
+  type Dispatch,
+  type ReactNode,
+  type SetStateAction,
 } from 'react'
 
-const InMemoryStorageContext = createContext([{}, () => ({})])
+import type { AuthResponse } from '~/services/sdk/modules/auth'
 
-export const InMemoryStorageProvider = ({ initialStorage = {}, children }) => {
+export type StorageState = {
+  rehydrated?: boolean
+  auth?: AuthResponse | false
+}
+
+type StorageContextValue = [
+  StorageState,
+  Dispatch<SetStateAction<StorageState>>,
+]
+
+type InMemoryStorageProviderProps = {
+  initialStorage?: StorageState
+  children: ReactNode
+}
+
+type PersistenceAdapter = {
+  getItem: () => Promise<StorageState | null>
+  setItem: (data: StorageState) => Promise<unknown>
+}
+
+type StorageProviderProps = {
+  onRehydrate: (
+    data: StorageState | null
+  ) => Promise<StorageState | null | undefined>
+  persistenceAdapter: PersistenceAdapter
+  children: ReactNode
+}
+
+const InMemoryStorageContext = createContext<StorageContextValue>([
+  {},
+  () => undefined,
+])
+
+export const InMemoryStorageProvider = ({
+  initialStorage = {},
+  children,
+}: InMemoryStorageProviderProps) => {
   const [state, setState] = useState(initialStorage)
 
   return (
@@ -18,7 +57,11 @@ export const InMemoryStorageProvider = ({ initialStorage = {}, children }) => {
   )
 }
 
-const PersistenceProvider = ({ onRehydrate, persistenceAdapter, children }) => {
+const PersistenceProvider = ({
+  onRehydrate,
+  persistenceAdapter,
+  children,
+}: StorageProviderProps) => {
   const [state, setState] = useContext(InMemoryStorageContext)
 
   const rehydrate = useCallback(async () => {
@@ -47,7 +90,7 @@ export const StorageProvider = ({
   onRehydrate,
   persistenceAdapter,
   children,
-}) => {
+}: StorageProviderProps) => {
   const initialStorage = {
     rehydrated: false,
   }
@@ -65,6 +108,5 @@ export const StorageProvider = ({
 }
 
 export const useStorage = () => {
-  const [state, setState] = useContext(InMemoryStorageContext)
-  return [state, setState]
+  return useContext(InMemoryStorageContext)
 }
