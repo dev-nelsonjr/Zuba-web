@@ -1,19 +1,29 @@
 import styled from 'styled-components'
 import { useNavigate, useLocation } from 'react-router-dom'
+import type { ReactNode } from 'react'
 
-import { typography } from 'styled-system'
-import { Logo, Box } from '~/components/atoms'
+import { login } from '~/services/sdk'
+import type { Credentials } from '~/services/sdk/modules/auth'
+
+import { typography, type TypographyProps } from 'styled-system'
+import { Logo, Box, type BoxProps } from '~/components/atoms'
 import { useAuth } from '~/components/providers'
-import { signup } from '~/services/sdk'
 
 import { Form } from './Form'
 import { ReactComponent as Illus } from './illus.svg'
 
-const Title = styled('h2')`
+type LocationState = {
+  from?: { pathname: string }
+}
+
+type CenteredBoxProps = BoxProps & {
+  children: ReactNode
+}
+
+const Title = styled('h2')<TypographyProps>`
   ${typography}
 `
-
-const CenteredBox = ({ children, ...props }) => (
+const CenteredBox = ({ children, ...props }: CenteredBoxProps) => (
   <Box
     {...props}
     flex={1}
@@ -26,23 +36,19 @@ const CenteredBox = ({ children, ...props }) => (
   </Box>
 )
 
-export const SignUp = () => {
+export const Login = () => {
   const history = useNavigate()
   const location = useLocation()
   const [, { login: setAuth }] = useAuth()
 
-  const { from } = location.state || {
-    from: {
-      pathname: '/',
-    },
-  }
+  const { from = { pathname: '/' } } =
+    (location.state as LocationState | null) || {}
 
-  const onSubmit = async values => {
+  const onSubmit = async (values: Credentials) => {
     try {
-      const data = await signup(values)
-
+      const data = await login(values)
       setAuth(data)
-      history.replace(from)
+      history(from, { replace: true })
     } catch (error) {
       console.error(error)
     }
@@ -61,7 +67,7 @@ export const SignUp = () => {
       </CenteredBox>
 
       <CenteredBox>
-        <Title textAlign="center">Create Your Zuba Account</Title>
+        <Title textAlign="center">Access Your Zuba Account</Title>
         <Form onSubmit={onSubmit} />
       </CenteredBox>
     </Box>

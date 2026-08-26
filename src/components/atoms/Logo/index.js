@@ -1,4 +1,4 @@
-export const Logo = ({ onlyIcon, ...props }) => {
+export const Logo = ({ onlyIcon = false, ...props }) => {
   const viewBox = onlyIcon ? '0 0 60 55' : '0 0 149 56'
   return (
     <svg {...props} viewBox={viewBox} fill="none">

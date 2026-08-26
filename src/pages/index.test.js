@@ -190,4 +190,8 @@ test('should send user name when signing up', async () => {
       })
     )
   })
+
+  await waitFor(() => {
+    expect(window.location.pathname).toBe('/')
+  })
 })
