@@ -1,12 +1,22 @@
 import * as yup from 'yup'
-import { useFormik } from 'formik'
+import { useFormik, type FormikConfig } from 'formik'
 import styled from 'styled-components'
 import { Link as RouterLink } from 'react-router-dom'
 
-import { typography, space } from 'styled-system'
+import {
+  typography,
+  space,
+  type TypographyProps,
+  type SpaceProps,
+} from 'styled-system'
 import { Box, Field, Button } from '~/components/atoms'
+import type { SignupData } from '~/services/sdk/modules/auth'
 
-const Link = styled(RouterLink)`
+type FormProps = {
+  onSubmit: FormikConfig<SignupData>['onSubmit']
+}
+
+const Link = styled(RouterLink)<TypographyProps & SpaceProps>`
   text-decoration: none;
   ${typography}
   ${space}
@@ -21,7 +31,7 @@ const validationSchema = yup.object().shape({
   password: yup.string().required('A password is required.'),
 })
 
-export const Form = ({ onSubmit }) => {
+export const Form = ({ onSubmit }: FormProps) => {
   const {
     values,
     errors,
@@ -30,7 +40,7 @@ export const Form = ({ onSubmit }) => {
     handleBlur,
     handleSubmit,
     isSubmitting,
-  } = useFormik({
+  } = useFormik<SignupData>({
     onSubmit,
     validationSchema,
     initialValues: {

@@ -1,10 +1,17 @@
 import styled from 'styled-components'
+import type { ComponentPropsWithoutRef } from 'react'
 
-import { margin, color } from 'styled-system'
+import { margin, color, type ColorProps, type MarginProps } from 'styled-system'
 import { themeGet } from '@styled-system/theme-get'
 import { Spinner } from '../Spinner'
 
-const StyledButton = styled('button')`
+export type ButtonProps = ComponentPropsWithoutRef<'button'> &
+  ColorProps &
+  MarginProps & {
+    loading?: boolean
+  }
+
+const StyledButton = styled('button')<ButtonProps>`
   background: ${themeGet('colors.white')};
   border: none;
   border-radius: 200px;
@@ -18,7 +25,12 @@ const StyledButton = styled('button')`
   ${margin}
 `
 
-export const Button = ({ disabled, loading, children, ...props }) => (
+export const Button = ({
+  disabled,
+  loading,
+  children,
+  ...props
+}: ButtonProps) => (
   <StyledButton {...props} disabled={disabled || loading}>
     {loading ? <Spinner /> : children}
   </StyledButton>
