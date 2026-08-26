@@ -2355,6 +2355,11 @@
   resolved "https://registry.yarnpkg.com/@types/stylis/-/stylis-4.2.5.tgz#1daa6456f40959d06157698a653a9ab0a70281df"
   integrity sha512-1Xve+NMN7FWjY14vLoY5tL3BVEQ/n42YLwaqJIPYhotZ9uBHt87VceMwWQpzmdEt2TNXIorIFG+YeCUUW7RInw==
 
+"@types/vanilla-masker@1.2.4":
+  version "1.2.4"
+  resolved "https://registry.yarnpkg.com/@types/vanilla-masker/-/vanilla-masker-1.2.4.tgz#cc6504eede682e9cac04200502cd231d65a0e2eb"
+  integrity sha512-xPFAeYZ17SShYAwNeSY2X4GBDbsYIQgLOQv0AmO9F0KO7cdgYIzEiRXdVrxvCGZDGj6LNI4OCM+0riL2PHWX4g==
+
 "@typescript-eslint/eslint-plugin@^8.36.0":
   version "8.36.0"
   resolved "https://registry.yarnpkg.com/@typescript-eslint/eslint-plugin/-/eslint-plugin-8.36.0.tgz#880ce277f8a30ccf539ec027acac157088f131ae"

@@ -1,6 +1,7 @@
 import styled from 'styled-components'
+import type { SVGProps } from 'react'
 
-import { color } from 'styled-system'
+import { color, type ColorProps } from 'styled-system'
 import { ReactComponent as dash } from './svgs/dash.svg'
 import { ReactComponent as graph } from './svgs/graph.svg'
 import { ReactComponent as menu } from './svgs/menu.svg'
@@ -17,11 +18,19 @@ const icons = {
   plus,
 }
 
-const StyledIcon = styled('svg')`
+export type IconName = keyof typeof icons
+
+export type IconProps = SVGProps<SVGSVGElement> &
+  ColorProps & {
+    name: IconName
+    width?: number | string
+  }
+
+const StyledIcon = styled('svg')<ColorProps>`
   ${color}
   fill: none;
 `
 
-export const Icon = ({ name, width = 30, ...props }) => {
+export const Icon = ({ name, width = 30, ...props }: IconProps) => {
   return <StyledIcon as={icons[name]} {...props} width={width} />
 }

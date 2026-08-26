@@ -1,8 +1,9 @@
 import styled from 'styled-components'
+import type { ReactNode } from 'react'
 import { themeGet } from '@styled-system/theme-get'
 
-import { Box } from '~/components/atoms/Box'
-import { Icon } from '~/components/atoms/Icon'
+import { Box, type BoxProps } from '~/components/atoms/Box'
+import { Icon, type IconName } from '~/components/atoms/Icon'
 
 const Header = styled('div')`
   display: flex;
@@ -17,7 +18,20 @@ const Container = styled(Box)`
   padding: ${themeGet('space.2')}px;
 `
 
-export const Card = ({ icon, title, bg = 'black', children, ...props }) => (
+export type CardProps = Omit<BoxProps, 'title'> & {
+  icon?: IconName
+  title?: ReactNode
+  bg?: BoxProps['bg']
+  children?: ReactNode
+}
+
+export const Card = ({
+  icon,
+  title,
+  bg = 'black',
+  children,
+  ...props
+}: CardProps) => (
   <Container {...props} bg={bg}>
     {title && (
       <Header>

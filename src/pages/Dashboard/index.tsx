@@ -1,4 +1,5 @@
 import { useSearchParams } from 'react-router-dom'
+import type { ChangeEvent } from 'react'
 
 import styled from 'styled-components'
 import { useQuery } from '@tanstack/react-query'
@@ -87,8 +88,8 @@ export const Dashboard = () => {
 
   const transactions = data?.docs || []
 
-  const onChange = ev => {
-    setSearchParams({ month: ev.target.value, year })
+  const onChange = (ev: ChangeEvent<HTMLSelectElement>) => {
+    setSearchParams({ month: ev.target.value, year: String(year) })
   }
 
   return (

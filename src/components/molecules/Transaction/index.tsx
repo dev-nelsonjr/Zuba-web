@@ -1,7 +1,8 @@
 import styled from 'styled-components'
+import type { ReactNode } from 'react'
 import { themeGet } from '@styled-system/theme-get'
 
-import { Box, Currency } from '~/components/atoms'
+import { Box, Currency, type CurrencyValue } from '~/components/atoms'
 
 const Container = styled('div')`
   display: flex;
@@ -21,7 +22,13 @@ const Value = styled('div')`
   text-align: right;
 `
 
-export const Transaction = ({ value, title, resolved }) => (
+type TransactionProps = {
+  value: CurrencyValue
+  title: ReactNode
+  resolved?: boolean
+}
+
+export const Transaction = ({ value, title, resolved }: TransactionProps) => (
   <Container>
     <Title>{title}</Title>
     <Value>
