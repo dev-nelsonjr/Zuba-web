@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useRef } from 'react'
 import styled from 'styled-components'
 import { mask } from 'remask'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
@@ -47,7 +47,7 @@ const ValueInput = styled(CurrencyInput)<{
 
 export const Transaction = () => {
   const navigate = useNavigate()
-  const [isGoBack, setIsGoBack] = useState(false)
+  const shouldGoBack = useRef(false)
   const queryClient = useQueryClient()
 
   const mutation = useMutation({
@@ -67,10 +67,17 @@ export const Transaction = () => {
     isValid,
     handleSubmit,
   } = useFormik<TransactionFormValues>({
-    onSubmit: (values, form) => {
-      mutation.mutate(values)
-      form.resetForm()
-      isGoBack && navigate(-1)
+    onSubmit: async (values, form) => {
+      try {
+        await mutation.mutateAsync(values)
+        form.resetForm()
+
+        if (shouldGoBack.current) {
+          navigate(-1)
+        }
+      } finally {
+        shouldGoBack.current = false
+      }
     },
     validationSchema,
     initialValues: {
@@ -141,7 +148,7 @@ export const Transaction = () => {
           loading={isSubmitting}
           disabled={!isValid}
           onClick={() => {
-            setIsGoBack(true)
+            shouldGoBack.current = true
             handleSubmit()
           }}
           m={1}
@@ -153,7 +160,10 @@ export const Transaction = () => {
           bg="transparent"
           color="white"
           disabled={isSubmitting}
-          onClick={() => handleSubmit()}
+          onClick={() => {
+            shouldGoBack.current = false
+            handleSubmit()
+          }}
         >
           save add another transaction
         </Button>
