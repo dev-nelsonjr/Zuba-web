@@ -1,12 +1,13 @@
 import { useState } from 'react'
+import type { MouseEventHandler, ReactNode } from 'react'
 import styled from 'styled-components'
 import { themeGet } from '@styled-system/theme-get'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 
-import { Logo, Icon, Box } from '~/components/atoms'
+import { Logo, Icon, Box, type IconName } from '~/components/atoms'
 import { useAuth } from '~/components/providers'
 
-const pageTitles = {
+const pageTitles: Record<string, string> = {
   '/': 'Dashboard',
   '/transaction': 'New transaction',
 }
@@ -17,7 +18,7 @@ const Container = styled('div')`
   overflow: hidden;
 `
 
-const Menu = styled('aside')`
+const Menu = styled('aside')<{ $open: boolean }>`
   background: ${themeGet('colors.black')};
   display: flex;
   flex-direction: column;
@@ -50,7 +51,7 @@ const MenuToggle = styled('button')`
   }
 `
 
-const Backdrop = styled('div')`
+const Backdrop = styled('div')<{ $open: boolean }>`
   display: none;
 
   @media (max-width: 760px) {
@@ -155,14 +156,29 @@ const Navigation = styled(Box)`
   }
 `
 
-const Item = ({ icon, label, to, onClick }) => (
+type ItemProps = {
+  icon: IconName
+  label: string
+  to: string
+  onClick?: MouseEventHandler<HTMLAnchorElement>
+}
+
+type LogoutButtonProps = {
+  onNavigate: () => void
+}
+
+type LayoutProps = {
+  children: ReactNode
+}
+
+const Item = ({ icon, label, to, onClick }: ItemProps) => (
   <NavItem to={to} onClick={onClick} aria-label={label}>
     <Icon name={icon} color="white" />
     <ItemLabel>{label}</ItemLabel>
   </NavItem>
 )
 
-const LogoutButton = ({ onNavigate }) => {
+const LogoutButton = ({ onNavigate }: LogoutButtonProps) => {
   const navigate = useNavigate()
 
   const [, { logout }] = useAuth()
@@ -181,7 +197,7 @@ const LogoutButton = ({ onNavigate }) => {
   )
 }
 
-export const Layout = ({ children }) => {
+export const Layout = ({ children }: LayoutProps) => {
   const [menuOpen, setMenuOpen] = useState(false)
   const location = useLocation()
   const closeMenu = () => setMenuOpen(false)

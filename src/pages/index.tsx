@@ -35,11 +35,12 @@ const LoggedInRoutes = () => (
 
 export const App = () => {
   const [auth] = useAuth()
+  const isAuthenticated = 'token' in auth && Boolean(auth.token)
 
   return (
     <BrowserRouter>
       <React.Suspense fallback={<div>Loading...</div>}>
-        {auth?.token ? <LoggedInRoutes /> : <AuthRoutes />}
+        {isAuthenticated ? <LoggedInRoutes /> : <AuthRoutes />}
       </React.Suspense>
     </BrowserRouter>
   )
