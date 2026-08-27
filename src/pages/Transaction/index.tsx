@@ -8,6 +8,7 @@ import { useFormik } from 'formik'
 import * as yup from 'yup'
 
 import { saveTransaction } from '~/services/sdk'
+import type { TransactionType } from '~/services/sdk/modules/transactions'
 
 import { themeGet } from '@styled-system/theme-get'
 import {
@@ -25,12 +26,21 @@ const validationSchema = yup.object().shape({
   description: yup.string().required('put your description'),
 })
 
-const ValueInput = styled(CurrencyInput)`
+type TransactionFormValues = {
+  type: TransactionType
+  dueDate: string
+  value: string
+  description: string
+}
+
+const ValueInput = styled(CurrencyInput)<{
+  $transactionType: TransactionType
+}>`
   border: 0;
   text-align: center;
   font-size: ${themeGet('fontSizes.10')}px;
   color: ${props =>
-    props['data-type'] === 'expense'
+    props.$transactionType === 'expense'
       ? themeGet('colors.red')(props)
       : themeGet('colors.blue')(props)};
 `
@@ -56,7 +66,7 @@ export const Transaction = () => {
     isSubmitting,
     isValid,
     handleSubmit,
-  } = useFormik({
+  } = useFormik<TransactionFormValues>({
     onSubmit: (values, form) => {
       mutation.mutate(values)
       form.resetForm()
@@ -80,7 +90,6 @@ export const Transaction = () => {
           value={values.type}
           onChange={handleChange}
           disabled={isSubmitting}
-          mb={4}
           style={{ width: 150 }}
         >
           <option value="revenue">Revenue</option>
@@ -88,7 +97,6 @@ export const Transaction = () => {
         </Select>
 
         <ValueInput
-          data-type={values.type}
           type="text"
           $transactionType={values.type}
           inputMode="decimal"
@@ -98,7 +106,6 @@ export const Transaction = () => {
           onChange={handleChange('value')}
           onBlur={handleBlur('value')}
           disabled={isSubmitting}
-          mb={3}
         />
 
         <Box p={2} textAlign="center" fontSize={3} color="gray">
@@ -146,7 +153,7 @@ export const Transaction = () => {
           bg="transparent"
           color="white"
           disabled={isSubmitting}
-          onClick={handleSubmit}
+          onClick={() => handleSubmit()}
         >
           save add another transaction
         </Button>

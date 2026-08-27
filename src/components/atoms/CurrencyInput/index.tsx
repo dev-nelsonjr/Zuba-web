@@ -1,8 +1,20 @@
-import { Input } from '../Input'
+import type { ChangeEvent, ReactNode } from 'react'
+import { Input, type InputProps } from '../Input'
 import { toMoney } from 'vanilla-masker'
 
-export const CurrencyInput = ({ value, onChange, ...props }) => {
-  const handleChange = ev => {
+export type CurrencyInputProps = Omit<InputProps, 'value' | 'onChange'> & {
+  value: string | number
+  onChange: (value: string) => void
+  error?: ReactNode
+}
+
+export const CurrencyInput = ({
+  value,
+  onChange,
+  error: _error,
+  ...props
+}: CurrencyInputProps) => {
+  const handleChange = (ev: ChangeEvent<HTMLInputElement>) => {
     const value = ev.target.value.replace('R$', '').replace(',', '.').trim()
     const currency = toMoney(value, { unit: 'R$', precision: 2 })
     const newValue = currency.replace('R$', '').replace(',', '.').trim()

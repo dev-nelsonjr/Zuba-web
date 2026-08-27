@@ -1,9 +1,10 @@
 import styled from 'styled-components'
 import themeGet from '@styled-system/theme-get'
+import type { ReactNode } from 'react'
 
-import { Box, Icon } from '~/components/atoms'
+import { Box, Icon, type IconName } from '~/components/atoms'
 
-const Container = styled(Box)`
+const Container = styled(Box)<{ $hasActions: boolean }>`
   padding: ${themeGet('space.2')}px;
   display: flex;
   align-items: center;
@@ -32,7 +33,13 @@ const Title = styled('h1')`
   }
 `
 
-export const Header = ({ icon, title, children }) => (
+type HeaderProps = {
+  icon?: IconName
+  title: ReactNode
+  children?: ReactNode
+}
+
+export const Header = ({ icon, title, children }: HeaderProps) => (
   <Container $hasActions={Boolean(children)}>
     {icon && <PageIcon name={icon} />}
     <Title>{title}</Title>
