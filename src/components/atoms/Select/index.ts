@@ -1,7 +1,12 @@
 import styled, { css } from 'styled-components'
+import type { ComponentPropsWithoutRef } from 'react'
 import { themeGet } from '@styled-system/theme-get'
 
-export const Select = styled('select')`
+type SelectProps = ComponentPropsWithoutRef<'select'> & {
+  $hasError?: boolean
+}
+
+export const Select = styled('select')<SelectProps>`
   background: transparent;
   border: 1px solid #fff;
   border-radius: 200px;

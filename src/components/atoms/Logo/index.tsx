@@ -1,4 +1,14 @@
-export const Logo = ({ onlyIcon = false, ...props }) => {
+import type { SVGProps } from 'react'
+import type { FlexboxProps, LayoutProps, SpaceProps } from 'styled-system'
+
+type LogoProps = SVGProps<SVGSVGElement> &
+  FlexboxProps &
+  LayoutProps &
+  SpaceProps & {
+    onlyIcon?: boolean
+  }
+
+export const Logo = ({ onlyIcon = false, ...props }: LogoProps) => {
   const viewBox = onlyIcon ? '0 0 60 55' : '0 0 149 56'
   return (
     <svg {...props} viewBox={viewBox} fill="none">
@@ -63,4 +73,6 @@ export const Logo = ({ onlyIcon = false, ...props }) => {
   )
 }
 
-export const LogoMin = props => <Logo onlyIcon {...props} />
+export const LogoMin = (props: Omit<LogoProps, 'onlyIcon'>) => (
+  <Logo onlyIcon {...props} />
+)

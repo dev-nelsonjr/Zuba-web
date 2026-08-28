@@ -1,8 +1,13 @@
 import { createGlobalStyle } from 'styled-components'
 
-import { color, typography } from 'styled-system'
+import {
+  color,
+  typography,
+  type ColorProps,
+  type TypographyProps,
+} from 'styled-system'
 
-export const GlobalStyle = createGlobalStyle`
+export const GlobalStyle = createGlobalStyle<ColorProps & TypographyProps>`
 * {
     font-family: Manrope, -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
   }
