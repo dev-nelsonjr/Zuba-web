@@ -8,7 +8,6 @@ import { onRehydrateAuthMiddleware } from '~/components/providers/Auth'
 
 import * as localStorage from '~/components/providers/Storage/persistence-adapters/local-storage'
 
-import reportWebVitals from './reportWebVitals'
 import { App } from './pages'
 import './index.css'
 
@@ -36,5 +35,3 @@ root.render(
     </Theme>
   </StrictMode>
 )
-
-reportWebVitals()
