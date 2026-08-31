@@ -10,7 +10,7 @@ import { Logo, Box, type BoxProps } from '~/components/atoms'
 import { useAuth } from '~/components/providers'
 
 import { Form } from './Form'
-import { ReactComponent as Illus } from './illus.svg'
+import { ReactComponent as Illus } from '~/assets/auth.svg'
 
 type LocationState = {
   from?: { pathname: string }

@@ -8,16 +8,19 @@ import { beforeEach, expect, test, vi } from 'vitest'
 import { Theme } from '~/components'
 import { Transaction } from '.'
 
-const renderTransaction = () => {
-  const queryClient = new QueryClient({
+const createQueryClient = () =>
+  new QueryClient({
     defaultOptions: {
       mutations: {
         retry: false,
+        gcTime: Infinity,
       },
     },
   })
 
-  return render(
+const renderTransaction = (queryClient = createQueryClient()) => ({
+  queryClient,
+  ...render(
     <Theme>
       <QueryClientProvider client={queryClient}>
         <MemoryRouter initialEntries={['/', '/transaction']} initialIndex={1}>
@@ -28,12 +31,12 @@ const renderTransaction = () => {
         </MemoryRouter>
       </QueryClientProvider>
     </Theme>
-  )
-}
+  ),
+})
 
 const fillTransaction = () => {
   fireEvent.change(screen.getByPlaceholderText('0.00'), {
-    target: { value: '100' },
+    target: { value: '100.00' },
   })
   fireEvent.change(screen.getByPlaceholderText('Describe the transaction'), {
     target: { value: 'Test transaction' },
@@ -65,6 +68,43 @@ test('should navigate back after saving transaction', async () => {
       url: '/transactions',
     })
   )
+})
+
+test('should wait for transaction creation before returning', async () => {
+  let resolveRequest!: (value: { data: { id: string } }) => void
+  const request = new Promise<{ data: { id: string } }>(resolve => {
+    resolveRequest = resolve
+  })
+  const queryClient = createQueryClient()
+  const invalidateQueries = vi.spyOn(queryClient, 'invalidateQueries')
+
+  vi.mocked(axios).mockReturnValueOnce(request)
+  renderTransaction(queryClient)
+  fillTransaction()
+
+  fireEvent.click(screen.getByRole('button', { name: /^save$/i }))
+
+  await waitFor(() =>
+    expect(axios).toHaveBeenCalledWith(
+      expect.objectContaining({
+        method: 'POST',
+        url: '/transactions',
+        data: {
+          description: 'Test transaction',
+          type: 'revenue',
+          value: '100.00',
+        },
+      })
+    )
+  )
+  expect(screen.queryByText('Dashboard page')).not.toBeInTheDocument()
+
+  resolveRequest({ data: { id: 'transaction-id' } })
+
+  expect(await screen.findByText('Dashboard page')).toBeInTheDocument()
+  expect(invalidateQueries).toHaveBeenCalledWith({
+    queryKey: ['dashboard'],
+  })
 })
 
 test('should remain on form when adding another transaction', async () => {
