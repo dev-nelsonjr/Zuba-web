@@ -2,10 +2,10 @@ import { useSearchParams } from 'react-router-dom'
 import type { ChangeEvent } from 'react'
 
 import styled from 'styled-components'
-import { useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { Link } from 'react-router-dom'
 
-import { getDashboard } from '~/services/sdk'
+import { getDashboard, updateTransaction } from '~/services/sdk'
 
 import { themeGet } from '@styled-system/theme-get'
 import {
@@ -76,6 +76,7 @@ const EmptyState = styled(Box)`
 `
 
 export const Dashboard = () => {
+  const queryClient = useQueryClient()
   const [searchParams, setSearchParams] = useSearchParams()
   const currentPeriod = getCurrentPeriod()
   const month = Number(searchParams.get('month')) || currentPeriod.month
@@ -87,6 +88,11 @@ export const Dashboard = () => {
   })
 
   const transactions = data?.docs || []
+
+  const statusMutation = useMutation({
+    mutationFn: updateTransaction,
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['dashboard'] }),
+  })
 
   const onChange = (ev: ChangeEvent<HTMLSelectElement>) => {
     setSearchParams({ month: ev.target.value, year: String(year) })
@@ -178,11 +184,29 @@ export const Dashboard = () => {
             </Box>
 
             <Card icon="resume" title="Transactions">
+              {statusMutation.isError && (
+                <Box color="red" p={2} aria-live="polite">
+                  Unable to update the transaction.
+                </Box>
+              )}
+
               {transactions.length > 0 ? (
                 <div>
-                  {transactions.map(({ id, description, value }) => (
-                    <Transaction key={id} title={description} value={value} />
-                  ))}
+                  {transactions.map(
+                    ({ id, description, value, type, resolved }) => (
+                      <Transaction
+                        key={id}
+                        title={description}
+                        value={value}
+                        type={type}
+                        resolved={resolved}
+                        disabled={statusMutation.isPending}
+                        onToggle={() =>
+                          statusMutation.mutate({ id, resolved: !resolved })
+                        }
+                      />
+                    )
+                  )}
                 </div>
               ) : (
                 <EmptyState color="grayscale.5">
