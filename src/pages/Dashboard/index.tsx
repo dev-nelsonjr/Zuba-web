@@ -5,7 +5,11 @@ import styled from 'styled-components'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { Link } from 'react-router-dom'
 
-import { getDashboard, updateTransaction } from '~/services/sdk'
+import {
+  deleteTransaction,
+  getDashboard,
+  updateTransaction,
+} from '~/services/sdk'
 
 import { themeGet } from '@styled-system/theme-get'
 import {
@@ -89,9 +93,17 @@ export const Dashboard = () => {
 
   const transactions = data?.docs || []
 
+  const refreshDashboard = () =>
+    queryClient.invalidateQueries({ queryKey: ['dashboard'] })
+
   const statusMutation = useMutation({
     mutationFn: updateTransaction,
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['dashboard'] }),
+    onSuccess: refreshDashboard,
+  })
+
+  const deleteMutation = useMutation({
+    mutationFn: deleteTransaction,
+    onSuccess: refreshDashboard,
   })
 
   const onChange = (ev: ChangeEvent<HTMLSelectElement>) => {
@@ -184,9 +196,9 @@ export const Dashboard = () => {
             </Box>
 
             <Card icon="resume" title="Transactions">
-              {statusMutation.isError && (
+              {(statusMutation.isError || deleteMutation.isError) && (
                 <Box color="red" p={2} aria-live="polite">
-                  Unable to update the transaction.
+                  Unable to save the transaction change.
                 </Box>
               )}
 
@@ -200,10 +212,13 @@ export const Dashboard = () => {
                         value={value}
                         type={type}
                         resolved={resolved}
-                        disabled={statusMutation.isPending}
+                        disabled={
+                          statusMutation.isPending || deleteMutation.isPending
+                        }
                         onToggle={() =>
                           statusMutation.mutate({ id, resolved: !resolved })
                         }
+                        onDelete={() => deleteMutation.mutate(id)}
                       />
                     )
                   )}
