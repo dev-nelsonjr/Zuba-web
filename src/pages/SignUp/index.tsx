@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 import { useNavigate, useLocation } from 'react-router-dom'
-import type { ReactNode } from 'react'
+import { useState, type ReactNode } from 'react'
 
 import { typography, type TypographyProps } from 'styled-system'
 import { Logo, Box, type BoxProps } from '~/components/atoms'
@@ -40,18 +40,21 @@ export const SignUp = () => {
   const history = useNavigate()
   const location = useLocation()
   const [, { login: setAuth }] = useAuth()
+  const [error, setError] = useState(false)
 
   const { from = { pathname: '/' } } =
     (location.state as LocationState | null) || {}
 
   const onSubmit = async (values: SignupData) => {
+    setError(false)
+
     try {
       const data = await signup(values)
 
       setAuth(data)
       history(from, { replace: true })
-    } catch (error) {
-      console.error(error)
+    } catch {
+      setError(true)
     }
   }
 
@@ -69,6 +72,11 @@ export const SignUp = () => {
 
       <CenteredBox>
         <Title textAlign="center">Create Your Zuba Account</Title>
+        {error && (
+          <Box color="red" textAlign="center" my={2} role="alert">
+            Unable to create account. Try again.
+          </Box>
+        )}
         <Form onSubmit={onSubmit} />
       </CenteredBox>
     </Box>
