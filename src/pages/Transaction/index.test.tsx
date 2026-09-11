@@ -126,3 +126,21 @@ test('should remain on form when adding another transaction', async () => {
   })
   expect(screen.queryByText('Dashboard page')).not.toBeInTheDocument()
 })
+
+test('should keep form values and show error when transaction fails', async () => {
+  vi.mocked(axios).mockRejectedValueOnce(new Error('Request failed'))
+  renderTransaction()
+  fillTransaction()
+
+  fireEvent.click(screen.getByRole('button', { name: /^save$/i }))
+
+  expect(
+    await screen.findByText(
+      'Unable to save the transaction. Check the fields and try again.'
+    )
+  ).toBeInTheDocument()
+  expect(screen.getByPlaceholderText('Describe the transaction')).toHaveValue(
+    'Test transaction'
+  )
+  expect(screen.queryByText('Dashboard page')).not.toBeInTheDocument()
+})

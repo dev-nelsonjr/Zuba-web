@@ -75,6 +75,8 @@ export const Transaction = () => {
         if (shouldGoBack.current) {
           navigate(-1)
         }
+      } catch {
+        return
       } finally {
         shouldGoBack.current = false
       }
@@ -167,6 +169,12 @@ export const Transaction = () => {
         >
           save add another transaction
         </Button>
+
+        {mutation.isError && (
+          <Box color="red" textAlign="center" mt={3} role="alert">
+            Unable to save the transaction. Check the fields and try again.
+          </Box>
+        )}
       </Box>
     </Layout>
   )
