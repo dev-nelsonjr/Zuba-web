@@ -144,3 +144,16 @@ test('should keep form values and show error when transaction fails', async () =
   )
   expect(screen.queryByText('Dashboard page')).not.toBeInTheDocument()
 })
+
+test('should reject an invalid due date', async () => {
+  renderTransaction()
+  fillTransaction()
+
+  const dueDate = screen.getByPlaceholderText('mm/dd/yyyy')
+  fireEvent.change(dueDate, { target: { value: '02/30/2026' } })
+  fireEvent.blur(dueDate)
+
+  expect(await screen.findByText('Enter a valid date')).toBeInTheDocument()
+  expect(screen.getByRole('button', { name: /^save$/i })).toBeDisabled()
+  expect(axios).not.toHaveBeenCalled()
+})

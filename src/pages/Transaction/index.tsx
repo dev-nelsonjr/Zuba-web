@@ -1,6 +1,7 @@
 import { useRef } from 'react'
 import styled from 'styled-components'
 import { mask } from 'remask'
+import { isValid as isValidDate, parse } from 'date-fns'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useNavigate } from 'react-router-dom'
 
@@ -24,6 +25,14 @@ import {
 const validationSchema = yup.object().shape({
   value: yup.number().required(),
   description: yup.string().required('put your description'),
+  dueDate: yup.string().test({
+    name: 'valid-date',
+    message: 'Enter a valid date',
+    test: value =>
+      !value ||
+      (value.length === 10 &&
+        isValidDate(parse(value, 'MM/dd/yyyy', new Date()))),
+  }),
 })
 
 type TransactionFormValues = {
