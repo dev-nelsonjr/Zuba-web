@@ -111,9 +111,7 @@ test('should remain on form when adding another transaction', async () => {
   renderTransaction()
   fillTransaction()
 
-  fireEvent.click(
-    screen.getByRole('button', { name: /save add another transaction/i })
-  )
+  fireEvent.click(screen.getByRole('button', { name: /save and add another/i }))
 
   await waitFor(() => {
     expect(axios).toHaveBeenCalled()
@@ -149,11 +147,11 @@ test('should reject an invalid due date', async () => {
   renderTransaction()
   fillTransaction()
 
-  const dueDate = screen.getByPlaceholderText('mm/dd/yyyy')
+  const dueDate = screen.getByPlaceholderText('MM/DD/YYYY')
   fireEvent.change(dueDate, { target: { value: '02/30/2026' } })
   fireEvent.blur(dueDate)
 
-  expect(await screen.findByText('Enter a valid date')).toBeInTheDocument()
+  expect(await screen.findByText('Enter a valid due date')).toBeInTheDocument()
   expect(screen.getByRole('button', { name: /^save$/i })).toBeDisabled()
   expect(axios).not.toHaveBeenCalled()
 })

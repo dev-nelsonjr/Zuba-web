@@ -198,7 +198,7 @@ export const Dashboard = () => {
             <Card icon="resume" title="Transactions">
               {(statusMutation.isError || deleteMutation.isError) && (
                 <Box color="red" p={2} aria-live="polite">
-                  Unable to save the transaction change.
+                  Unable to update the transaction.
                 </Box>
               )}
 
@@ -225,7 +225,7 @@ export const Dashboard = () => {
                 </div>
               ) : (
                 <EmptyState color="grayscale.5">
-                  No transactions registered for this month.
+                  No transactions for this month.
                 </EmptyState>
               )}
             </Card>

@@ -67,7 +67,7 @@ export const Form = ({ onSubmit }: FormProps) => {
       <Field
         type="text"
         name="email"
-        label="E-mail"
+        label="Email"
         placeholder="Enter your email"
         value={values.email}
         error={touched.email && errors.email}
@@ -116,7 +116,7 @@ export const Form = ({ onSubmit }: FormProps) => {
           {' '}
           Don&apos;t have an account?{' '}
           <Link to="/signup" color="gray" fontWeight="bold">
-            Sign Up!
+            Sign up
           </Link>
         </Box>
       </Box>

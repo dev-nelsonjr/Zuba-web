@@ -23,11 +23,14 @@ import {
 } from '~/components'
 
 const validationSchema = yup.object().shape({
-  value: yup.number().required(),
-  description: yup.string().required('put your description'),
+  value: yup
+    .number()
+    .typeError('Enter a valid transaction value')
+    .required('Transaction value is required'),
+  description: yup.string().required('Description is required'),
   dueDate: yup.string().test({
     name: 'valid-date',
-    message: 'Enter a valid date',
+    message: 'Enter a valid due date',
     test: value =>
       !value ||
       (value.length === 10 &&
@@ -127,7 +130,7 @@ export const Transaction = () => {
         />
 
         <Box p={2} textAlign="center" fontSize={3} color="gray">
-          Value of {values.type}
+          {values.type === 'revenue' ? 'Income amount' : 'Expense amount'}
         </Box>
       </Box>
       <Box p={4}>
@@ -145,8 +148,8 @@ export const Transaction = () => {
 
         <Field
           type="text"
-          label="Expiry date"
-          placeholder="mm/dd/yyyy"
+          label="Due date"
+          placeholder="MM/DD/YYYY"
           value={mask(values.dueDate, '99/99/9999')}
           error={touched.dueDate && errors.dueDate}
           onChange={handleChange('dueDate')}
@@ -164,7 +167,7 @@ export const Transaction = () => {
           }}
           m={1}
         >
-          save
+          Save
         </Button>
 
         <Button
@@ -176,7 +179,7 @@ export const Transaction = () => {
             handleSubmit()
           }}
         >
-          save add another transaction
+          Save and add another
         </Button>
 
         {mutation.isError && (

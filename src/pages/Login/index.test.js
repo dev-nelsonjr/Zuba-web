@@ -18,14 +18,12 @@ test('should validate and show error in email field on blur', async () => {
     </Theme>
   )
 
-  const emailInput = screen.getByLabelText('E-mail')
+  const emailInput = screen.getByLabelText('Email')
   const passwordInput = screen.getByLabelText('Password')
 
-  //execute /act
   await userEvent.type(emailInput, emailValue)
   await userEvent.click(passwordInput)
 
-  // assert
   expect(screen.getByText('Enter a valid email address')).toBeInTheDocument()
 })
 
@@ -38,14 +36,12 @@ test('should validate and show error in password field on blur', async () => {
     </Theme>
   )
 
-  const emailInput = screen.getByLabelText('E-mail')
+  const emailInput = screen.getByLabelText('Email')
   const passwordInput = screen.getByLabelText('Password')
 
-  //execute /act
   await userEvent.click(passwordInput)
   await userEvent.click(emailInput)
 
-  // assert
   const passwordError = screen.getByText('A password is required')
   expect(passwordError).toBeInTheDocument()
 })
@@ -61,10 +57,8 @@ test('should show required field errors on submit with empty form', async () => 
 
   const submitButton = screen.getByRole('button')
 
-  //execute /act
   await userEvent.click(submitButton)
 
-  // assert
   const emailError = screen.getByText('Email is required')
   const passwordError = screen.getByText('A password is required')
 
@@ -86,10 +80,9 @@ test('should re-enable form button and hide errors when form is valid', async ()
   )
 
   const submitButton = screen.getByRole('button')
-  const emailInput = screen.getByLabelText('E-mail')
+  const emailInput = screen.getByLabelText('Email')
   const passwordInput = screen.getByLabelText('Password')
 
-  //execute /act
   await userEvent.click(submitButton)
 
   await userEvent.type(emailInput, emailValue)

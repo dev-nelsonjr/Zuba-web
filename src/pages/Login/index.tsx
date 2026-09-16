@@ -70,7 +70,7 @@ export const Login = () => {
       </CenteredBox>
 
       <CenteredBox>
-        <Title textAlign="center">Access Your Zuba Account</Title>
+        <Title textAlign="center">Sign in to your Zuba account</Title>
         {error && (
           <Box color="red" textAlign="center" my={2} role="alert">
             Unable to sign in. Check your credentials.

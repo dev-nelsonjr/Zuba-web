@@ -50,7 +50,7 @@ beforeEach(() => {
 test('should show login form', () => {
   renderApp()
 
-  const emailInput = screen.getByLabelText('E-mail')
+  const emailInput = screen.getByLabelText('Email')
   const passwordInput = screen.getByLabelText('Password')
   const submit = screen.getByRole('button', { name: /sign in/i })
   const signupLink = screen.getByRole('link')
@@ -64,7 +64,7 @@ test('should show login form', () => {
   expect(signupLink).toHaveAttribute('href', '/signup')
 })
 
-test('should login user and redirect when API return success', async () => {
+test('should sign in and redirect when the API returns success', async () => {
   const credentials = {
     email: 'n2test@gmail.com',
     password: '123456',
@@ -82,7 +82,7 @@ test('should login user and redirect when API return success', async () => {
   axios.mockImplementationOnce(() => Promise.resolve({ data: responseData }))
   renderApp()
 
-  const emailInput = screen.getByLabelText('E-mail')
+  const emailInput = screen.getByLabelText('Email')
   const passwordInput = screen.getByLabelText('Password')
   const submitBtn = screen.getByRole('button', { name: /sign in/i })
 
@@ -117,7 +117,7 @@ test('should login user and redirect when API return success', async () => {
   })
 })
 
-test('should not redirect user when API returns error', async () => {
+test('should not redirect when the API returns an error', async () => {
   const credentials = {
     email: 'error@gmail.com',
     password: '123456',
@@ -131,7 +131,7 @@ test('should not redirect user when API returns error', async () => {
 
   renderApp()
 
-  const emailInput = screen.getByLabelText('E-mail')
+  const emailInput = screen.getByLabelText('Email')
   const passwordInput = screen.getByLabelText('Password')
   const submitBtn = screen.getByRole('button')
 
@@ -156,10 +156,10 @@ test('should not redirect user when API returns error', async () => {
 
   await waitFor(() => expect(submitBtn).not.toBeDisabled())
 
-  expect(screen.getByLabelText('E-mail')).toBeInTheDocument()
+  expect(screen.getByLabelText('Email')).toBeInTheDocument()
 })
 
-test('should send user name when signing up', async () => {
+test("should include the user's name when signing up", async () => {
   const userData = {
     name: 'New User',
     email: 'new-user@test.com',
@@ -176,7 +176,7 @@ test('should send user name when signing up', async () => {
   renderApp()
 
   await userEvent.type(await screen.findByLabelText('Name'), userData.name)
-  await userEvent.type(screen.getByLabelText('E-mail'), userData.email)
+  await userEvent.type(screen.getByLabelText('Email'), userData.email)
   await userEvent.type(screen.getByLabelText('Password'), userData.password)
   await userEvent.click(screen.getByRole('button', { name: /create account/i }))
 

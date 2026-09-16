@@ -71,7 +71,7 @@ export const SignUp = () => {
       </CenteredBox>
 
       <CenteredBox>
-        <Title textAlign="center">Create Your Zuba Account</Title>
+        <Title textAlign="center">Create your Zuba account</Title>
         {error && (
           <Box color="red" textAlign="center" my={2} role="alert">
             Unable to create account. Try again.

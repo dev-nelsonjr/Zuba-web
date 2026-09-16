@@ -23,12 +23,12 @@ const Link = styled(RouterLink)<TypographyProps & SpaceProps>`
 `
 
 const validationSchema = yup.object().shape({
-  name: yup.string().required('Your name is required.'),
+  name: yup.string().required('Name is required'),
   email: yup
     .string()
-    .required('Email is required.')
-    .email('Enter a valid email address.'),
-  password: yup.string().required('A password is required.'),
+    .required('Email is required')
+    .email('Enter a valid email address'),
+  password: yup.string().required('A password is required'),
 })
 
 export const Form = ({ onSubmit }: FormProps) => {
@@ -55,7 +55,7 @@ export const Form = ({ onSubmit }: FormProps) => {
         type="text"
         name="name"
         label="Name"
-        placeholder="Your name"
+        placeholder="Enter your name"
         value={values.name}
         error={touched.name && errors.name}
         onChange={handleChange}
@@ -67,8 +67,8 @@ export const Form = ({ onSubmit }: FormProps) => {
       <Field
         type="text"
         name="email"
-        label="E-mail"
-        placeholder={'Your e-mail'}
+        label="Email"
+        placeholder="Enter your email"
         value={values.email}
         error={touched.email && errors.email}
         onChange={handleChange}
@@ -81,7 +81,7 @@ export const Form = ({ onSubmit }: FormProps) => {
         type="password"
         name="password"
         label="Password"
-        placeholder={'Your password'}
+        placeholder="Enter your password"
         value={values.password}
         error={touched.password && errors.password}
         onChange={handleChange}
@@ -98,12 +98,11 @@ export const Form = ({ onSubmit }: FormProps) => {
         p={6}
       >
         <Button type="submit" loading={isSubmitting} m={1}>
-          {' '}
-          Create Account{' '}
+          Create account
         </Button>
 
         <Link to="/" m={1} fontSize={1} color="gray" fontWeight="bold">
-          I&apos;m already signed up!{' '}
+          Already have an account? Sign in
         </Link>
       </Box>
     </form>
