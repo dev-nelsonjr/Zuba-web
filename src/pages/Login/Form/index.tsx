@@ -32,7 +32,7 @@ const validationSchema = yup.object().shape({
 })
 
 export const Form = ({ onSubmit }: FormProps) => {
-  const [showServerNotice, setShowServerNotice] = useState(false)
+  const [slowSubmitCount, setSlowSubmitCount] = useState<number | null>(null)
   const {
     values,
     errors,
@@ -42,6 +42,7 @@ export const Form = ({ onSubmit }: FormProps) => {
     handleSubmit,
     isSubmitting,
     isValid,
+    submitCount,
   } = useFormik<Credentials>({
     onSubmit,
     validationSchema,
@@ -52,15 +53,12 @@ export const Form = ({ onSubmit }: FormProps) => {
   })
 
   useEffect(() => {
-    if (!isSubmitting) {
-      setShowServerNotice(false)
-      return undefined
-    }
+    if (!isSubmitting) return undefined
 
-    const timeout = setTimeout(() => setShowServerNotice(true), 5000)
+    const timeout = setTimeout(() => setSlowSubmitCount(submitCount), 5000)
 
     return () => clearTimeout(timeout)
-  }, [isSubmitting])
+  }, [isSubmitting, submitCount])
 
   return (
     <form onSubmit={handleSubmit}>
@@ -106,7 +104,7 @@ export const Form = ({ onSubmit }: FormProps) => {
           Sign in
         </Button>
 
-        {showServerNotice && (
+        {isSubmitting && slowSubmitCount === submitCount && (
           <Box color="gray" textAlign="center" fontSize={1} role="status">
             Starting the server. The first access may take up to a minute.
           </Box>
