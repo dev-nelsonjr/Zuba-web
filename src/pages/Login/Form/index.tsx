@@ -1,4 +1,5 @@
 import * as yup from 'yup'
+import { useEffect, useState } from 'react'
 import { useFormik, type FormikConfig } from 'formik'
 import styled from 'styled-components'
 import { Link as RouterLink } from 'react-router-dom'
@@ -31,6 +32,7 @@ const validationSchema = yup.object().shape({
 })
 
 export const Form = ({ onSubmit }: FormProps) => {
+  const [showServerNotice, setShowServerNotice] = useState(false)
   const {
     values,
     errors,
@@ -48,6 +50,18 @@ export const Form = ({ onSubmit }: FormProps) => {
       password: '',
     },
   })
+
+  useEffect(() => {
+    if (!isSubmitting) {
+      setShowServerNotice(false)
+      return undefined
+    }
+
+    const timeout = setTimeout(() => setShowServerNotice(true), 5000)
+
+    return () => clearTimeout(timeout)
+  }, [isSubmitting])
+
   return (
     <form onSubmit={handleSubmit}>
       <Field
@@ -91,6 +105,12 @@ export const Form = ({ onSubmit }: FormProps) => {
         >
           Sign in
         </Button>
+
+        {showServerNotice && (
+          <Box color="gray" textAlign="center" fontSize={1} role="status">
+            Starting the server. The first access may take up to a minute.
+          </Box>
+        )}
 
         <Box m={1} fontSize={1} color="gray">
           {' '}
