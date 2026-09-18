@@ -198,7 +198,7 @@ export const Dashboard = () => {
             <Card icon="resume" title="Transactions">
               {(statusMutation.isError || deleteMutation.isError) && (
                 <Box color="red" p={2} aria-live="polite">
-                  Unable to update the transaction.
+                  Unable to complete this action. Please try again.
                 </Box>
               )}
 
