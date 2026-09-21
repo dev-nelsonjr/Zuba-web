@@ -14,6 +14,7 @@ test('should expose transaction actions', () => {
         title="Electricity bill"
         value="-75.00"
         type="expense"
+        dueDate="2026-09-18T03:00:00.000Z"
         resolved={false}
         onToggle={onToggle}
         onDelete={onDelete}
@@ -22,6 +23,7 @@ test('should expose transaction actions', () => {
   )
 
   expect(screen.getByText('Pending')).toBeInTheDocument()
+  expect(screen.getByText('Due Sep 18, 2026')).toBeInTheDocument()
 
   fireEvent.click(
     screen.getByRole('button', {

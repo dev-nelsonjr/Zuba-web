@@ -28,6 +28,7 @@ export const PendingExpense = {
     title: 'Electricity bill',
     value: '-75.90',
     type: 'expense',
+    dueDate: '2026-09-18T03:00:00.000Z',
     resolved: false,
   },
 }
@@ -37,6 +38,7 @@ export const ReceivedRevenue = {
     title: 'Salary',
     value: '2500.00',
     type: 'revenue',
+    dueDate: '2026-09-20T03:00:00.000Z',
     resolved: true,
   },
 }
@@ -46,6 +48,7 @@ export const Loading = {
     title: 'Internet bill',
     value: '-89.90',
     type: 'expense',
+    dueDate: '2026-09-25T03:00:00.000Z',
     resolved: false,
     disabled: true,
   },

@@ -205,12 +205,13 @@ export const Dashboard = () => {
               {transactions.length > 0 ? (
                 <div>
                   {transactions.map(
-                    ({ id, description, value, type, resolved }) => (
+                    ({ id, description, value, type, dueDate, resolved }) => (
                       <Transaction
                         key={id}
                         title={description}
                         value={value}
                         type={type}
+                        dueDate={dueDate}
                         resolved={resolved}
                         disabled={
                           statusMutation.isPending || deleteMutation.isPending

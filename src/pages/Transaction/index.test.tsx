@@ -4,6 +4,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import { MemoryRouter, Route, Routes } from 'react-router-dom'
 import { beforeEach, expect, test, vi } from 'vitest'
+import { format, subDays } from 'date-fns'
 
 import { Theme } from '~/components'
 import { Transaction } from '.'
@@ -91,6 +92,7 @@ test('should wait for transaction creation before returning', async () => {
         url: '/transactions',
         data: {
           description: 'Test transaction',
+          dueDate: expect.any(String),
           type: 'revenue',
           value: '100.00',
         },
@@ -143,15 +145,29 @@ test('should keep form values and show error when transaction fails', async () =
   expect(screen.queryByText('Dashboard page')).not.toBeInTheDocument()
 })
 
-test('should reject an invalid due date', async () => {
+test("should use today's date by default", () => {
+  renderTransaction()
+
+  const dueDate = screen.getByLabelText('Due date')
+
+  expect(dueDate).toHaveAttribute('type', 'date')
+  expect(dueDate).toHaveAttribute('min', format(new Date(), 'yyyy-MM-dd'))
+  expect(dueDate).toHaveValue(format(new Date(), 'yyyy-MM-dd'))
+})
+
+test('should reject a past due date', async () => {
   renderTransaction()
   fillTransaction()
 
-  const dueDate = screen.getByPlaceholderText('MM/DD/YYYY')
-  fireEvent.change(dueDate, { target: { value: '02/30/2026' } })
+  const dueDate = screen.getByLabelText('Due date')
+  fireEvent.change(dueDate, {
+    target: { value: format(subDays(new Date(), 1), 'yyyy-MM-dd') },
+  })
   fireEvent.blur(dueDate)
 
-  expect(await screen.findByText('Enter a valid due date')).toBeInTheDocument()
+  expect(
+    await screen.findByText('Due date cannot be in the past')
+  ).toBeInTheDocument()
   expect(screen.getByRole('button', { name: /^save$/i })).toBeDisabled()
   expect(axios).not.toHaveBeenCalled()
 })

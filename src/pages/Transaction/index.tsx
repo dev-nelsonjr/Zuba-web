@@ -1,7 +1,6 @@
 import { useRef } from 'react'
 import styled from 'styled-components'
-import { mask } from 'remask'
-import { isValid as isValidDate, parse } from 'date-fns'
+import { format, isValid as isValidDate, parse } from 'date-fns'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useNavigate } from 'react-router-dom'
 
@@ -28,14 +27,21 @@ const validationSchema = yup.object().shape({
     .typeError('Enter a valid transaction value')
     .required('Transaction value is required'),
   description: yup.string().required('Description is required'),
-  dueDate: yup.string().test({
-    name: 'valid-date',
-    message: 'Enter a valid due date',
-    test: value =>
-      !value ||
-      (value.length === 10 &&
-        isValidDate(parse(value, 'MM/dd/yyyy', new Date()))),
-  }),
+  dueDate: yup
+    .string()
+    .test({
+      name: 'valid-date',
+      message: 'Enter a valid due date',
+      test: value =>
+        !value ||
+        (value.length === 10 &&
+          isValidDate(parse(value, 'yyyy-MM-dd', new Date()))),
+    })
+    .test({
+      name: 'future-date',
+      message: 'Due date cannot be in the past',
+      test: value => !value || value >= format(new Date(), 'yyyy-MM-dd'),
+    }),
 })
 
 type TransactionFormValues = {
@@ -96,7 +102,7 @@ export const Transaction = () => {
     validationSchema,
     initialValues: {
       type: 'revenue',
-      dueDate: '',
+      dueDate: format(new Date(), 'yyyy-MM-dd'),
       value: '',
       description: '',
     },
@@ -147,13 +153,14 @@ export const Transaction = () => {
         />
 
         <Field
-          type="text"
+          type="date"
+          name="dueDate"
           label="Due date"
-          placeholder="MM/DD/YYYY"
-          value={mask(values.dueDate, '99/99/9999')}
+          min={format(new Date(), 'yyyy-MM-dd')}
+          value={values.dueDate}
           error={touched.dueDate && errors.dueDate}
-          onChange={handleChange('dueDate')}
-          onBlur={handleBlur('dueDate')}
+          onChange={handleChange}
+          onBlur={handleBlur}
           disabled={isSubmitting}
           mb={3}
         />

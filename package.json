@@ -14,7 +14,6 @@
     "react": "19.1.2",
     "react-dom": "19.1.2",
     "react-router-dom": "7",
-    "remask": "^1.2.2",
     "styled-components": "^6.1.19",
     "styled-system": "^5.1.5",
     "vanilla-masker": "^1.2.0",

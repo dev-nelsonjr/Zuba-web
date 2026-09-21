@@ -1,5 +1,6 @@
 import styled from 'styled-components'
 import { themeGet } from '@styled-system/theme-get'
+import { format, parseISO } from 'date-fns'
 
 import { Box, Currency, type CurrencyValue } from '~/components/atoms'
 import type { TransactionType } from '~/services/sdk'
@@ -16,6 +17,7 @@ const StatusButton = styled('button')`
   display: flex;
   flex: 1;
   padding: ${themeGet('space.2')}px;
+  padding-bottom: ${themeGet('space.0')}px;
   align-items: center;
   border: 0;
   background: transparent;
@@ -69,6 +71,7 @@ type TransactionProps = {
   value: CurrencyValue
   title: string
   type: TransactionType | null
+  dueDate: string | null
   resolved: boolean
   disabled?: boolean
   onToggle: () => void
@@ -79,6 +82,7 @@ export const Transaction = ({
   value,
   title,
   type,
+  dueDate,
   resolved,
   disabled,
   onToggle,
@@ -92,7 +96,14 @@ export const Transaction = ({
       aria-label={`Mark ${title} as ${resolved ? 'pending' : 'resolved'}`}
       onClick={onToggle}
     >
-      <Title>{title}</Title>
+      <Title>
+        <div>{title}</div>
+        {dueDate && (
+          <Box mt={0} fontSize={0} color="grayscale.5">
+            Due {format(parseISO(dueDate), 'MMM dd, yyyy')}
+          </Box>
+        )}
+      </Title>
       <Value>
         <Currency value={value} />
         <Box fontSize={1} color="grayscale.5">

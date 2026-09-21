@@ -58,7 +58,7 @@ export const saveTransaction = async ({
     data: {
       ...data,
       ...(dueDate && {
-        dueDate: formatISO(parse(dueDate, 'MM/dd/yyyy', new Date())),
+        dueDate: formatISO(parse(dueDate, 'yyyy-MM-dd', new Date())),
       }),
     },
   })

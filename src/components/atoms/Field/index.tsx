@@ -23,6 +23,7 @@ export type FieldProps = Omit<BoxProps, 'children' | 'onChange' | 'onBlur'> & {
   name?: string
   label: ReactNode
   placeholder?: string
+  min?: string
   error?: ReactNode
   disabled?: boolean
   value?: string | number | readonly string[]
@@ -35,6 +36,7 @@ export const Field = ({
   name,
   label,
   placeholder,
+  min,
   error,
   disabled,
   value,
@@ -50,6 +52,7 @@ export const Field = ({
       id={name}
       value={value}
       placeholder={placeholder}
+      min={min}
       disabled={disabled}
       onChange={onChange}
       onBlur={onBlur}
