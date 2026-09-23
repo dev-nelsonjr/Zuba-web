@@ -8,13 +8,12 @@ export type CurrencyProps = BoxProps & {
 }
 
 export const Currency = ({ value, color, ...props }: CurrencyProps) => {
-  const moneyValue = Number(value || 0)
-    .toFixed(2)
-    .replace('.', '')
+  const numberValue = Number(value || 0)
+  const moneyValue = Math.abs(numberValue).toFixed(2).replace('.', '')
 
   return (
-    <Box {...props} color={color || (Number(value) < 0 ? 'red' : 'green')}>
-      {toMoney(moneyValue, { unit: '$' })}
+    <Box {...props} color={color || (numberValue < 0 ? 'red' : 'green')}>
+      {toMoney(moneyValue, { unit: numberValue < 0 ? '-$' : '$' })}
     </Box>
   )
 }
