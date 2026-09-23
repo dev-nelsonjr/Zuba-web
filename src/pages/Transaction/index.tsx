@@ -11,15 +11,7 @@ import { saveTransaction } from '~/services/sdk'
 import type { TransactionType } from '~/services/sdk/modules/transactions'
 
 import { themeGet } from '@styled-system/theme-get'
-import {
-  Box,
-  Field,
-  Button,
-  CurrencyInput,
-  Layout,
-  Select,
-  Header,
-} from '~/components'
+import { Box, Field, Button, CurrencyInput, Layout, Header } from '~/components'
 
 const validationSchema = yup.object().shape({
   value: yup
@@ -60,7 +52,109 @@ const ValueInput = styled(CurrencyInput)<{
   color: ${props =>
     props.$transactionType === 'expense'
       ? themeGet('colors.red')(props)
-      : themeGet('colors.blue')(props)};
+      : themeGet('colors.green')(props)};
+
+  @media (max-width: 560px) {
+    font-size: ${themeGet('fontSizes.9')}px;
+  }
+`
+
+const FormContent = styled(Box)`
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 640px;
+  margin: 0 auto;
+
+  @media (max-width: 560px) {
+    padding-right: ${themeGet('space.2')}px;
+    padding-left: ${themeGet('space.2')}px;
+  }
+`
+
+const TypeSelector = styled('div')`
+  max-width: 320px;
+  margin: ${themeGet('space.3')}px auto 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: ${themeGet('space.0')}px;
+`
+
+const TypeButton = styled('button')<{
+  $selected: boolean
+  $type: TransactionType
+}>`
+  padding: ${themeGet('space.1')}px;
+  border: 1px solid
+    ${props =>
+      themeGet(
+        props.$selected
+          ? props.$type === 'expense'
+            ? 'colors.red'
+            : 'colors.green'
+          : 'colors.grayscale.2'
+      )(props)};
+  border-radius: ${themeGet('radii.lg')};
+  background: ${({ $selected, $type }) =>
+    $selected
+      ? $type === 'expense'
+        ? 'rgb(255 100 124 / 12%)'
+        : 'rgb(11 217 179 / 12%)'
+      : 'transparent'};
+  color: ${props =>
+    themeGet(
+      props.$selected
+        ? props.$type === 'expense'
+          ? 'colors.red'
+          : 'colors.green'
+        : 'colors.grayscale.6'
+    )(props)};
+  font: inherit;
+  cursor: pointer;
+
+  &:disabled {
+    cursor: wait;
+    opacity: 0.6;
+  }
+`
+
+const FormCard = styled(Box)`
+  padding: ${themeGet('space.3')}px;
+  background: transparent;
+
+  @media (max-width: 560px) {
+    padding: 0;
+  }
+`
+
+const ButtonActions = styled('div')`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: ${themeGet('space.1')}px;
+
+  @media (max-width: 560px) {
+    grid-template-columns: 1fr;
+  }
+`
+
+const PrimaryButton = styled(Button)`
+  box-sizing: border-box;
+  width: 100%;
+  border-radius: ${themeGet('radii.full')};
+  cursor: pointer;
+`
+
+const SecondaryButton = styled(Button)`
+  box-sizing: border-box;
+  width: 100%;
+  border: 1px solid ${themeGet('colors.green')};
+  border-radius: ${themeGet('radii.full')};
+  background: rgb(11 217 179 / 12%);
+  color: ${themeGet('colors.white')};
+  cursor: pointer;
+
+  &:hover {
+    background: rgb(11 217 179 / 20%);
+  }
 `
 
 export const Transaction = () => {
@@ -84,6 +178,7 @@ export const Transaction = () => {
     isSubmitting,
     isValid,
     handleSubmit,
+    setFieldValue,
   } = useFormik<TransactionFormValues>({
     onSubmit: async (values, form) => {
       try {
@@ -111,90 +206,104 @@ export const Transaction = () => {
     <Layout>
       <Header icon="graph" title="New transaction" />
 
-      <Box display="flex" flexDirection="column" px={4} py={7}>
-        <Select
-          name="type"
-          value={values.type}
-          onChange={handleChange}
-          disabled={isSubmitting}
-          style={{ width: 150 }}
-        >
-          <option value="revenue">Revenue</option>
-          <option value="expense">Expense</option>
-        </Select>
+      <FormContent px={4} pb={7}>
+        <Box display="flex" flexDirection="column" py={7}>
+          <ValueInput
+            type="text"
+            $transactionType={values.type}
+            inputMode="decimal"
+            placeholder="0.00"
+            value={values.value}
+            error={touched.value && errors.value}
+            onChange={handleChange('value')}
+            onBlur={handleBlur('value')}
+            disabled={isSubmitting}
+          />
 
-        <ValueInput
-          type="text"
-          $transactionType={values.type}
-          inputMode="decimal"
-          placeholder="0.00"
-          value={values.value}
-          error={touched.value && errors.value}
-          onChange={handleChange('value')}
-          onBlur={handleBlur('value')}
-          disabled={isSubmitting}
-        />
-
-        <Box p={2} textAlign="center" fontSize={3} color="gray">
-          {values.type === 'revenue' ? 'Income amount' : 'Expense amount'}
-        </Box>
-      </Box>
-      <Box p={4}>
-        <Field
-          type="text"
-          label="Description"
-          placeholder="Describe the transaction"
-          value={values.description}
-          error={touched.description && errors.description}
-          onChange={handleChange('description')}
-          onBlur={handleBlur('description')}
-          disabled={isSubmitting}
-          mb={3}
-        />
-
-        <Field
-          type="date"
-          name="dueDate"
-          label="Due date"
-          min={format(new Date(), 'yyyy-MM-dd')}
-          value={values.dueDate}
-          error={touched.dueDate && errors.dueDate}
-          onChange={handleChange}
-          onBlur={handleBlur}
-          disabled={isSubmitting}
-          mb={3}
-        />
-
-        <Button
-          loading={isSubmitting}
-          disabled={!isValid}
-          onClick={() => {
-            shouldGoBack.current = true
-            handleSubmit()
-          }}
-          m={1}
-        >
-          Save
-        </Button>
-
-        <Button
-          bg="transparent"
-          color="white"
-          disabled={isSubmitting}
-          onClick={() => {
-            shouldGoBack.current = false
-            handleSubmit()
-          }}
-        >
-          Save and add another
-        </Button>
-
-        {mutation.isError && (
-          <Box color="red" textAlign="center" mt={3} role="alert">
-            Unable to save the transaction. Check the fields and try again.
+          <Box p={2} textAlign="center" fontSize={3} color="gray">
+            {values.type === 'revenue' ? 'Income amount' : 'Expense amount'}
           </Box>
-        )}
-      </Box>
+
+          <TypeSelector role="group" aria-label="Transaction type">
+            <TypeButton
+              type="button"
+              $type="revenue"
+              $selected={values.type === 'revenue'}
+              aria-pressed={values.type === 'revenue'}
+              disabled={isSubmitting}
+              onClick={() => setFieldValue('type', 'revenue')}
+            >
+              Income
+            </TypeButton>
+            <TypeButton
+              type="button"
+              $type="expense"
+              $selected={values.type === 'expense'}
+              aria-pressed={values.type === 'expense'}
+              disabled={isSubmitting}
+              onClick={() => setFieldValue('type', 'expense')}
+            >
+              Expense
+            </TypeButton>
+          </TypeSelector>
+        </Box>
+
+        <FormCard>
+          <Field
+            type="text"
+            label="Description"
+            placeholder="Describe the transaction"
+            value={values.description}
+            error={touched.description && errors.description}
+            onChange={handleChange('description')}
+            onBlur={handleBlur('description')}
+            disabled={isSubmitting}
+            mb={3}
+          />
+
+          <Field
+            type="date"
+            name="dueDate"
+            label="Due date"
+            min={format(new Date(), 'yyyy-MM-dd')}
+            value={values.dueDate}
+            error={touched.dueDate && errors.dueDate}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            disabled={isSubmitting}
+            mb={3}
+          />
+
+          <ButtonActions>
+            <PrimaryButton
+              loading={isSubmitting}
+              disabled={!isValid}
+              onClick={() => {
+                shouldGoBack.current = true
+                handleSubmit()
+              }}
+            >
+              Save
+            </PrimaryButton>
+
+            <SecondaryButton
+              disabled={isSubmitting}
+              onClick={() => {
+                shouldGoBack.current = false
+                handleSubmit()
+              }}
+            >
+              Save &amp; add another
+            </SecondaryButton>
+          </ButtonActions>
+
+          {mutation.isError && (
+            <Box color="red" textAlign="center" mt={3} role="alert">
+              Unable to save the transaction. Check the fields and try again.
+            </Box>
+          )}
+        </FormCard>
+      </FormContent>
     </Layout>
   )
 }

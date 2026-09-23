@@ -60,7 +60,7 @@ test('should navigate back after saving transaction', async () => {
   renderTransaction()
   fillTransaction()
 
-  fireEvent.click(screen.getByRole('button', { name: /^save$/i }))
+  fireEvent.click(screen.getByRole('button', { name: 'Save' }))
 
   expect(await screen.findByText('Dashboard page')).toBeInTheDocument()
   expect(axios).toHaveBeenCalledWith(
@@ -83,7 +83,7 @@ test('should wait for transaction creation before returning', async () => {
   renderTransaction(queryClient)
   fillTransaction()
 
-  fireEvent.click(screen.getByRole('button', { name: /^save$/i }))
+  fireEvent.click(screen.getByRole('button', { name: 'Save' }))
 
   await waitFor(() =>
     expect(axios).toHaveBeenCalledWith(
@@ -113,7 +113,7 @@ test('should remain on form when adding another transaction', async () => {
   renderTransaction()
   fillTransaction()
 
-  fireEvent.click(screen.getByRole('button', { name: /save and add another/i }))
+  fireEvent.click(screen.getByRole('button', { name: 'Save & add another' }))
 
   await waitFor(() => {
     expect(axios).toHaveBeenCalled()
@@ -132,7 +132,7 @@ test('should keep form values and show error when transaction fails', async () =
   renderTransaction()
   fillTransaction()
 
-  fireEvent.click(screen.getByRole('button', { name: /^save$/i }))
+  fireEvent.click(screen.getByRole('button', { name: 'Save' }))
 
   expect(
     await screen.findByText(
@@ -155,6 +155,21 @@ test("should use today's date by default", () => {
   expect(dueDate).toHaveValue(format(new Date(), 'yyyy-MM-dd'))
 })
 
+test('should select the transaction type', () => {
+  renderTransaction()
+
+  const income = screen.getByRole('button', { name: 'Income' })
+  const expense = screen.getByRole('button', { name: 'Expense' })
+
+  expect(income).toHaveAttribute('aria-pressed', 'true')
+  expect(expense).toHaveAttribute('aria-pressed', 'false')
+
+  fireEvent.click(expense)
+
+  expect(income).toHaveAttribute('aria-pressed', 'false')
+  expect(expense).toHaveAttribute('aria-pressed', 'true')
+})
+
 test('should reject a past due date', async () => {
   renderTransaction()
   fillTransaction()
@@ -168,6 +183,6 @@ test('should reject a past due date', async () => {
   expect(
     await screen.findByText('Due date cannot be in the past')
   ).toBeInTheDocument()
-  expect(screen.getByRole('button', { name: /^save$/i })).toBeDisabled()
+  expect(screen.getByRole('button', { name: 'Save' })).toBeDisabled()
   expect(axios).not.toHaveBeenCalled()
 })
