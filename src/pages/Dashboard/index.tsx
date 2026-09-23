@@ -61,7 +61,35 @@ const Content = styled(Box)`
 
 const AddLink = styled(Link)`
   display: flex;
+  align-items: center;
+  gap: ${themeGet('space.0')}px;
+  padding: 10px ${themeGet('space.2')}px;
+  border: 1px solid ${themeGet('colors.green')};
+  border-radius: ${themeGet('radii.full')};
+  background: rgb(11 217 179 / 12%);
+  color: ${themeGet('colors.white')};
   text-decoration: none;
+
+  &:hover {
+    background: rgb(11 217 179 / 20%);
+  }
+`
+
+const AddLabel = styled('span')`
+  font-size: ${themeGet('fontSizes.2')}px;
+
+  @media (max-width: 760px) {
+    display: none;
+  }
+`
+
+const PeriodSelect = styled(Select)`
+  border-color: ${themeGet('colors.grayscale.2')};
+  border-radius: ${themeGet('radii.lg')};
+  background-color: ${themeGet('colors.grayscale.1')};
+  padding-top: 10px;
+  padding-bottom: 10px;
+  font-size: ${themeGet('fontSizes.2')}px;
 `
 
 const DashboardState = styled(Card)`
@@ -113,7 +141,7 @@ export const Dashboard = () => {
   return (
     <Layout>
       <Header icon="dash" title="Dashboard">
-        <Select
+        <PeriodSelect
           name="month"
           aria-label="Dashboard month"
           value={month}
@@ -124,19 +152,11 @@ export const Dashboard = () => {
               {label}
             </option>
           ))}
-        </Select>
+        </PeriodSelect>
 
         <AddLink to="/transaction" aria-label="Add transaction">
-          <Box
-            bg="green"
-            borderRadius="full"
-            size={45}
-            display="flex"
-            justifyContent="center"
-            alignItems="center"
-          >
-            <Icon name="plus" color="white" width={30} />
-          </Box>
+          <Icon name="plus" color="green" width={18} />
+          <AddLabel>New transaction</AddLabel>
         </AddLink>
       </Header>
 
@@ -195,7 +215,7 @@ export const Dashboard = () => {
               </Card>
             </Box>
 
-            <Card icon="resume" title="Transactions">
+            <Card title="Transactions">
               {(statusMutation.isError || deleteMutation.isError) && (
                 <Box color="red" p={2} aria-live="polite">
                   Unable to complete this action. Please try again.

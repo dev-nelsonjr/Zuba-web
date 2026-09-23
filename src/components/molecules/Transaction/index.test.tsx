@@ -23,7 +23,8 @@ test('should expose transaction actions', () => {
   )
 
   expect(screen.getByText('Pending')).toBeInTheDocument()
-  expect(screen.getByText('Due Sep 18, 2026')).toBeInTheDocument()
+  expect(screen.getByText('Expense')).toBeInTheDocument()
+  expect(screen.getByText('DUE 18 SEP 2026')).toBeInTheDocument()
 
   fireEvent.click(
     screen.getByRole('button', {

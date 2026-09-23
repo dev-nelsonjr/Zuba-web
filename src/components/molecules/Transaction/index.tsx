@@ -2,7 +2,7 @@ import styled from 'styled-components'
 import { themeGet } from '@styled-system/theme-get'
 import { format, parseISO } from 'date-fns'
 
-import { Box, Currency, type CurrencyValue } from '~/components/atoms'
+import { Currency, type CurrencyValue } from '~/components/atoms'
 import type { TransactionType } from '~/services/sdk'
 
 const Container = styled('div')`
@@ -14,10 +14,12 @@ const Container = styled('div')`
 
 const StatusButton = styled('button')`
   min-width: 0;
-  display: flex;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  grid-template-areas: 'details date value';
   flex: 1;
-  padding: ${themeGet('space.2')}px;
-  padding-bottom: ${themeGet('space.0')}px;
+  gap: ${themeGet('space.1')}px;
+  padding: ${themeGet('space.1')}px;
   align-items: center;
   border: 0;
   background: transparent;
@@ -34,6 +36,14 @@ const StatusButton = styled('button')`
     cursor: wait;
     opacity: 0.6;
   }
+
+  @media (max-width: 760px) {
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-areas:
+      'details value'
+      'date value';
+    gap: ${themeGet('space.0')}px ${themeGet('space.1')}px;
+  }
 `
 
 const DeleteButton = styled('button')`
@@ -41,16 +51,17 @@ const DeleteButton = styled('button')`
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: ${themeGet('space.2')}px;
+  padding: ${themeGet('space.1')}px;
   border: 0;
-  background: ${themeGet('colors.red')};
-  color: ${themeGet('colors.white')};
+  background: transparent;
+  color: ${themeGet('colors.grayscale.5')};
   font-family: inherit;
   font-size: ${themeGet('fontSizes.6')}px;
   cursor: pointer;
 
   &:hover {
-    opacity: 0.85;
+    background: rgb(255 100 124 / 12%);
+    color: ${themeGet('colors.red')};
   }
 
   &:disabled {
@@ -59,12 +70,61 @@ const DeleteButton = styled('button')`
   }
 `
 
+const Left = styled('div')`
+  grid-area: details;
+  min-width: 0;
+`
+
+const Details = styled('div')`
+  min-width: 0;
+`
+
 const Title = styled('div')`
-  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+`
+
+const TypeLabel = styled('div')`
+  margin-top: ${themeGet('space.0')}px;
+  color: ${themeGet('colors.grayscale.5')};
+  font-size: ${themeGet('fontSizes.1')}px;
+`
+
+const DueDate = styled('div')`
+  grid-area: date;
+  justify-self: center;
+  text-align: center;
+  color: ${themeGet('colors.grayscale.5')};
+  font-size: ${themeGet('fontSizes.0')}px;
+  white-space: nowrap;
+
+  @media (max-width: 760px) {
+    justify-self: start;
+    text-align: left;
+  }
 `
 
 const Value = styled('div')`
-  text-align: right;
+  grid-area: value;
+  justify-self: end;
+  min-width: 90px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+`
+
+const Status = styled('div')<{ $resolved: boolean }>`
+  display: inline-flex;
+  margin-top: ${themeGet('space.0')}px;
+  padding: 2px 8px;
+  border-radius: ${themeGet('radii.full')};
+  background: ${({ $resolved }) =>
+    $resolved ? 'rgb(11 217 179 / 14%)' : 'rgb(235 196 85 / 14%)'};
+  color: ${props =>
+    themeGet(props.$resolved ? 'colors.green' : 'colors.yellow')(props)};
+  font-size: ${themeGet('fontSizes.0')}px;
+  font-weight: 600;
 `
 
 type TransactionProps = {
@@ -96,17 +156,26 @@ export const Transaction = ({
       aria-label={`Mark ${title} as ${resolved ? 'pending' : 'resolved'}`}
       onClick={onToggle}
     >
-      <Title>
-        <div>{title}</div>
-        {dueDate && (
-          <Box mt={0} fontSize={0} color="grayscale.5">
-            Due {format(parseISO(dueDate), 'MMM dd, yyyy')}
-          </Box>
-        )}
-      </Title>
+      <Left>
+        <Details>
+          <Title>{title}</Title>
+          <TypeLabel>
+            {type === 'revenue'
+              ? 'Income'
+              : type === 'expense'
+                ? 'Expense'
+                : 'Transaction'}
+          </TypeLabel>
+        </Details>
+      </Left>
+      {dueDate && (
+        <DueDate>
+          DUE {format(parseISO(dueDate), 'dd MMM yyyy').toUpperCase()}
+        </DueDate>
+      )}
       <Value>
         <Currency value={value} />
-        <Box fontSize={1} color="grayscale.5">
+        <Status $resolved={resolved}>
           {resolved
             ? type === 'revenue'
               ? 'Received'
@@ -114,7 +183,7 @@ export const Transaction = ({
                 ? 'Paid'
                 : 'Resolved'
             : 'Pending'}
-        </Box>
+        </Status>
       </Value>
     </StatusButton>
     <DeleteButton
