@@ -1,6 +1,6 @@
 # Zuba Web
 
-Interface web do **Zuba**, um MVP de controle financeiro pessoal. O usuário pode administrar receitas e despesas, acompanhar o resultado de cada mês e manter o mesmo fluxo disponível no aplicativo mobile.
+Interface web do **Zuba**, uma aplicação de planejamento de fluxo de caixa pessoal. O usuário cadastra receitas e despesas previstas, acompanha o saldo mensal e marca cada transação como recebida ou paga.
 
 O projeto foi desenvolvido individualmente e integra a [API](https://github.com/dev-nelsonjr/Zuba-api) e o [aplicativo mobile](https://github.com/dev-nelsonjr/zuba-mobile).
 
@@ -8,21 +8,22 @@ O projeto foi desenvolvido individualmente e integra a [API](https://github.com/
 
 > A API utiliza uma instância gratuita e pode levar cerca de um minuto para responder ao primeiro acesso após um período de inatividade.
 
-<img width="1908" height="848" alt="image" src="https://github.com/user-attachments/assets/d78e41e2-eb86-4c05-ba23-c580dae305a4" />
+<img width="1908" height="848" alt="Dashboard do Zuba Web" src="https://github.com/user-attachments/assets/d78e41e2-eb86-4c05-ba23-c580dae305a4" />
 
-<img width="1897" height="845" alt="Captura de tela 2026-09-25 115010" src="https://github.com/user-attachments/assets/3241310d-2eed-495a-bd22-c6da5bfa9dc7" />
+<img width="1897" height="845" alt="Transações no Zuba Web" src="https://github.com/user-attachments/assets/3241310d-2eed-495a-bd22-c6da5bfa9dc7" />
 
-<img width="1894" height="840" alt="Captura de tela 2026-09-25 115158" src="https://github.com/user-attachments/assets/22a0f5df-0ad5-4590-a0b8-52c826224285" />
+<img width="1894" height="840" alt="Cadastro de transação no Zuba Web" src="https://github.com/user-attachments/assets/22a0f5df-0ad5-4590-a0b8-52c826224285" />
 
 ## Funcionalidades
 
 - Cadastro e login
 - Sessão autenticada com persistência local
-- Dashboard de receitas, despesas e saldo mensal
+- Dashboard de receitas, despesas e saldo mensal previsto
 - Navegação entre meses e anos
-- Cadastro de receitas e despesas
+- Cadastro de receitas e despesas previstas
 - Definição de data de vencimento
-- Alteração do status entre pendente e concluída
+- Status inicial pendente
+- Marcação de receitas como recebidas e despesas como pagas
 - Exclusão de transações
 - Estados de carregamento, vazio e erro
 - Menu adaptado para telas menores
@@ -99,4 +100,4 @@ O arquivo [`render.yaml`](render.yaml) configura a aplicação estática e o fal
 
 ## Escopo do MVP
 
-O cliente Web cobre autenticação e o gerenciamento mensal de transações de ponta a ponta. Recuperação de senha, categorias, metas financeiras e relatórios avançados permanecem fora do escopo atual.
+O cliente Web cobre autenticação, planejamento mensal e acompanhamento de receitas e despesas de ponta a ponta. Recuperação de senha, categorias, metas financeiras e relatórios avançados permanecem fora do escopo atual.
