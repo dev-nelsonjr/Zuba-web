@@ -8,6 +8,12 @@ O projeto foi desenvolvido individualmente e integra a [API](https://github.com/
 
 > A API utiliza uma instância gratuita e pode levar cerca de um minuto para responder ao primeiro acesso após um período de inatividade.
 
+<img width="1908" height="848" alt="image" src="https://github.com/user-attachments/assets/d78e41e2-eb86-4c05-ba23-c580dae305a4" />
+
+<img width="1897" height="845" alt="Captura de tela 2026-09-25 115010" src="https://github.com/user-attachments/assets/3241310d-2eed-495a-bd22-c6da5bfa9dc7" />
+
+<img width="1894" height="840" alt="Captura de tela 2026-09-25 115158" src="https://github.com/user-attachments/assets/22a0f5df-0ad5-4590-a0b8-52c826224285" />
+
 ## Funcionalidades
 
 - Cadastro e login
